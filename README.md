@@ -1,6 +1,11 @@
 # Nuptials - Generate vows code through natural language. 
 
-Nuptials is a node app for managing and creating vows test steps through natural language and cucumber. Think testing business logic with all the tastiness of organizing via easily readable steps. 
+Nuptials is a node client facing app for managing and creating vows test steps through natural language via cucumber. 
+
+Cucumber works via plain text descriptions of how your software should work. 
+Learn more about [Cucumber](http://cukes.info/).
+
+Think testing business logic with all the tastiness of organizing via easily readable steps.
 
 ## Features
 
@@ -24,3 +29,4 @@ Nuptials is a node app for managing and creating vows test steps through natural
 Heavily inspired by Sean Cribbs' [Lowdownapp](http://lowdownapp.com/)
 
 #### Technologies/Projects used
+  * [Kyuri](http://github.com/nodejitsu/kyuri)
