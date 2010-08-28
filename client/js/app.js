@@ -231,34 +231,6 @@
                 return a.splice(index, count);
             }
         },
-        
-        num: function(value, options) {
-
-             options = options || ["num"];
-
-             for(var o in options) {
-                if(options[o] == "trunc") { // truncate towards zero
-                    value=~~value; // (double-bitwise-not, inversion)
-                }
-                if(options[o] == "num") { // string or boolean to number
-                    value=+value; // (unary-plus)
-                }
-                if(options[o] == "negative" || options[o] == "neg") { // string to a negative number
-                    value=-value; // (unary-minus)
-                }
-                if(options[o] == "int") { // string to number or truncate toward zero
-                    value=value|0; // (bitwize-or with zero value)
-                }
-                if(options[o] == "odd") { // is the number odd?
-                    value=!!(value & 1); // (bitwise-and with non-zero value, wrapped in forced-boolean-valuation)
-                }
-                if(options[o] == "flip") { // flip a boolean or numeric representative of a boolean value 
-                    value = !!(value ^= 1); // (self-assigning-toggle, wrapped in forced-boolean-valuation)
-                }
-             }
-
-             return value;
-        },
 
         string: {
 
@@ -291,7 +263,7 @@
                 });
             },
 
-			subst: function(s, o) { // inspired by doug crockford's "supplant" method.
+			subst: function(s, o) {
 			    var count = -1;
 			    return s.replace(/{{([^{}]*)}}/g,
 			        function(str, r) {
@@ -470,7 +442,7 @@ $(function() {
 
                    APP.exec.call(this, {
 
-                       ns: "NODEJITSU.nuptials", /* namespace */
+                       ns: "NJ.nup", /* namespace */
 
                        plan: [ /* execution plan */
 
@@ -491,6 +463,42 @@ $(function() {
                 
                 
             },
+            
+            featureDistiller: function() {
+
+                var s/*hit performance, 1:08am */;
+
+                $.each(DATA.features, function(i, feature) {
+                    s += $.string.subst("\r\nFeature: {{name}}\r\n\t{{description}}", feature);
+
+                    $.each(feature.scenarios, function(i, scenario) {
+
+                        s += $.string.subst("\r\n\n\tScenario " + (scenario.outline ? "Outline" : "") + ": {{name}}", scenario);
+
+                        $.each(scenario.breakdown, function(i, breakdown) {
+                            s += $.string.subst("\r\n\n\t\t" + DAL.get.operatorById(breakdown[0]) + " {{description}}", breakdown);
+                        });
+
+                        if(scenario.outline) {
+
+                            $.each(scenario.examples, function(i, example) {
+
+                                s += "\r\n\t\t\t|";
+
+                                $.each(example, function(i, value) {
+                                    s += value + "|";
+                                });
+
+                                s += "\r\n";
+
+                            });
+                        }
+                    });
+                });
+
+                return s;
+
+            },
 
             DATA: {
 
@@ -506,17 +514,14 @@ $(function() {
                     "1": {
                         milestone: "1",
                         owner: 1,
+                        name: "foo",
                         description: "A Setence",
                         timeunit: "hour",
                         costPerTimeUnit: 80,
                         cost: 150,
-                        breakdown: [
-                            [4, "sentence1"],
-                            [2, "sentence2"],
-                            [1, "sentence3"]
-                        ],
                         scenarios: [
                             {
+                                outline: false,                                
                                 time: [20, "hrs"],
                                 description: "blah",
                                 breakdown: [
@@ -526,6 +531,7 @@ $(function() {
                                 ]
                             },
                             {
+                                outline: false,
                                 time: [20, "hrs"],
                                 description: "blah", 
                                 brreakdown: [
@@ -539,17 +545,18 @@ $(function() {
                     "2": {
                         milestone: "2",
                         owner: 1,
+                        name: "bar",
                         description: "A Setence", 
                         timeunit: "hour",
                         costPerTimeUnit: 80,
-                        cost: 150,                  
-                        breakdown: [
-                            [4, "sentence1"],
-                            [2, "sentence2"],
-                            [1, "sentence3"]
-                        ],
+                        cost: 150,
                         scenarios: [
                             {
+                                outline: true,
+                                examples: {
+                                    "username": ['charlie', 'indexzero'],
+                                    "password": ['12345', 'abcde']
+                                },
                                 time: [20, "hrs"],
                                 description: "blah",
                                 breakdown: [
@@ -559,6 +566,7 @@ $(function() {
                                 ]
                             },
                             {
+                                outline: false,                                
                                 time: [20, "hrs"],
                                 description: "blah",
                                 brreakdown: [
@@ -586,10 +594,23 @@ $(function() {
                     get usersByFeature(id) {
                     },                                        
                     get projectCost(id) {
+                    },
+                    get operatorsByLanguage() {
                     }
+                    get operatorById() {
+                        
+                    }                    
                 },
 
                 set: {
+                    set user(config) {
+                        if(config.id) {
+                            DATA.users[config.id] = config.name;
+                        }
+                        else {
+                            DATA.users[Math.floor(Math.random()*2e9)] = config.name;
+                        }                        
+                    },
                     set project(config) {
                         if(config.id) {
                             
