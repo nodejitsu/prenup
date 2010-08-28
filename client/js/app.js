@@ -455,12 +455,14 @@ window.APP = (typeof window.APP != "undefined") ? window.APP : {
     }
 };
 
+/* App Start */
+
 $(function() {
 
     (function() {
 
         var options = $.querystring.toJSON();
-        var context, DAL;
+        var context, DAL, DATA;
         
         return {
 
@@ -477,6 +479,12 @@ $(function() {
                        ]
                 });
             },
+            
+            pageLoad: function() {
+                DAL = this.DAL;
+                DATA = this.DATA;
+                
+            },
 
             determineContext: function() {
 
@@ -484,56 +492,94 @@ $(function() {
                 
             },
 
-            data: {
+            DATA: {
 
                 project: "myProject",
-                milestones: ["MD5HASH", "MD5HASH"]
+                milestones: ["1", "2"],
                 users: {
                     "1": "Joe",
                     "2": "Peter",
                     "3": "Jane"
                 },
-                features: {
-                    milestone: "MD5HASH"
-                    owner: 1,
-                    description: "A Setence", 
-                    timeunit: "hour",
-                    costPerTimeUnit: 80,
-                    cost: 150                    
-                    breakdown: [
-                        [4, "sentence1"],
-                        [2, "sentence2"],
-                        [1, "sentence3"]
-                    ],
-                    scenarios: [
-                        {
-                            time: [20, "hrs"],
-                            description: "blah",
-                            breakdown: [
-                                [4, "sentence1"],
-                                [2, "sentence2"],
-                                [1, "sentence3"]
-                            ]
-                        },
-                        {
-                            time: [20, "hrs"],
-                            description: "blah", 
-                            brreakdown: [
-                                [4, "sentence1"],
-                                [2, "sentence2"],
-                                [1, "sentence3"]
-                            ]
-                        }
-                    ],
-                }
+                features: [
+
+                    "1": {
+                        milestone: "1",
+                        owner: 1,
+                        description: "A Setence",
+                        timeunit: "hour",
+                        costPerTimeUnit: 80,
+                        cost: 150,
+                        breakdown: [
+                            [4, "sentence1"],
+                            [2, "sentence2"],
+                            [1, "sentence3"]
+                        ],
+                        scenarios: [
+                            {
+                                time: [20, "hrs"],
+                                description: "blah",
+                                breakdown: [
+                                    [4, "sentence1"],
+                                    [2, "sentence2"],
+                                    [1, "sentence3"]
+                                ]
+                            },
+                            {
+                                time: [20, "hrs"],
+                                description: "blah", 
+                                brreakdown: [
+                                    [4, "sentence1"],
+                                    [2, "sentence2"],
+                                    [1, "sentence3"]
+                                ]
+                            }
+                        ]
+                    },
+                    "2": {
+                        milestone: "2",
+                        owner: 1,
+                        description: "A Setence", 
+                        timeunit: "hour",
+                        costPerTimeUnit: 80,
+                        cost: 150,                  
+                        breakdown: [
+                            [4, "sentence1"],
+                            [2, "sentence2"],
+                            [1, "sentence3"]
+                        ],
+                        scenarios: [
+                            {
+                                time: [20, "hrs"],
+                                description: "blah",
+                                breakdown: [
+                                    [4, "sentence1"],
+                                    [2, "sentence2"],
+                                    [1, "sentence3"]
+                                ]
+                            },
+                            {
+                                time: [20, "hrs"],
+                                description: "blah",
+                                brreakdown: [
+                                    [4, "sentence1"],
+                                    [2, "sentence2"],
+                                    [1, "sentence3"]
+                                ]
+                            }
+                        ]
+                    }
+                ]
             },
             
             DAL: {
                 
                 get: {
-                    get projectName(id) {
+                    get project() {
+                        return DATA.project;
                     },
                     get featuresByMilestone(id) {
+                        
                     },
                     get scenariosByFeature(id) {
                     },
