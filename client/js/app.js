@@ -1090,7 +1090,8 @@ $(function() {
             pageLoad: function() {
                 DAL = this.DAL;
                 DATA = this.DATA;
-                
+              
+                console.log(this.featureDistiller());
             },
 
             determineContext: function() {
@@ -1101,34 +1102,43 @@ $(function() {
             
             featureDistiller: function() {
 
-                var s/*hit performance, 1:08am */;
+                var s = ""/*hit performance, 1:08am */;
 
                 $.each(DATA.features, function(i, feature) {
-                    s += $.string.subst("\r\nFeature: {{name}}\r\n\t{{description}}", feature);
+                    s += $.string.subst("Feature: {{name}}\r\n\t{{description}}", feature);
 
                     $.each(feature.scenarios, function(i, scenario) {
-
+                     
                         s += $.string.subst("\r\n\n\tScenario " + (scenario.outline ? "Outline" : "") + ": {{name}}", scenario);
 
-                        $.each(scenario.breakdown, function(i, breakdown) {
-                            s += $.string.subst("\r\n\n\t\t" + DAL.get.operatorById(breakdown[0]) + " {{description}}", breakdown);
+                        $.each(scenario.breakdown, function(key, breakdown) {
+
+                            $.each(breakdown, function(i, motive) {
+                                s += $.string.subst("\r\n\t\t" + motive[0] + " " + motive[1]);
+                            });
                         });
-
+                        
                         if(scenario.outline) {
-
+                            
+                            s+="\r\n\r\n\t\tExamples:\r\n";
+                            var len = 0;
                             $.each(scenario.examples, function(i, example) {
 
-                                s += "\r\n\t\t\t|";
-
-                                $.each(example, function(i, value) {
-                                    s += value + "|";
+                                s += "\t\t\t";
+                                
+                                $.each(example, function(i) {
+                                    if(example.length > len) {
+                                        len = example.length;
+                                    }
                                 });
 
                                 s += "\r\n";
 
                             });
-                        }
+                        }                        
                     });
+                    
+                    s += "\r\n\n"
                 });
 
                 return s;
@@ -1160,23 +1170,27 @@ $(function() {
                         costPerTimeUnit: 80,
                         scenarios: [
                             {
+                                id: 0,                                
                                 outline: false,                                
                                 time: 20,
+                                name: "scenario0",
                                 description: "blah",
                                 breakdown: [
-                                    {1: ["examples", "sentence1"]},
-                                    {2: ["name", "sentence2"]},
-                                    {3: ["and", "sentence3"]}
+                                    {"1": ["examples", "sentence1"]},
+                                    {"2": ["name", "sentence2"]},
+                                    {"3": ["and", "sentence3"]}
                                 ]
                             },
                             {
+                                id: 1,                                
                                 outline: false,
                                 time: 20,
+                                name: "scenario1",                                
                                 description: "blah",
-                                brreakdown: [
-                                    {1: ["and", "sentence1"]},
-                                    {2: ["background", "sentence2"]},
-                                    {3: ["when", "sentence3"]}
+                                breakdown: [
+                                    {"1": ["and", "sentence1"]},
+                                    {"2": ["background", "sentence2"]},
+                                    {"3": ["when", "sentence3"]}
                                 ]
                             }
                         ]
@@ -1192,27 +1206,31 @@ $(function() {
                         time: 5,
                         scenarios: [
                             {
+                                id: 2,                                
                                 outline: true,
                                 examples: {
-                                    "username": ['charlie', 'indexzero'],
+                                    "username": ['charlie', 'indexzero', 'shit'],
                                     "password": ['12345', 'abcde']
                                 },
                                 time: 20,
+                                name: "scenario2",                                
                                 description: "blah",
                                 breakdown: [
-                                    {1: ["when", "sentence1"]},
-                                    {2: ["and", "sentence2"]},
-                                    {3: ["where", "sentence3"]}
+                                    {"1": ["when", "sentence1"]},
+                                    {"2": ["and", "sentence2"]},
+                                    {"3": ["where", "sentence3"]}
                                 ]
                             },
                             {
+                                id: 3,
                                 outline: false,                                
                                 time: 20,
+                                name: "scenario3",                                
                                 description: "blah",
-                                brreakdown: [
-                                    {1: ["background", "sentence1"]},
-                                    {3: ["where", "sentence2"]},
-                                    {2: ["and", "sentence3"]}
+                                breakdown: [
+                                    {"1": ["background", "sentence1"]},
+                                    {"3": ["where", "sentence2"]},
+                                    {"2": ["and", "sentence3"]}
                                 ]
                             }
                         ]
@@ -1314,7 +1332,7 @@ $(function() {
                     
                     user: function (config) {
                         if(config.id) {
-                            
+
                             if(config.name) {
                                 DATA.users[config.id] = config.name;
                             }
@@ -1324,22 +1342,20 @@ $(function() {
                                 $.each(config.features, function(key, feature) {
                                 
                                     var users = DATA.features[feature].users;
-                                
+
                                     if(_.indexOf(users, config.id) != -1) {
                                          users = _.without(users, config.id);
                                     }
 
                                     DATA.features[feature].users.push(config.id);
-                                 
+
                                 });
-                                
                             }
 
                             if(config.remove) {
                                 
                                 var users = DATA.features[feature].users;
                                 users = _.without(users, config.id);
-                                
                             }
                         }
                         else {
@@ -1354,11 +1370,25 @@ $(function() {
                     },
                     scenario: function(config) {
                         if(config.id) {
-                            
+
+                            if(config.update) {
+                                $.each(DATA.features[config.id].scenarios, function(i, scenario) {
+                                    scenario[config.update.id] = value;
+                                });
+                            }
+                            if(config.create) {
+                                DATA.features[config.id].scenarios.push({
+                                    id: Math.floor(Math.random()*2e9),
+                                    outline: false,
+                                    examples: null,
+                                    time: 20,
+                                    description: "blah",
+                                    breakdown: [
+                                        {1: ["when", "something happens"]}
+                                    ]
+                                });                                
+                            }
                         }
-                        else {
-                            
-                        }                        
                     },
                     language: function(id) {
                         DATA.language = id;
