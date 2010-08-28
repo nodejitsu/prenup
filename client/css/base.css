@@ -6,6 +6,8 @@
     margin:10px 5px 10px 0;
 }
 
+a {cursor:pointer;}
+
 #container {
     width:1000px;
     margin:auto;
@@ -26,6 +28,7 @@
 .features {
     border: 1px solid #999;
     background:orange;
+    padding:15px;
 }
 
 .feature-info {
@@ -44,11 +47,41 @@
     bottom:20px;
 }
 
+.features label {
+    font-weight: bold;
+    font-size:16px;
+    width:100px;
+    display:block;
+    float:left;
+}
+
+.features input {
+    width:750px;
+}
+.features textarea {
+    width:750px;
+    height:50px;
+}
+
 .scenarios {
     margin:15px;
     padding:25px;
     border: 1px solid #999;
     background:blue;
+}
+
+.hours-input {
+    width:50px !important;
+}
+
+.scenarios label {
+    width:70px;
+}
+
+.steps {
+    border: 1px solid #999;
+    margin:10px 0;
+    padding:5px 10px;
 }
 
 footer {
