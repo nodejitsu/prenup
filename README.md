@@ -37,17 +37,17 @@ If you want to run your own Nuptials instance (instead of using the free service
 
 ## VowsJS
 
-Vows is a popular behavior driven development framework for Node.js. Vows was built from the ground up to test asynchronous code. It executes your tests in parallel when it makes sense, and sequentially when there are dependencies.
+Vows is a popular behavior driven development framework for Node.js. [Vows][3] was built from the ground up to test asynchronous code. It executes your tests in parallel when it makes sense, and sequentially when there are dependencies.
 
-Instead of crafting your VowsJS code from hand (using JavaScript), Nuptials allows you to auto-generate Vows stubs. 
+Instead of crafting your [Vows][3] code from hand (using JavaScript), Nuptials allows you to auto-generate Vows stubs. 
 
-For further information about VowsJS, please visit it's repository here. 
+For further information about [Vows][3], please visit it's repository here. 
 
 ## Kyuri
 
-Kyuri comes pre-bundled with Nuptials. Kyuri is the language used to describe your Features and Scenarios. Kyuri is a dialect of Gherkin, a well establish BDD language made popular by the Cucumber framework. 
+[Kyuri][1] comes pre-bundled with Nuptials. [Kyuri][1] is the language used to describe your Features and Scenarios. [Kyuri][1] is a dialect of Gherkin, a well establish BDD language made popular by the Cucumber framework. 
 
-For further information about Kyuri, please visit it's repository here.
+For further information about [Kyuri][1], please visit it's repository here.
 
 
 ## Authors
@@ -55,9 +55,15 @@ For further information about Kyuri, please visit it's repository here.
 #### Charlie Robbins, hij1nx, Matthew Bergman & Marak Squires
 
 ### Acknowledgments
-Heavily inspired by Sean Cribbs' [Lowdownapp](http://lowdownapp.com/), an entry in the 2009 Rails Rumble
+Heavily inspired by Sean Cribbs' [Lowdownapp][4], an entry in the 2009 Rails Rumble
 
 Cucumber works via plain text descriptions of how your software should work. 
-Learn more about [Cucumber](http://cukes.info/).
+Learn more about [Cucumber][2].
 
 Think testing business logic with all the tastiness of organizing via easily readable steps.
+
+[1]:  http://example.com/  "Kyuri"
+[2]:  http://cukes.info/    "Cucumber"
+[3]:  http://vowsjs.org/  "Vowjs"
+[4]:  http://lowdownapp.com/  "Lowdownapp"
+[5]:  http://foo.com/ "nuptials"
