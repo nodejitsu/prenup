@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="css/base.css?v=1" type="text/css">
   <link rel="stylesheet" media="handheld" href="css/handheld.css?v=1" type="text/css">
   <script src="js/modernizr-1.5.min.js"></script>
+  
 
 </head>
 <!--[if lt IE 7 ]> <body class="ie6"> <![endif]-->
@@ -28,10 +29,6 @@
       <nav>
         <h1>Project Name</h1>
         <!-- Site Wide Navigation #We might not even need this -->
-        <ul>
-          <li><a>account</a></li>
-          <li><a>logout</a></li>
-        </ul>
       </nav>
     </header>
     <!-- Site Wide Commands -->
@@ -68,17 +65,19 @@
                <label for="feature-1-scenario-1-hours">Hours</label>
                <input type="text" name="feature_1[hours]" id="feature-1-scenario-1-title-hours" value="5" class="hours-input"/>
                <!-- Step inputs -->
-               <div class='steps'>
-                 <select name="scenario-1[verb][]">
-                   <option value="1">Given</option>
-                   <option value="2">When</option>
-                   <option value="3">Then</option>
-                   <option value="4">But</option>
-                   <option value="5">And</option>
-                </select>
-                <input type="text" name="scenario-1[sentence][]" id="feature-1-scenario-1-title" value="breakdown sentence">
-                <a class="delete-step"><img src="img/delete-icon.png" /></a>
-              </div>
+                <ul class='steps'>
+                  <li>
+                    <select name="scenario-1[verb][]">
+                     <option value="1">Given</option>
+                     <option value="2">When</option>
+                     <option value="3">Then</option>
+                     <option value="4">But</option>
+                     <option value="5">And</option>
+                  </select>
+                  <input type="text" name="scenario-1[sentence][]" id="feature-1-scenario-1-title" value="breakdown sentence">
+                  <a class="delete-step"><img src="img/delete-icon.png" /></a>
+                </li>
+              </ul>
               <!-- Basic commands for scenario per scenario -->
               <div class="scenario-commands">
                 <a class="action-button">add step</a>
@@ -113,6 +112,7 @@
 
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
   <script>!window.jQuery && document.write('<script src="js/jquery-1.4.2.min.js"><\/script>')</script>
+  <script src="js/jquery.ui.min.js?v=1"></script>
   <script src="js/underscore.js?v=1"></script>
   <script src="js/plugins.js?v=1"></script>
   <script src="js/app.js?v=1"></script>
