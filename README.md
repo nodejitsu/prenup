@@ -62,7 +62,7 @@ Learn more about [Cucumber][2].
 
 Think testing business logic with all the tastiness of organizing via easily readable steps.
 
-[1]:  http://example.com/  "Kyuri"
+[1]:  http://github.com/nodejitsu/kyuri  "Kyuri"
 [2]:  http://cukes.info/    "Cucumber"
 [3]:  http://vowsjs.org/  "Vowjs"
 [4]:  http://lowdownapp.com/  "Lowdownapp"
