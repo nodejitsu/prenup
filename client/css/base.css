@@ -1,0 +1,72 @@
+.action-button {
+    background:#D4D5C9;
+    padding:5px;
+    border-radius: 5px;
+    display:inline;
+    margin:10px 5px 10px 0;
+}
+
+#container {
+    width:1000px;
+    margin:auto;
+}
+
+#basic-commands {
+    height:50px;
+    margin:10px;
+    float:right;
+}
+#basic-commands li{
+    display:inline;
+    list-style-type: none;
+    width:150px;
+    font-size:16px;
+}
+
+.features {
+    border: 1px solid #999;
+    background:orange;
+}
+
+.feature-info {
+    background:yellow;
+    padding:20px;
+    position:relative;
+}
+
+.feature-close-link {
+    background:#D4D5C9;
+}
+
+.feature-meta {
+    position:absolute;
+    right:20px;
+    bottom:20px;
+}
+
+.scenarios {
+    margin:15px;
+    padding:25px;
+    border: 1px solid #999;
+    background:blue;
+}
+
+footer {
+    background:#F6A4FD;
+    border-top: 1px solid #999;
+}
+
+footer h3 {
+    font-size:16px;
+    display:inline;
+}
+
+footer dl, footer dt {
+    display:inline;
+    margin-left:10px;
+}
+
+footer dd {
+    display:inline;
+    margin-left:5px;
+}
