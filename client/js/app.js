@@ -1,4 +1,639 @@
 
+var GERK = {};
+
+GERK.i18n = {
+    "uk": {
+        "examples": "Приклади",
+        "feature": "Функціонал",
+        "name": "Ukrainian",
+        "but": "*|Але",
+        "and": "*|І|А також|Та",
+        "scenario_outline": "Структура сценарію",
+        "background": "Передумова",
+        "native": "Українська",
+        "when": "*|Якщо|Коли",
+        "then": "*|То|Тоді",
+        "given": "*|Припустимо|Припустимо, що|Нехай|Дано",
+        "scenario": "Сценарій"
+    },
+    "it": {
+        "examples": "Esempi",
+        "feature": "Funzionalità",
+        "name": "Italian",
+        "but": "*|Ma",
+        "and": "*|E",
+        "scenario_outline": "Schema dello scenario",
+        "background": "Contesto",
+        "native": "italiano",
+        "when": "*|Quando",
+        "then": "*|Allora",
+        "given": "*|Dato",
+        "scenario": "Scenario"
+    },
+    "zh-CN": {
+        "examples": "例子",
+        "feature": "功能",
+        "name": "Chinese simplified",
+        "but": "*|但是<",
+        "and": "*|而且<",
+        "scenario_outline": "场景大纲",
+        "background": "背景",
+        "native": "简体中文",
+        "when": "*|当<",
+        "then": "*|那么<",
+        "given": "*|假如<",
+        "scenario": "场景"
+    },
+    "no": {
+        "examples": "Eksempler",
+        "feature": "Egenskap",
+        "name": "Norwegian",
+        "but": "*|Men",
+        "and": "*|Og",
+        "scenario_outline": "Abstrakt Scenario",
+        "background": "Bakgrunn",
+        "native": "norsk",
+        "when": "*|Når",
+        "then": "*|Så",
+        "given": "*|Gitt",
+        "scenario": "Scenario"
+    },
+    "ja": {
+        "examples": "例|サンプル",
+        "feature": "フィーチャ|機能",
+        "name": "Japanese",
+        "but": "*|しかし<|但し<|ただし<",
+        "and": "*|かつ<",
+        "scenario_outline": "シナリオアウトライン|シナリオテンプレート|テンプレ|シナリオテンプレ",
+        "background": "背景",
+        "native": "日本語",
+        "when": "*|もし<",
+        "then": "*|ならば<",
+        "given": "*|前提<",
+        "scenario": "シナリオ"
+    },
+    "fr": {
+        "examples": "Exemples",
+        "feature": "Fonctionnalité",
+        "name": "French",
+        "but": "*|Mais",
+        "and": "*|Et",
+        "scenario_outline": "Plan du scénario|Plan du Scénario",
+        "background": "Contexte",
+        "native": "français",
+        "when": "*|Quand|Lorsque|Lorsqu'<",
+        "then": "*|Alors",
+        "given": "*|Soit|Etant donné",
+        "scenario": "Scénario"
+    },
+    "en-tx": {
+        "examples": "Examples",
+        "feature": "Feature",
+        "name": "Texan",
+        "but": "*|But y'all",
+        "and": "*|And y'all",
+        "scenario_outline": "All y'all",
+        "background": "Background",
+        "native": "Texan",
+        "when": "*|When y'all",
+        "then": "*|Then y'all",
+        "given": "*|Given y'all",
+        "scenario": "Scenario"
+    },
+    "de": {
+        "examples": "Beispiele",
+        "feature": "Funktionalität",
+        "name": "German",
+        "but": "*|Aber",
+        "and": "*|Und",
+        "scenario_outline": "Szenariogrundriss",
+        "background": "Grundlage",
+        "native": "Deutsch",
+        "when": "*|Wenn",
+        "then": "*|Dann",
+        "given": "*|Angenommen|Gegeben sei",
+        "scenario": "Szenario"
+    },
+    "sk": {
+        "examples": "Príklady",
+        "feature": "Požiadavka",
+        "name": "Slovak",
+        "but": "*|Ale",
+        "and": "*|A",
+        "scenario_outline": "Náčrt Scenáru",
+        "background": "Pozadie",
+        "native": "Slovensky",
+        "when": "*|Keď",
+        "then": "*|Tak",
+        "given": "*|Pokiaľ",
+        "scenario": "Scenár"
+    },
+    "hu": {
+        "examples": "Példák",
+        "feature": "Jellemző",
+        "name": "Hungarian",
+        "but": "*|De",
+        "and": "*|És",
+        "scenario_outline": "Forgatókönyv vázlat",
+        "background": "Háttér",
+        "native": "magyar",
+        "when": "*|Majd|Ha|Amikor",
+        "then": "*|Akkor",
+        "given": "*|Amennyiben|Adott",
+        "scenario": "Forgatókönyv"
+    },
+    "sv": {
+        "examples": "Exempel",
+        "feature": "Egenskap",
+        "name": "Swedish",
+        "but": "*|Men",
+        "and": "*|Och",
+        "scenario_outline": "Abstrakt Scenario",
+        "background": "Bakgrund",
+        "native": "Svenska",
+        "when": "*|När",
+        "then": "*|Så",
+        "given": "*|Givet",
+        "scenario": "Scenario"
+    },
+    "ru": {
+        "examples": "Значения",
+        "feature": "Функционал|Фича",
+        "name": "Russian",
+        "but": "*|Но|А",
+        "and": "*|И|К тому же",
+        "scenario_outline": "Структура сценария",
+        "background": "Предыстория",
+        "native": "русский",
+        "when": "*|Если|Когда",
+        "then": "*|То|Тогда",
+        "given": "*|Допустим|Дано|Пусть",
+        "scenario": "Сценарий"
+    },
+    "fi": {
+        "examples": "Tapaukset",
+        "feature": "Ominaisuus",
+        "name": "Finnish",
+        "but": "*|Mutta",
+        "and": "*|Ja",
+        "scenario_outline": "Tapausaihio",
+        "background": "Tausta",
+        "native": "suomi",
+        "when": "*|Kun",
+        "then": "*|Niin",
+        "given": "*|Oletetaan",
+        "scenario": "Tapaus"
+    },
+    "es": {
+        "examples": "Ejemplos",
+        "feature": "Característica",
+        "name": "Spanish",
+        "but": "*|Pero",
+        "and": "*|Y",
+        "scenario_outline": "Esquema del escenario",
+        "background": "Antecedentes",
+        "native": "español",
+        "when": "*|Cuando",
+        "then": "*|Entonces",
+        "given": "*|Dado",
+        "scenario": "Escenario"
+    },
+    "zh-TW": {
+        "examples": "例子",
+        "feature": "功能",
+        "name": "Chinese traditional",
+        "but": "*|但是<",
+        "and": "*|而且<|並且<",
+        "scenario_outline": "場景大綱|劇本大綱",
+        "background": "背景",
+        "native": "繁體中文",
+        "when": "*|當<",
+        "then": "*|那麼<",
+        "given": "*|假設<",
+        "scenario": "場景|劇本"
+    },
+    "pt": {
+        "examples": "Exemplos",
+        "feature": "Funcionalidade",
+        "name": "Portuguese",
+        "but": "*|Mas",
+        "and": "*|E",
+        "scenario_outline": "Esquema do Cenário|Esquema do Cenario",
+        "background": "Contexto",
+        "native": "português",
+        "when": "*|Quando",
+        "then": "*|Então|Entao",
+        "given": "*|Dado",
+        "scenario": "Cenário|Cenario"
+    },
+    "ko": {
+        "examples": "예",
+        "feature": "기능",
+        "name": "Korean",
+        "but": "*|하지만<|단<",
+        "and": "*|그리고<",
+        "scenario_outline": "시나리오 개요",
+        "background": "배경",
+        "native": "한국어",
+        "when": "*|만일<|만약<",
+        "then": "*|그러면<",
+        "given": "*|조건<|먼저<",
+        "scenario": "시나리오"
+    },
+    "et": {
+        "examples": "Juhtumid",
+        "feature": "Omadus",
+        "name": "Estonian",
+        "but": "*|Kuid",
+        "and": "*|Ja",
+        "scenario_outline": "Raamstsenaarium",
+        "background": "Taust",
+        "native": "eesti keel",
+        "when": "*|Kui",
+        "then": "*|Siis",
+        "given": "*|Eeldades",
+        "scenario": "Stsenaarium"
+    },
+    "uz": {
+        "examples": "Мисоллар",
+        "feature": "Функционал",
+        "name": "Uzbek",
+        "but": "*|Лекин|Бирок|Аммо",
+        "and": "*|Ва",
+        "scenario_outline": "Сценарий структураси",
+        "background": "Тарих",
+        "native": "Узбекча",
+        "when": "*|Агар",
+        "then": "*|Унда",
+        "given": "*|Агар",
+        "scenario": "Сценарий"
+    },
+    "id": {
+        "examples": "Contoh",
+        "feature": "Fitur",
+        "name": "Indonesian",
+        "but": "*|Tapi",
+        "and": "*|Dan",
+        "scenario_outline": "Skenario konsep",
+        "background": "Dasar",
+        "native": "Bahasa Indonesia",
+        "when": "*|Ketika",
+        "then": "*|Maka",
+        "given": "*|Dengan",
+        "scenario": "Skenario"
+    },
+    "en-Scouse": {
+        "examples": "Examples",
+        "feature": "Feature",
+        "name": "Scouse",
+        "but": "*|Buh",
+        "and": "*|An",
+        "scenario_outline": "Wharrimean is",
+        "background": "Dis is what went down",
+        "native": "Scouse",
+        "when": "*|Wun|Youse know like when",
+        "then": "*|Dun|Den youse gotta",
+        "given": "*|Givun|Youse know when youse got",
+        "scenario": "The thing of it is"
+    },
+    "cs": {
+        "examples": "Příklady",
+        "feature": "Požadavek",
+        "name": "Czech",
+        "but": "*|Ale",
+        "and": "*|A|A také",
+        "scenario_outline": "Náčrt Scénáře|Osnova scénáře",
+        "background": "Pozadí|Kontext",
+        "native": "Česky",
+        "when": "*|Když",
+        "then": "*|Pak",
+        "given": "*|Pokud",
+        "scenario": "Scénář"
+    },
+    "bg": {
+        "examples": "Примери",
+        "feature": "Функционалност",
+        "name": "Bulgarian",
+        "but": "*|Но",
+        "and": "*|И",
+        "scenario_outline": "Рамка на сценарий",
+        "background": "Предистория",
+        "native": "български",
+        "when": "*|Когато",
+        "then": "*|То",
+        "given": "*|Дадено",
+        "scenario": "Сценарий"
+    },
+    "pl": {
+        "examples": "Przykłady",
+        "feature": "Właściwość",
+        "name": "Polish",
+        "but": "*|Ale",
+        "and": "*|Oraz",
+        "scenario_outline": "Szablon scenariusza",
+        "background": "Założenia",
+        "native": "polski",
+        "when": "*|Jeżeli",
+        "then": "*|Wtedy",
+        "given": "*|Zakładając",
+        "scenario": "Scenariusz"
+    },
+    "en-au": {
+        "examples": "Cobber",
+        "feature": "Crikey",
+        "name": "Australian",
+        "but": "*|Cept",
+        "and": "*|N",
+        "scenario_outline": "Blokes",
+        "background": "Background",
+        "native": "Australian",
+        "when": "*|When",
+        "then": "*|Ya gotta",
+        "given": "*|Ya know how",
+        "scenario": "Mate"
+    },
+    "ar": {
+        "examples": "امثلة",
+        "feature": "خاصية",
+        "name": "Arabic",
+        "but": "*|لكن",
+        "and": "*|و",
+        "scenario_outline": "سيناريو مخطط",
+        "background": "الخلفية",
+        "native": "العربية",
+        "when": "*|متى|عندما",
+        "then": "*|اذاً|ثم",
+        "given": "*|بفرض",
+        "scenario": "سيناريو"
+    },
+    "sr-Latn": {
+        "examples": "Primeri|Scenariji",
+        "feature": "Funkcionalnost|Mogućnost|Mogucnost|Osobina",
+        "name": "Serbian (Latin)",
+        "but": "*|Ali",
+        "and": "*|I",
+        "scenario_outline": "Struktura scenarija|Skica|Koncept",
+        "background": "Kontekst|Osnova|Pozadina",
+        "native": "Srpski (Latinica)",
+        "when": "*|Kada|Kad",
+        "then": "*|Onda",
+        "given": "*|Zadato|Zadate|Zatati",
+        "scenario": "Scenario|Primer"
+    },
+    "ro": {
+        "examples": "Exemplele",
+        "feature": "Functionalitate",
+        "name": "Romanian",
+        "but": "*|Dar",
+        "and": "*|Si",
+        "scenario_outline": "Scenariul de sablon",
+        "background": "Conditii",
+        "native": "română",
+        "when": "*|Cand",
+        "then": "*|Atunci",
+        "given": "*|Daca",
+        "scenario": "Scenariu"
+    },
+    "he": {
+        "examples": "דוגמאות",
+        "feature": "תכונה",
+        "name": "Hebrew",
+        "but": "*|אבל",
+        "and": "*|וגם",
+        "scenario_outline": "תבנית תרחיש",
+        "background": "רקע",
+        "native": "עברית",
+        "when": "*|כאשר",
+        "then": "*|אז|אזי",
+        "given": "*|בהינתן",
+        "scenario": "תרחיש"
+    },
+    "en-lol": {
+        "examples": "EXAMPLZ",
+        "feature": "OH HAI",
+        "name": "LOLCAT",
+        "but": "*|BUT",
+        "and": "*|AN",
+        "scenario_outline": "MISHUN SRSLY",
+        "background": "B4",
+        "native": "LOLCAT",
+        "when": "*|WEN",
+        "then": "*|DEN",
+        "given": "*|I CAN HAZ",
+        "scenario": "MISHUN"
+    },
+    "da": {
+        "examples": "Eksempler",
+        "feature": "Egenskab",
+        "name": "Danish",
+        "but": "*|Men",
+        "and": "*|Og",
+        "scenario_outline": "Abstrakt Scenario",
+        "background": "Baggrund",
+        "native": "dansk",
+        "when": "*|Når",
+        "then": "*|Så",
+        "given": "*|Givet",
+        "scenario": "Scenarie"
+    },
+    "vi": {
+        "examples": "Dữ liệu",
+        "feature": "Tính năng",
+        "name": "Vietnamese",
+        "but": "*|Nhưng",
+        "and": "*|Và",
+        "scenario_outline": "Khung tình huống|Khung kịch bản",
+        "background": "Bối cảnh",
+        "native": "Tiếng Việt",
+        "when": "*|Khi",
+        "then": "*|Thì",
+        "given": "*|Biết|Cho",
+        "scenario": "Tình huống|Kịch bản"
+    },
+    "tr": {
+        "examples": "Örnekler",
+        "feature": "Özellik",
+        "name": "Turkish",
+        "but": "*|Fakat|Ama",
+        "and": "*|Ve",
+        "scenario_outline": "Senaryo taslağı",
+        "background": "Geçmiş",
+        "native": "Türkçe",
+        "when": "*|Eğer ki",
+        "then": "*|O zaman",
+        "given": "*|Diyelim ki",
+        "scenario": "Senaryo"
+    },
+    "ro-RO": {
+        "examples": "Exemplele",
+        "feature": "Funcționalitate",
+        "name": "Romanian (diacritical)",
+        "but": "*|Dar",
+        "and": "*|Și",
+        "scenario_outline": "Scenariul de şablon",
+        "background": "Condiţii",
+        "native": "română (diacritical)",
+        "when": "*|Când",
+        "then": "*|Atunci",
+        "given": "*|Dacă",
+        "scenario": "Scenariu"
+    },
+    "nl": {
+        "examples": "Voorbeelden",
+        "feature": "Functionaliteit",
+        "name": "Dutch",
+        "but": "*|Maar",
+        "and": "*|En",
+        "scenario_outline": "Abstract Scenario",
+        "background": "Achtergrond",
+        "native": "Nederlands",
+        "when": "*|Als",
+        "then": "*|Dan",
+        "given": "*|Gegeven|Stel",
+        "scenario": "Scenario"
+    },
+    "lt": {
+        "examples": "Pavyzdžiai|Scenarijai|Variantai",
+        "feature": "Savybė",
+        "name": "Lithuanian",
+        "but": "*|Bet",
+        "and": "*|Ir",
+        "scenario_outline": "Scenarijaus šablonas",
+        "background": "Kontekstas",
+        "native": "lietuvių kalba",
+        "when": "*|Kai",
+        "then": "*|Tada",
+        "given": "*|Duota",
+        "scenario": "Scenarijus"
+    },
+    "ca": {
+        "examples": "Exemples",
+        "feature": "Característica|Funcionalitat",
+        "name": "Catalan",
+        "but": "*|Però",
+        "and": "*|I",
+        "scenario_outline": "Esquema de l'escenari",
+        "background": "Rerefons|Antecedents",
+        "native": "català",
+        "when": "*|Quan",
+        "then": "*|Aleshores|Cal",
+        "given": "*|Donat|Donada|Atès|Atesa",
+        "scenario": "Escenari"
+    },
+    "lu": {
+        "examples": "Beispiller",
+        "feature": "Funktionalitéit",
+        "name": "Luxemburgish",
+        "but": "*|awer|mä",
+        "and": "*|an|a",
+        "scenario_outline": "Plang vum Szenario",
+        "background": "Hannergrond",
+        "native": "Lëtzebuergesch",
+        "when": "*|wann",
+        "then": "*|dann",
+        "given": "*|ugeholl",
+        "scenario": "Szenario"
+    },
+    "en-pirate": {
+        "examples": "Dead men tell no tales",
+        "feature": "Ahoy matey!",
+        "name": "Pirate",
+        "but": "*|Avast!",
+        "and": "*|Aye",
+        "scenario_outline": "Shiver me timbers",
+        "background": "Yo-ho-ho",
+        "native": "Pirate",
+        "when": "*|Blimey!",
+        "then": "*|Let go and haul",
+        "given": "*|Gangway!",
+        "scenario": "Heave to"
+    },
+    "cy-GB": {
+        "examples": "Enghreifftiau",
+        "feature": "Arwedd",
+        "name": "Welsh",
+        "but": "*|Ond",
+        "and": "*|A",
+        "scenario_outline": "Scenario Amlinellol",
+        "background": "Cefndir",
+        "native": "Cymraeg",
+        "when": "*|Pryd",
+        "then": "*|Yna",
+        "given": "*|Anrhegedig a",
+        "scenario": "Scenario"
+    },
+    "en": {
+        "examples": "Examples|Scenarios",
+        "feature": "Feature",
+        "name": "English",
+        "but": "*|But",
+        "and": "*|And",
+        "scenario_outline": "Scenario Outline",
+        "background": "Background",
+        "native": "English",
+        "when": "*|When",
+        "then": "*|Then",
+        "given": "*|Given",
+        "scenario": "Scenario"
+    },
+    "sr-Cyrl": {
+        "examples": "Примери|Сценарији",
+        "feature": "Функционалност|Могућност|Особина",
+        "name": "Serbian",
+        "but": "*|Али",
+        "and": "*|И",
+        "scenario_outline": "Структура сценарија|Скица|Концепт",
+        "background": "Контекст|Основа|Позадина",
+        "native": "Српски",
+        "when": "*|Када|Кад",
+        "then": "*|Онда",
+        "given": "*|Задато|Задате|Задати",
+        "scenario": "Сценарио|Пример"
+    },
+    "lv": {
+        "examples": "Piemēri|Paraugs",
+        "feature": "Funkcionalitāte|Fīča",
+        "name": "Latvian",
+        "but": "*|Bet",
+        "and": "*|Un",
+        "scenario_outline": "Scenārijs pēc parauga",
+        "background": "Konteksts|Situācija",
+        "native": "latviešu",
+        "when": "*|Ja",
+        "then": "*|Tad",
+        "given": "*|Kad",
+        "scenario": "Scenārijs"
+    },
+    "hr": {
+        "examples": "Primjeri|Scenariji",
+        "feature": "Osobina|Mogućnost|Mogucnost",
+        "name": "Croatian",
+        "but": "*|Ali",
+        "and": "*|I",
+        "scenario_outline": "Skica|Koncept",
+        "background": "Pozadina",
+        "native": "hrvatski",
+        "when": "*|Kada|Kad",
+        "then": "*|Onda",
+        "given": "*|Zadan|Zadani|Zadano",
+        "scenario": "Scenarij"
+    },
+    "eo": {
+        "examples": "Ekzemploj",
+        "feature": "Trajto",
+        "name": "Esperanto",
+        "but": "*|Sed",
+        "and": "*|Kaj",
+        "scenario_outline": "Konturo de la scenaro",
+        "background": "Fono",
+        "native": "Esperanto",
+        "when": "*|Se",
+        "then": "*|Do",
+        "given": "*|Donitaĵo",
+        "scenario": "Scenaro"
+    }
+};
+
 (function() {
 
     var STR_MAPS = {
@@ -500,56 +1135,61 @@ $(function() {
 
             },
 
-            DATA: {
+            DATA: { // dummy-data, this would be replaced by loaded data.
 
+                language: "en",
                 project: "myProject",
-                milestones: ["1", "2"],
+                milestones: {
+                    "1": "First", 
+                    "2": "Second"
+                },
                 users: {
                     "1": "Joe",
                     "2": "Peter",
                     "3": "Jane"
                 },
-                features: [
+                features: {
 
                     "1": {
-                        milestone: "1",
+                        milestone: 1,
                         owner: 1,
+                        users: [2, 3],
                         name: "foo",
                         description: "A Setence",
                         timeunit: "hour",
                         costPerTimeUnit: 80,
-                        cost: 150,
                         scenarios: [
                             {
                                 outline: false,                                
-                                time: [20, "hrs"],
+                                time: 20,
                                 description: "blah",
                                 breakdown: [
-                                    [4, "sentence1"],
-                                    [2, "sentence2"],
-                                    [1, "sentence3"]
+                                    {1: ["examples", "sentence1"]},
+                                    {2: ["name", "sentence2"]},
+                                    {3: ["and", "sentence3"]}
                                 ]
                             },
                             {
                                 outline: false,
-                                time: [20, "hrs"],
-                                description: "blah", 
+                                time: 20,
+                                description: "blah",
                                 brreakdown: [
-                                    [4, "sentence1"],
-                                    [2, "sentence2"],
-                                    [1, "sentence3"]
+                                    {1: ["and", "sentence1"]},
+                                    {2: ["background", "sentence2"]},
+                                    {3: ["when", "sentence3"]}
                                 ]
                             }
                         ]
                     },
                     "2": {
-                        milestone: "2",
+                        milestone: 2,
                         owner: 1,
+                        users: [2, 3],
                         name: "bar",
                         description: "A Setence", 
                         timeunit: "hour",
                         costPerTimeUnit: 80,
-                        cost: 150,
+                        time: 5,
                         scenarios: [
                             {
                                 outline: true,
@@ -557,89 +1197,174 @@ $(function() {
                                     "username": ['charlie', 'indexzero'],
                                     "password": ['12345', 'abcde']
                                 },
-                                time: [20, "hrs"],
+                                time: 20,
                                 description: "blah",
                                 breakdown: [
-                                    [4, "sentence1"],
-                                    [2, "sentence2"],
-                                    [1, "sentence3"]
+                                    {1: ["when", "sentence1"]},
+                                    {2: ["and", "sentence2"]},
+                                    {3: ["where", "sentence3"]}
                                 ]
                             },
                             {
                                 outline: false,                                
-                                time: [20, "hrs"],
+                                time: 20,
                                 description: "blah",
                                 brreakdown: [
-                                    [4, "sentence1"],
-                                    [2, "sentence2"],
-                                    [1, "sentence3"]
+                                    {1: ["background", "sentence1"]},
+                                    {3: ["where", "sentence2"]},
+                                    {2: ["and", "sentence3"]}
                                 ]
                             }
                         ]
                     }
-                ]
+                }
             },
-            
+
             DAL: {
-                
+
                 get: {
-                    get project() {
+                    
+                    // languages()
+                    // language()
+                    // project()
+                    // featuresByMilestone(<int>)
+                    // scenariosByFeature(<int>)
+                    // usersByFeature(<int>)
+                    // projectCost(<int>)
+                    // operators()
+                    // operatorById(<string>)
+
+                    project: function() {
                         return DATA.project;
                     },
-                    get featuresByMilestone(id) {
+                    featuresByMilestone: function(id) {
                         
+                        var features = [];
+
+                        $.each(DATA.features, function(i, feature) {
+                            if(feature.milestone == id) {
+                                features.push(feature);
+                            }
+                        });
+
+                        return features;
                     },
-                    get scenariosByFeature(id) {
+                    scenariosByFeature: function(id) {
+                        return DATA.features[id].scenarios;
                     },
-                    get usersByFeature(id) {
-                    },                                        
-                    get projectCost(id) {
-                    },
-                    get operatorsByLanguage() {
-                    }
-                    get operatorById() {
+                    usersByFeature: function(id) {
                         
-                    }                    
+                        var users = [];
+                        
+                        $.each(DATA.features[id].users, function(i, o) {
+                            var user = {};
+                            user[i] = DATA.users[o];
+                            users.push(user);
+                        });
+                        
+                        return users;
+                    },
+                    breakdownByFeature: function(id) {
+                        return DATA.features[id].breakdown;
+                    },
+                    projectCost: function(id) {
+                        
+                        var cost = 0;
+                        
+                        $.each(DATA.features, function(key, feature) {
+                            
+                            var time = 0;
+                            
+                            $.each(feature.scenarios, function(i, scenario) {
+                                time += scenario.time;
+                            });
+                            
+                            cost = feature.costPerTimeUnit * time;
+                        });
+                        
+                        return cost;
+
+                    },
+                    languages: function() {
+                        var languages = [];
+                        
+                        $.each(GERK.i18n, function(k, o) {
+                            languages.push(k);
+                        });
+                        
+                        return languages;
+                    },
+                    operators: function() {
+                        return GERK.i18n[DATA.language];
+                    },
+                    operatorById: function(id) {
+                        return GERK.i18n[DATA.language][id];
+                    },
+                    language: function() {
+                        return DATA.language;
+                    }     
                 },
 
                 set: {
-                    set user(config) {
+                    
+                    // 
+                    // 
+                    // 
+                    // 
+                    
+                    user: function (config) {
                         if(config.id) {
-                            DATA.users[config.id] = config.name;
+                            
+                            if(config.name) {
+                                DATA.users[config.id] = config.name;
+                            }
+
+                            if(config.add) {
+
+                                $.each(config.features, function(key, feature) {
+                                
+                                    var users = DATA.features[feature].users;
+                                
+                                    if(_.indexOf(users, config.id) != -1) {
+                                         users = _.without(users, config.id);
+                                    }
+
+                                    DATA.features[feature].users.push(config.id);
+                                 
+                                });
+                                
+                            }
+
+                            if(config.remove) {
+                                
+                                var users = DATA.features[feature].users;
+                                users = _.without(users, config.id);
+                                
+                            }
                         }
                         else {
                             DATA.users[Math.floor(Math.random()*2e9)] = config.name;
                         }                        
                     },
-                    set project(config) {
-                        if(config.id) {
-                            
-                        }
-                        else {
-                            
-                        }
+                    project: function(name) {
+                        DATA.project = name;
                     },
-                    set milestone(config) {
-                        if(config.id) {
-                            
-                        }
-                        else {
-                            
-                        }
+                    milestone: function(config) {
+                        DATA.milestones[config.id] = config.name;
                     },
-                    set scenarios(config) {
+                    scenario: function(config) {
                         if(config.id) {
                             
                         }
                         else {
                             
                         }                        
+                    },
+                    language: function(id) {
+                        DATA.language = id;
                     }
                 }
             }
-        
-            
-        
         
         }
         
