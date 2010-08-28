@@ -21,6 +21,6 @@ Nuptials is a node app for managing and creating vows test steps through natural
 #### Charlie Robbins, hij1nx, Matthew Bergman & Marak Squires
 
 ### Acknowledgments
-Heavily inspired by Sean Cribbs' [lowdownApp](http://lowdownapp.com/)
+Heavily inspired by Sean Cribbs' [Lowdownapp](http://lowdownapp.com/)
 
 #### Technologies/Projects used
