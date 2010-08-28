@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html>
+  <body>
+    <head></head>
+    <header>
+      <nav>
+        <a></a>
+      </nav>
+    </header>
+      <div id="basic-commands">
+        <a>Add Feature</a>
+        <a>Add Milestone</a>
+        <a>Export</a>
+      </div>
+    <div id="content">
+      <div id="features">
+        <div id="feature-1" class="features">
+          <h1>Feature 1 Title <span id="feature-cost">300</span></h1>
+          <label for="feature_1_title">Title</label>
+          <input type="text" name="feature_1[title]" id="feature_1_title">A title</input>
+          <label for="feature_1_description">Title</label>
+          <input type="textarea" name="feature_1[description]" id="feature_1_description">A Description Text</input>
+          <div class="scenarios">
+            <div id="feature-1-scenario-1">
+               <label for="feature-1-scenario-1-title">Title</label>
+               <input type="text" name="feature-1-scenario-1[title]" id="feature-1-scenario-1-title">A title</input>
+               <label for="feature-1-scenario-1-hours">Hours</label>
+               <input type="textarea" name="feature_1[hours]" id="feature-1-scenario-1-title-hours">5</input>
+               <select name="scenario-1[verb][]">options</select>
+               <input type="text" name="scenario-1[sentence][]" id="feature-1-scenario-1-title">a breakdown sentence</input>
+              <div class="scenario-commands">
+                <a>add step</a>
+                <a>delete scenario</a>
+              </div>
+            </div>
+          </div>
+          <div id="features-commands">
+            <a>new scenario</a>
+            <a>delete scenario</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer>
+      <ul id="project-totals">
+        <li id="number-features">3</li>
+        <li id="number-scenarios">10</li>
+        <li id="hours">30</li>
+        <li id="total-cost">$4000</li>
+      </ul>
+    </footer>
+  </body>
+</html>
