@@ -1,0 +1,105 @@
+.action-button {
+    background:#D4D5C9;
+    padding:5px;
+    border-radius: 5px;
+    display:inline;
+    margin:10px 5px 10px 0;
+}
+
+a {cursor:pointer;}
+
+#container {
+    width:1000px;
+    margin:auto;
+}
+
+#basic-commands {
+    height:50px;
+    margin:10px;
+    float:right;
+}
+#basic-commands li{
+    display:inline;
+    list-style-type: none;
+    width:150px;
+    font-size:16px;
+}
+
+.features {
+    border: 1px solid #999;
+    background:orange;
+    padding:15px;
+}
+
+.feature-info {
+    background:yellow;
+    padding:20px;
+    position:relative;
+}
+
+.feature-close-link {
+    background:#D4D5C9;
+}
+
+.feature-meta {
+    position:absolute;
+    right:20px;
+    bottom:20px;
+}
+
+.features label {
+    font-weight: bold;
+    font-size:16px;
+    width:100px;
+    display:block;
+    float:left;
+}
+
+.features input {
+    width:750px;
+}
+.features textarea {
+    width:750px;
+    height:50px;
+}
+
+.scenarios {
+    margin:15px;
+    padding:25px;
+    border: 1px solid #999;
+    background:blue;
+}
+
+.hours-input {
+    width:50px !important;
+}
+
+.scenarios label {
+    width:70px;
+}
+
+.steps {
+    border: 1px solid #999;
+    margin:10px 0;
+    padding:5px 10px;
+}
+
+footer {
+    background:#F6A4FD;
+    border-top: 1px solid #999;
+}
+
+footer h3 {
+    font-size:16px;
+    display:inline;
+}
+
+footer dl, footer dt {
+    display:inline;
+    margin-left:10px;
+}
+
+footer dd {
+    display:inline;
+    margin-left:5px;
+}
