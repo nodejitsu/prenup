@@ -8,21 +8,28 @@
 
 a {cursor:pointer;}
 
+h1 {
+    font-size:24px;
+    border-bottom: 1px solid #999;
+    }
+
 #container {
     width:1000px;
     margin:auto;
 }
 
-#basic-commands {
+#milestones {
     height:50px;
     margin:10px;
-    float:right;
 }
-#basic-commands li{
+#milestones li{
     display:inline;
     list-style-type: none;
     width:150px;
     font-size:16px;
+    background:#D4D58F;
+    padding:5px;
+    border-radius: 5px;
 }
 
 .features {
