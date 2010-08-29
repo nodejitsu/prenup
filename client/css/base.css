@@ -10,6 +10,13 @@
 
 a {cursor:pointer;}
 
+.shadow {
+	-moz-box-shadow: 0px 3px 3px #666;
+	-webkit-box-shadow: 0px 3px 3px #666;
+	box-shadow: 0px 3px 3px #666;	
+}
+
+
 #projectTitle {
     font-size:20px;
 	position: absolute;
@@ -158,6 +165,10 @@ footer table td{
 	padding: 10px;
 	padding-left: 13%;
     text-align: center;
+}
+
+footer div {
+	cursor: pointer;
 }
 
 #logo {
