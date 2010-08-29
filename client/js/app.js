@@ -107,8 +107,21 @@ $(function() {
                         ]
                     ]));                    
                 });
-                
+
                 $("#featureslist").html(html.join(""));
+                
+                // once the UI has rendered, we need to apply UI events to elements
+                $(".delete").live("click", function(){
+                  //$(this).parent().fadeOut(1500);
+                  $(this).parent().slideUp(750, function(){
+                    $(this).remove()
+                  });
+                  //$(this).parent().remove();
+                  
+
+                  //console.log("delete breakdown element")
+                });
+
                 $("#featureslist, .scenario").accordion({ collapsible: true, autoHeight: false });
                 $('.sortable-ui').sortable();
                 
@@ -1510,10 +1523,3 @@ GERK.i18n = {
         "scenario": "Scenaro"
     }
 };
-
-jQuery(document).ready(function($) {
-  $(".delete").live("click", function(){
-    $(this).parent().remove();
-    console.log("delete breakdown element")
-  });
-});

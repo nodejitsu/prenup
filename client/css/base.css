@@ -51,7 +51,7 @@ a {cursor:pointer;}
 
 .scenario {overflow:hidden;}
 .scenario input[type='text'] {width:80%; float:left;}
-.scenario select {float:left; margin-right:10px;}
+.scenario select {float:left; margin-right:10px;height:30px;}
 .grip {float:left; margin:2px 5px;  }
 .step-close {float:left; margin-left:10px; margin-top:5px;}
 .grip {float:left; margin:2px 5px;  }
