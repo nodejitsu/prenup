@@ -76,15 +76,12 @@ $(function() {
                                                                 (function() {
 
                                                                     var options = [];
-                                                                    var v = 0;
+
                                                                     $.each(DAL.get.operators(), function(i, operator) {
-                                                                        v = v +1
                                                                         options.push($.jup.html(["option" + (pair[0] == operator ? " selected" : ""), operator]));
-                                                                        
-                                                                      
                                                                     });
-                                                                    return options;
-                                                                                                 
+
+                                                                    return options;                             
                                                                 })()
                                                             ]],
                                                             ["input", { "type": "text", "value": pair[1] },
