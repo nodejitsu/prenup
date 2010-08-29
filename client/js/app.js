@@ -83,7 +83,7 @@ $(function() {
               return [
                   ["h3", { "class": "milestone-member ms" + feature.milestone },
                       ["input", { "type": "text", "value": feature.name }],
-                      ["div", { "class": "remove ui-state-default ui-corner-all", "title": "Remove feature"  }, 
+                      ["div", { "class": "remove delete-feature ui-state-default ui-corner-all", "title": "Remove feature"  }, 
                         ["span", "&nbsp"]
                       ]
                   ],
@@ -205,7 +205,13 @@ $(function() {
                   });
                 });
                 
-                
+                $(".delete-feature").live("click", function(e){
+                  e.stopPropagation();
+                  $(this).parent().slideUp(750, function(){
+                    $(this).remove()
+                  });
+                  
+                });
                 
                 // do some default stuff, this should be done better.
 
