@@ -106,6 +106,20 @@ $(function() {
               ];
             },
             
+            renderMilestone: function(key, milestone){
+              
+              var html = [];
+
+              html.push($.jup.html(["li",
+                  ["input", { "class": "btn", "id": "ms" + key, "type": "checkbox" }], 
+                  ["label", { "class": "milestone", "for": "ms" + key }, milestone,
+                    ["img", {"src": "img/delete.png", "height": "22", "width": "22" }]   
+                  ]
+              ]));
+              
+              return html;
+            },
+            
             pageLoad: function() {
                 DAL = this.DAL;
                 DATA = this.DATA;
@@ -211,17 +225,11 @@ $(function() {
                   usersAction.dialog("open");
                 });                                
                 
-                // load up the milestones
-
+                // render milestones
                 var html = [];
-
+                
                 $.each(DAL.get.milestones(), function(key, milestone) {
-                    html.push($.jup.html(["li",
-                        ["input", { "class": "btn", "id": "ms" + key, "type": "checkbox" }], 
-                        ["label", { "class": "milestone", "for": "ms" + key }, milestone,
-                          ["img", {"src": "img/delete.png", "height": "22", "width": "22" }]   
-                        ]
-                    ]));
+                  html.push(NJ.nup.renderMilestone(key, milestone));
                 });
 
                 $("#toolbar ul").html(html.join("")).disableSelection().sortable();
@@ -330,6 +338,12 @@ $(function() {
                   }).find("input").click(function(ev){
                       ev.stopPropagation();
                   });
+                  
+                });
+
+                $('.add-milestone').live('click', function(e){
+                  
+                  
                   
                 });
 
