@@ -288,9 +288,9 @@ $(function() {
 
                   $('#featureslist').append($.jup.html(out));
                   
-                  
+                  console.log('adding feature');
                   // rebind accordion
-                  $("#featureslist, .scenario").accordion({ 
+                  $("#featureslist").accordion('destroy').accordion({ 
                     collapsible: true, 
                     autoHeight: false 
 
@@ -382,8 +382,8 @@ $(function() {
                                 name: "Divide By Zero",                                
                                 description: "In mathematics, a division is called a division by zero if the divisor is zero.",
                                 breakdown: [
-                                    {"1": ["givin", "indexzero sits at his computer and writes the lexor"]},
-                                    {"2": ["givin", "marak eats cheese burgers off of his laptop"]},
+                                    {"1": ["given", "indexzero sits at his computer and writes the lexor"]},
+                                    {"2": ["given", "marak eats cheese burgers off of his laptop"]},
                                     {"3": ["then", "code will be awesome as usual"]}
                                 ]
                             }
@@ -393,8 +393,8 @@ $(function() {
                         milestone: 2,
                         owner: 1,
                         users: [2, 3],
-                        name: "bar",
-                        description: "A Setence", 
+                        name: "Singup as  a Subscriber",
+                        description: "In order to use our website\n As an subscriber\n I need to be able to create a subscriber account and pay for a subscription", 
                         timeunit: "hour",
                         costPerTimeUnit: 80,
                         time: 5,
@@ -407,19 +407,24 @@ $(function() {
                                     "password": ['12345', 'abcde']
                                 },
                                 time: 20,
-                                name: "scenario2",                                
+                                name: "Successfully Signup as a subscriber",                                
                                 description: "blah",
                                 breakdown: [
-                                    {"1": ["when", "sentence1"]},
-                                    {"2": ["and", "sentence2"]},
-                                    {"3": ["where", "sentence3"]}
+                                    {"1": ["given", "I have no account"]},
+                                    {"2": ["when", "I go to subscriber-signup"]},
+                                    {"3": ["then", "should see 'Create an Account'"]},
+                                    {"4": ["when", "I fill in the form"]},
+                                    {"5": ["and", "I press 'Create Account'"]},
+                                    {"6": ["then", "a user should exist with username: 'fotoverite'"]},
+                                    {"7": ["and",  "I should be on the success page"]}
+                                    
                                 ]
                             },
                             {
                                 id: 3,
                                 outline: false,                                
                                 time: 20,
-                                name: "scenario3",                                
+                                name: "Successfully purchase subscription with a different billing address",                                
                                 description: "blah",
                                 breakdown: [
                                     {"1": ["background", "sentence1"]},
