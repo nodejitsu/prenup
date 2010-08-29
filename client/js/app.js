@@ -46,6 +46,34 @@ $(function() {
               ]];
             },
             
+            renderScenario: function(key, scenario){
+              return ["div", { "class": "scenario" },
+
+                  ["h3", { "class": "breakdown" },
+                      ["a", { "href": "#" }, scenario.name]
+                  ],
+                  ["div",
+                      (function() {
+
+                          var breakdown = ["<ul class='sortable-ui'>"];
+
+                          $.each(scenario.breakdown, function(key, step) {
+                              $.each(step, function(key, pair) {
+                                  breakdown.push($.jup.html(NJ.nup.renderStep(pair)));
+                              });
+                          });
+
+
+                          breakdown.push("</ul>");
+
+                          return breakdown.join("") + $.jup.html(['button',{ "class": "add-step" }, 'Add Step +']) ;
+                          
+                      })()
+                  ]
+
+              ];
+            },
+            
             pageLoad: function() {
                 DAL = this.DAL;
                 DATA = this.DATA;
@@ -81,31 +109,7 @@ $(function() {
                                 var scenarios = [];
 
                                 $.each(feature.scenarios, function(key, scenario) {
-                                    scenarios.push($.jup.html(["div", { "class": "scenario" },
-
-                                        ["h3", { "class": "breakdown" },
-                                            ["a", { "href": "#" }, scenario.name]
-                                        ],
-                                        ["div",
-                                            (function() {
-
-                                                var breakdown = ["<ul class='sortable-ui'>"];
-
-                                                $.each(scenario.breakdown, function(key, step) {
-                                                    $.each(step, function(key, pair) {
-                                                        breakdown.push($.jup.html(NJ.nup.renderStep(pair)));
-                                                    });
-                                                });
-
-
-                                                breakdown.push("</ul>");
-
-                                                return breakdown.join("") + $.jup.html(['button',{ "class": "add-step" }, 'Add Step +']) ;
-                                                
-                                            })()
-                                        ]
-
-                                    ]));
+                                    scenarios.push($.jup.html(NJ.nup.renderScenario(key, scenario)));
                                 });
 
                                 return scenarios.join("");
