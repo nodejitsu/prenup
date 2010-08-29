@@ -60,7 +60,7 @@ $(function() {
               return ["div", { "class": "scenario" },
                   ["h3", { "class": "breakdown" },
                       ["a", { "href": "#" }, scenario.name],
-                      ["div", { "class": "remove delete-scenario ui-state-default ui-corner-all", "title": "Remove scenario" }, 
+                      ["div", { "class": "remove ui-state-default ui-corner-all", "title": "Remove scenario" }, 
                         ["span", "&nbsp"]
                       ]
                   ],
@@ -178,17 +178,15 @@ $(function() {
                 $.each(DAL.get.milestones(), function(key, milestone) {
                     html.push($.jup.html([
                         ["input", { "class": "btn", "id": "ms" + key, "type": "checkbox" }], 
-                        ["label", { "class": "milestone", "for": "ms" + key }, milestone + "<span class='remove remove-milestone'></span>",
-                                                  
-                        ]
+                        ["label", { "for": "ms" + key }, milestone]
                     ]));
                 });
 
                 $("#toolbar").html(html.join("")).disableSelection();
                 $("#toolbar .btn").button().click(function() {
-                  
                   $("h3.milestone-member." + $(this).attr("id"))[$(this).attr("checked") ? "fadeIn" : "fadeOut"]();
                   if($("h3.milestone-member." + $(this).attr("id")).hasClass('ui-state-active')){  
+                    $("h3.milestone-member." + $(this).attr("id")).click();
                     $("div.milestone-member." + $(this).attr("id"))[$(this).attr("checked") ? "fadeIn" : "fadeOut"]();
                   }                 
 
@@ -224,28 +222,16 @@ $(function() {
                 // for removing steps in a scenario
                 $(".delete-step").live("click", function(){
                   $(this).closest('li').slideUp(750, function(){
-                    $(this).remove();
+                    $(this).remove()
                   });
                 });
                 
                 $(".delete-feature").live("click", function(e){
                   e.stopPropagation();
-                  $(this).parent().next(".ui-accordion-content").slideUp(750, function() {
-                    $(this).remove();
-                  });
                   $(this).parent().slideUp(750, function(){
-                    $(this).remove();
+                    $(this).remove()
                   });
-                });
-
-                $(".delete-scenario").live("click", function(e){
-                  e.stopPropagation();
-                  $(this).parent().next(".ui-accordion-content").slideUp(750, function() {
-                    $(this).remove();
-                  });                  
-                  $(this).parent().slideUp(750, function(){
-                    $(this).remove();
-                  });
+                  
                 });
                 
                 // do some default stuff, this should be done better.
@@ -253,8 +239,9 @@ $(function() {
              if(!(_.isEmpty(DAL.get.milestones()))){
                $("h3.milestone-member, div.milestone-member")["hide"]();
                $("label[for='ms1']").click();
-               $("#toolbar #ms1").click();
-               $("h3.milestone-member.ms1, div.milestone-member.ms1")["show"]();
+               $("#ms1").attr("checked", true);
+               $("h3.milestone-member.ms1")["fadeIn"]();
+               $("div.milestone-member.ms1")["fadeIn"]();
               }
                 
                 
