@@ -54,7 +54,10 @@ $(function() {
             renderScenario: function(key, scenario){
               return ["div", { "class": "scenario" },
                   ["h3", { "class": "breakdown" },
-                      ["a", { "href": "#" }, scenario.name]
+                      ["a", { "href": "#" }, scenario.name],
+                      ["div", { "class": "remove ui-state-default ui-corner-all", "title": "Remove scenario" }, 
+                        ["span", "&nbsp"]
+                      ]
                   ],
                   ["div",
                       (function() {
@@ -74,8 +77,10 @@ $(function() {
             renderFeature: function(i, feature){
               return [
                   ["h3", { "class": "ms" + feature.milestone },
-                      ["input", { 'type': "text", 'value': feature.name }],
-                      
+                      ["input", { "type": "text", "value": feature.name }],
+                      ["div", { "class": "remove ui-state-default ui-corner-all", "title": "Remove feature"  }, 
+                        ["span", "&nbsp"]
+                      ]
                   ],
                   
                   ["div", { "class": "ms" + feature.milestone },
@@ -98,6 +103,10 @@ $(function() {
                 DAL = this.DAL;
                 DATA = this.DATA;
               
+                $("#instructions .remove").click(function() {
+                  $(this).fadeOut();
+                });
+              
                 // load up the milestones
                 
                 var html = [];
@@ -111,6 +120,8 @@ $(function() {
 
                 $("#toolbar").html(html.join(""));
                 $("#toolbar .btn").button();
+                $("label[for=ms1]").click();
+                
 
                 // load up the features/scenarios/breakdowns/steps/operators etc.
 

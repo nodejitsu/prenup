@@ -18,6 +18,33 @@ a {cursor:pointer;}
 	color: #777;
 }
 
+#instructions {
+	margin-top: 1px;
+	border:1px solid #AAAAAA;
+	position: relative;
+	padding: 10px;
+	height: 200px;
+}
+
+.remove {
+	cursor: pointer;
+	position: absolute;
+	right: 2px;
+	top: 2px;
+	width: 16px;
+	height: 16px;	
+	padding: 2px;
+}
+
+.remove span {
+	background-image:url("../img/ui-icons_888888_256x240.png");
+	background-position:-80px -128px;
+	background-repeat:no-repeat;
+	display:block;
+	overflow:hidden;
+	text-indent:-99999px;	
+}
+
 #main {
 	position: absolute;
 	top: 60px;
