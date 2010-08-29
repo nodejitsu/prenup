@@ -219,7 +219,7 @@ $(function() {
                 $('.sortable-ui').sortable({ containment: "parent", axis: "y" });
                 
                 // for adding additional steps in a scenario
-                $('.add-step').click(function(){
+                $('.add-step').live('click', function(){
                   $(this).siblings('ul').append($.jup.html(NJ.nup.renderStep()));
                 }).button();
                 
