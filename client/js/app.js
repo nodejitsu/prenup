@@ -120,7 +120,7 @@ $(function() {
                 
                 var splash = $($.jup.html(
                   ["div", { "id": "splash" },
-                    "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."]
+                    "prenup is an open-source node.js project planning tool that allows you to meaningfully engage your clients and convert their domain knowledge into tangible milestones, features, scenarions, and unit tests."]
                   )).dialog({
                   resizable: false,
                   width: 655,
