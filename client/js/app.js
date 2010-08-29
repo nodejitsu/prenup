@@ -239,7 +239,7 @@ $(function() {
                   }                 
                 });
                 
-                $('#toolbar label img').click(function() {
+                $('#toolbar label img').live('click', function() {
                   $(this).parent().parent().remove();
                   return false;
                 })
