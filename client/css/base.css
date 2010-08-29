@@ -119,11 +119,11 @@ input, .inlineEdit {
 	height: 23px;
 }
 
-.add-step, .add-scenario {
+.add-step, .add-scenario, .add-feature {
 	float: right;
 }
 
-.add-scenario {
+.add-scenario, .add-feature {
 	margin-top: 4px;
 }
 
