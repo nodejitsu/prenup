@@ -104,7 +104,7 @@ $(function() {
                 DATA = this.DATA;
               
                 $("#instructions .remove").click(function() {
-                  $(this).fadeOut();
+                  $(this).parent().fadeOut();
                 });
               
                 // load up the milestones
