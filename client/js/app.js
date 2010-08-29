@@ -133,10 +133,7 @@ $(function() {
                 
                 // some dialogs
                 
-                var splash = $($.jup.html(
-                  ["div", { "id": "splash" },
-                    "prenup is an open-source node.js project planning tool that allows you to meaningfully engage your clients and convert their domain knowledge into tangible milestones, features, scenarios, and unit tests."]
-                  )).dialog({
+                var splash = $("#splash").dialog({
                   resizable: false,
                   width: 655,
                   height: 400,
@@ -341,10 +338,10 @@ $(function() {
             DATA: { // dummy-data, this would be replaced by loaded data.
 
                 language: "en",
-                project: "My Math Project",
+                project: "My Math Research Project",
                 milestones: {
-                    "1": "First", 
-                    "2": "Second"
+                    "1": "Do Some Math", 
+                    "2": "Create a UI"
                 },
                 users: {
                     "1": "Joe",

@@ -71,11 +71,12 @@ a {cursor:pointer;}
 	top: 60px;
 	right: 0px;
 	left: 0px;
-	bottom: 80px;
+	bottom: 95px;
 	padding-left: 30px;
 	padding-right: 30px;
 	overflow: auto;
 	min-width: 700px;
+	padding-bottom: 20px;
 }
 
 
