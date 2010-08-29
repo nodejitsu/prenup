@@ -70,6 +70,7 @@ $(function() {
                                                 $.each(scenario.breakdown, function(key, step) {
                                                     $.each(step, function(key, pair) {
                                                         breakdown.push($.jup.html(["li",
+                                                        ["span", { "class": "ui-icon ui-icon-arrowthick-2-n-s grip" }],
                                                             ["select", [
 
                                                                 (function() {
