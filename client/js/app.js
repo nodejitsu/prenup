@@ -24,8 +24,20 @@ $(function() {
                 });
             },
             
-            renderRow: function(){
-              return 'this is a fucking row';
+            renderStep: function(){
+              return 'hr';
+            },
+
+            renderWordSelector: function(data){
+              return ["select", [
+                  (function() {
+                      var options = [];
+                      $.each(data, function(i, operator) {
+                          options.push($.jup.html(["option", operator]));
+                      });
+                      return options;                             
+                  })()
+              ]];
             },
             
             pageLoad: function() {
@@ -77,19 +89,7 @@ $(function() {
                                                     $.each(step, function(key, pair) {
                                                         breakdown.push($.jup.html(["li",
                                                         ["span", { "class": "ui-icon ui-icon-arrowthick-2-n-s grip" }],
-                                                            ["select", [
-
-                                                                (function() {
-
-                                                                    var options = [];
-
-                                                                    $.each(DAL.get.operators(), function(i, operator) {
-                                                                        options.push($.jup.html(["option" + (pair[0] == operator ? " selected" : ""), operator]));
-                                                                    });
-
-                                                                    return options;                             
-                                                                })()
-                                                            ]],
+                                                        [NJ.nup.renderWordSelector(DAL.get.operators())],
                                                             ["input", { "type": "text", "value": pair[1] },
                                                             ["span", { "class": "ui-icon ui-icon-circle-close step-close delete" }],
                                                              ["br"]]
@@ -135,7 +135,7 @@ $(function() {
                 
                 // for adding additional steps in a scenario
                 $('.add-step').click(function(){
-                  console.log(renderRow());
+                  console.log(NJ.nup.renderStep());
                 });
                 
                 
