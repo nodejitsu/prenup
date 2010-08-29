@@ -1,5 +1,6 @@
 /* App Start */
 
+
 $(function() {
 
     (function() {
@@ -21,6 +22,10 @@ $(function() {
                            ,"determineContext"
                        ]
                 });
+            },
+            
+            renderRow: function(){
+              return 'this is a fucking row';
             },
             
             pageLoad: function() {
@@ -94,7 +99,7 @@ $(function() {
 
                                                 breakdown.push("</ul>");
 
-                                                return breakdown.join("") + $.jup.html(['span',{ "class": "button" }, 'Add Step +']) ;
+                                                return breakdown.join("") + $.jup.html(['button',{ "class": "add-step" }, 'Add Step +']) ;
                                                 
                                             })()
                                         ]
@@ -125,8 +130,13 @@ $(function() {
                   collapsible: true, autoHeight: false }).find('input').click(function(ev){
                     ev.stopPropagation();
                   });                
-              $('.sortable-ui').sortable();
                 
+                $('.sortable-ui').sortable();
+                
+                // for adding additional steps in a scenario
+                $('.add-step').click(function(){
+                  console.log(renderRow());
+                });
                 
                 
             },
