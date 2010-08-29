@@ -81,6 +81,7 @@ $(function() {
             
             renderFeature: function(i, feature){
               return [
+                  
                   ["h3", { "class": "milestone-member ms" + feature.milestone },
                       ["input", { "type": "text", "value": feature.name }],
                       ["div", { "class": "remove delete-feature ui-state-default ui-corner-all", "title": "Remove feature"  }, 
@@ -96,11 +97,12 @@ $(function() {
                           $.each(feature.scenarios, function(key, scenario) {
                               scenarios.push($.jup.html(NJ.nup.renderScenario(key, scenario)));
                           });
-
+                          scenarios.push($.jup.html(['button',{ "class": "add-scenario" }, 'Add Scenario +']));
                           return scenarios.join("");
 
                       })()
-                  ]
+                  ],
+                  
               ];
             },
             
@@ -226,6 +228,7 @@ $(function() {
                   });
                 });
                 
+                
                 $(".delete-feature").live("click", function(e){
                   e.stopPropagation();
                   $(this).parent().next(".ui-accordion-content").slideUp(750, function() {
@@ -234,6 +237,15 @@ $(function() {
                   $(this).parent().slideUp(750, function(){
                     $(this).remove();
                   });
+                });
+
+                // for adding additional Scenarios in a Feature
+                $('.add-scenario').live("click", function(e){
+                  // should this stop the accordion from toggling? thats what i want it to do!
+                  //e.stopPropagation();
+
+                  var out = NJ.nup.renderScenario(2, NJ.nup.DAL.get.scenariosByFeature(1)[0]);
+                  $(this).before($.jup.html(out));
                 });
 
                 $(".delete-scenario").live("click", function(e){
