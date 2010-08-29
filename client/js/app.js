@@ -66,6 +66,29 @@ $(function() {
               ];
             },
             
+            renderFeature: function(i, feature){
+              return [
+                  ["h3", { "class": "ms" + feature.milestone },
+                      ["input", { 'type': "text", 'value': feature.name }],
+                      
+                  ],
+                  
+                  ["div", { "class": "ms" + feature.milestone },
+                      (function() {
+
+                          var scenarios = [];
+
+                          $.each(feature.scenarios, function(key, scenario) {
+                              scenarios.push($.jup.html(NJ.nup.renderScenario(key, scenario)));
+                          });
+
+                          return scenarios.join("");
+
+                      })()
+                  ]
+              ];
+            },
+            
             pageLoad: function() {
                 DAL = this.DAL;
                 DATA = this.DATA;
@@ -89,26 +112,7 @@ $(function() {
                 html = [];
 
                 $.each(DAL.get.features(), function(i, feature) {
-                    html.push($.jup.html([
-                        ["h3", { "class": "ms" + feature.milestone },
-                            ["input", { 'type': "text", 'value': feature.name }],
-                            
-                        ],
-                        
-                        ["div", { "class": "ms" + feature.milestone },
-                            (function() {
-
-                                var scenarios = [];
-
-                                $.each(feature.scenarios, function(key, scenario) {
-                                    scenarios.push($.jup.html(NJ.nup.renderScenario(key, scenario)));
-                                });
-
-                                return scenarios.join("");
-
-                            })()
-                        ]
-                    ]));                    
+                    html.push($.jup.html(NJ.nup.renderFeature(i, feature)));                    
                 });
 
                 $("#featureslist").html(html.join(""));
