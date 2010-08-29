@@ -328,9 +328,8 @@ $(function() {
 
                   $('#featureslist').append($.jup.html(out));
                   
-                  console.log('adding feature');
                   // rebind accordion
-                  $("#featureslist").accordion('destroy').accordion({ 
+                  $("#featureslist, .scenario").accordion('destroy').accordion({ 
                     collapsible: true, 
                     autoHeight: false 
 
