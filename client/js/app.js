@@ -1238,42 +1238,6 @@ $(function() {
                               });
                               s += "\r\n";  
                             }
-                            /*
-                            $.each(scenario.examples, function(i, example) {
-                              console.log(example);
-                              $.each(example, function(n) {
-                                //console.log(i, example);
-                                s += "\t\t\t";
-                                s += " | "
-                                s += example[n];
-                                s += "\r\n";
-                              });
-                                
-                            });
-                            */
-
-                            /*
-
-                            // now that we have determined the max column length for each column, add some whitespace
-                            $.each(scenario.examples, function(i, example) {
-                                s += "\t\t\t";
-                                s += " | "
-                                $.each(example, function(n) {
-                                  if(example[n].length < cols[n]){
-                                    var count = cols[n] - example[n].length;
-                                    s += example[n];
-                                    for(var x = 0; x < count; x++){
-                                      s += ' ';
-                                    }
-                                    s += ' | ';
-                                  }
-                                  else {
-                                    s += example[n] + ' | ';
-                                  }
-                                });
-                                s += "\r\n";
-                            });
-                            */
                         }                        
                     });
                     
