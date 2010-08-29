@@ -85,9 +85,9 @@ label img {
 	vertical-align: middle;
 }
 
-#milestones li{
+#milestones ul li{
     display:inline;
-    list-style-type: none;
+    list-style: none;
     width:150px;
     font-size:16px;
     background:#D4D58F;
