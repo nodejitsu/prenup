@@ -231,7 +231,7 @@ $(function() {
                 });
 
                 $("#toolbar ul").html(html.join("")).disableSelection().sortable();
-                $("#toolbar .btn").button().click(function() {
+                $("#toolbar .btn").button().live('click', function() {
                   $("h3.milestone-member." + $(this).attr("id"))[$(this).attr("checked") ? "fadeIn" : "fadeOut"]();
                   if($("h3.milestone-member." + $(this).attr("id")).hasClass('ui-state-active')){  
                     $("h3.milestone-member." + $(this).attr("id")).click();
