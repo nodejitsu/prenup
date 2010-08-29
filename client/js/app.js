@@ -231,7 +231,8 @@ $(function() {
 
                 $("#featureslist, .scenario").accordion({ 
                   collapsible: true, 
-                  autoHeight: false 
+                  autoHeight: false, 
+                  active: false
                 
                 }).find("input").click(function(ev){
                     ev.stopPropagation();
@@ -321,7 +322,6 @@ $(function() {
                $("label[for='ms1']").click();
                $("#ms1").attr("checked", true);
                $("h3.milestone-member.ms1")["fadeIn"]();
-               $("div.milestone-member.ms1")["fadeIn"]();
               }
                 
                 
