@@ -81,14 +81,14 @@ $(function() {
             
             renderFeature: function(i, feature){
               return [
-                  ["h3", { "class": "ms" + feature.milestone },
+                  ["h3", { "class": "milestone-member ms" + feature.milestone },
                       ["input", { "type": "text", "value": feature.name }],
                       ["div", { "class": "remove ui-state-default ui-corner-all", "title": "Remove feature"  }, 
                         ["span", "&nbsp"]
                       ]
                   ],
                   
-                  ["div", { "class": "ms" + feature.milestone },
+                  ["div", { "class": "milestone-member ms" + feature.milestone },
                       (function() {
 
                           var scenarios = [];
@@ -124,7 +124,12 @@ $(function() {
                 });
 
                 $("#toolbar").html(html.join(""));
-                $("#toolbar .btn").button();
+                $("#toolbar .btn").button().click(function() {
+
+                  $(".milestone-member." + $(this).attr("id"))[$(this).attr("checked") ? "fadeIn" : "fadeOut"]()
+
+                });
+                
                 $("label[for=ms1]").click();
 
                 // load up the features/scenarios/breakdowns/steps/operators etc.
@@ -151,7 +156,7 @@ $(function() {
                     ev.stopPropagation();
                   });                
                 
-                $('.sortable-ui').sortable();
+                $('.sortable-ui').sortable({ containment: "parent", axis: "y" });
                 
                 // for adding additional steps in a scenario
                 $('.add-step').click(function(){
