@@ -178,7 +178,9 @@ $(function() {
                 $.each(DAL.get.milestones(), function(key, milestone) {
                     html.push($.jup.html([
                         ["input", { "class": "btn", "id": "ms" + key, "type": "checkbox" }], 
-                        ["label", { "for": "ms" + key }, milestone]
+                        ["label", { "class": "milestone", "for": "ms" + key }, milestone + "<span class='remove remove-milestone'></span>",
+                                                  
+                        ]
                     ]));
                 });
 
