@@ -25,6 +25,11 @@ $(function() {
             },
             
             renderStep: function(pair){
+              
+              if(typeof pair == 'undefined'){
+                var pair = [];
+              }
+              
               return ["li",
               ["span", { "class": "ui-icon ui-icon-arrowthick-2-n-s grip" }],
               [NJ.nup.renderWordSelector(DAL.get.operators())],
@@ -136,9 +141,8 @@ $(function() {
                 
                 // for adding additional steps in a scenario
                 $('.add-step').click(function(){
-                  console.log(NJ.nup.renderStep());
+                  $(this).siblings('ul').append($.jup.html(NJ.nup.renderStep()));
                 });
-                
                 
             },
 
