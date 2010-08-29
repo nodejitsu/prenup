@@ -49,9 +49,10 @@ a {cursor:pointer;}
     border-radius: 5px;
 }
 
-.scenario {scroll-x:none; scroll-y:none;}
+.scenario {overflow:hidden;}
 .grip {float:left; margin:2px 5px;  }
 .sortable-ui li {list-style-type: none; cursor:pointer; padding:5px;}
+.ui-accordion-content{overflow:hidden !important;}
 
 footer {
 	background: #555 url('../img/footer.png') repeat-x 0px 0px;
