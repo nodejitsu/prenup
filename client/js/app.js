@@ -285,7 +285,7 @@ $(function() {
                 
                 // for removing steps in a scenario
                 $(".delete-step").live("click", function(){
-                  $(this).closest('li').slideUp(750, function(){
+                  $(this).closest('li').slideUp(300, function(){
                     $(this).remove()
                   });
                 });
@@ -294,7 +294,7 @@ $(function() {
                 $(".delete-feature").live("click", function(e){
                   e.stopPropagation();
                   if($(this).hasClass('ui-state-active')) {
-                    $(this).parent().next(".ui-accordion-content").slideUp(750, function() {
+                    $(this).parent().next(".ui-accordion-content").slideUp(300, function() {
                       $(this).remove();
                     });
                   }
@@ -302,7 +302,7 @@ $(function() {
                     $(this).parent().next(".ui-accordion-content").remove();
                   }
                   
-                  $(this).parent().slideUp(750, function(){
+                  $(this).parent().slideUp(300, function(){
                     $(this).remove()
                   });
                   
@@ -325,14 +325,34 @@ $(function() {
                       ev.stopPropagation();
                   });
                   
+                  $("button").button();
+                  
                 });
+                
+                $('.add-feature').button().click(function(e){
+                  var out = NJ.nup.renderFeature(1, NJ.nup.DAL.get.features()[1]);
+                  $('#featureslist').append($.jup.html(out));
+                  
+                  
+                  // rebind accordion
+                  $("#featureslist, .scenario").accordion({ 
+                    collapsible: true, 
+                    autoHeight: false 
+
+                  }).find("input").click(function(ev){
+                      ev.stopPropagation();
+                  });
+                  
+                  $("button").button();                  
+                });
+                
 
                 $(".delete-scenario").live("click", function(e){
                   e.stopPropagation();
-                  $(this).parent().next(".ui-accordion-content").slideUp(750, function() {
+                  $(this).parent().next(".ui-accordion-content").slideUp(300, function() {
                     $(this).remove();
                   });                  
-                  $(this).parent().slideUp(750, function(){
+                  $(this).parent().slideUp(300, function(){
                     $(this).remove();
                   });
                 });
