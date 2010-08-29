@@ -166,8 +166,11 @@ $(function() {
 
                 $("#toolbar").html(html.join("")).disableSelection();
                 $("#toolbar .btn").button().click(function() {
-
-                  $(".milestone-member." + $(this).attr("id"))[$(this).attr("checked") ? "fadeIn" : "fadeOut"]();                  
+                  
+                  $("h3.milestone-member." + $(this).attr("id"))[$(this).attr("checked") ? "fadeIn" : "fadeOut"]();
+                  if($("h3.milestone-member." + $(this).attr("id")).hasClass('ui-state-active')){  
+                    $("div.milestone-member." + $(this).attr("id"))[$(this).attr("checked") ? "fadeIn" : "fadeOut"]();
+                  }                 
 
                 });
 
