@@ -153,7 +153,7 @@ $(function() {
                   exportAction.dialog("open");
                 });                
                 
-                var featureAction = $($.jup.html(["div", "Add a new feature to the project"])).dialog({
+                var featureAction = $("#feature-add").dialog({
                   resizable: false,
                   autoOpen: false,
                   modal: true,
