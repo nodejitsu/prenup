@@ -226,6 +226,8 @@ $(function() {
                     ev.stopPropagation();
                 });
                 
+                $("#featureslist, .scenario").accordion( "activate" , 0 );
+                
                 $("#featureslist input").mouseover(function() {
                   $(this).addClass("inlineEditHover");
                 }).mouseout(function() {
