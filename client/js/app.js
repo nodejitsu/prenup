@@ -156,8 +156,8 @@ $(function() {
                 var exportAction = $("#export-data").dialog({
                   resizable: false,
                   autoOpen: false,
-                  height: 400,
-                  width: 600,
+                  height: 500,
+                  width: 900,
                   modal: true,                  
                   dialogClass: "shadow",                  
                   buttons: {
