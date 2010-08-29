@@ -153,9 +153,11 @@ $(function() {
                   }
                 });                
                 
-                var exportAction = $($.jup.html(["div", "This will export your stuff someplace..."])).dialog({
+                var exportAction = $("#export-data").dialog({
                   resizable: false,
                   autoOpen: false,
+                  height: 400,
+                  width: 600,
                   modal: true,                  
                   dialogClass: "shadow",                  
                   buttons: {
@@ -166,15 +168,12 @@ $(function() {
                         type: "POST",
                         data: JSON.stringify(NJ.nup.DATA),
                         success: function(data) {
-                          $('.result').html(data);
+                          $('#export-data code').html(data);
                         }
                       });
                       
                       $(this).dialog("close");
                       
-                    },
-                    "cancel": function() {
-                      $(this).dialog("close");                      
                     }
                   }
                 });
@@ -183,46 +182,7 @@ $(function() {
                   exportAction.dialog("open");
                 });                
                 
-                var featureAction = $("#feature-add").dialog({
-                  resizable: false,
-                  autoOpen: false,
-                  modal: true,
-                  dialogClass: "shadow",             
-                  buttons: {
-                    "ok": function() {
-
-                      $(this).dialog("close");
-                      
-                    },
-                    "cancel": function() {
-                      $(this).dialog("close");
-                    }
-                  }
-                }); 
-                
-                $("#features").click(function() {
-                  featureAction.dialog("open");
-                });
-                
-                
-                var usersAction = $($.jup.html(["div", "Here are all the users, create one or click one to add it to the currently open feature or scenario"])).dialog({
-                  resizable: false,
-                  dialogClass: "shadow",                  
-                  autoOpen: false,   
-                  modal: true,                                 
-                  buttons: {
-                    "ok": function() {
-                      $(this).dialog("close");
-                    },
-                    "cancel": function() {
-                      $(this).dialog("close");                      
-                    }
-                  }
-                });
-                
-                $("#settings").click(function() {
-                  usersAction.dialog("open");
-                });                                
+                                          
                 
                 // render milestones
                 var html = [];
@@ -432,8 +392,8 @@ $(function() {
                         milestone: 2,
                         owner: 1,
                         users: [2, 3],
-                        name: "bar",
-                        description: "A Setence", 
+                        name: "Singup as  a Subscriber",
+                        description: "In order to use our website\n As an subscriber\n I need to be able to create a subscriber account and pay for a subscription", 
                         timeunit: "hour",
                         costPerTimeUnit: 80,
                         time: 5,
@@ -446,19 +406,24 @@ $(function() {
                                     "password": ['12345', 'abcde']
                                 },
                                 time: 20,
-                                name: "scenario2",                                
+                                name: "Successfully Signup as a subscriber",                                
                                 description: "blah",
                                 breakdown: [
-                                    {"1": ["when", "sentence1"]},
-                                    {"2": ["and", "sentence2"]},
-                                    {"3": ["where", "sentence3"]}
+                                    {"1": ["given", "I have no account"]},
+                                    {"2": ["when", "I go to subscriber-signup"]},
+                                    {"3": ["then", "should see 'Create an Account'"]},
+                                    {"4": ["when", "I fill in the form"]},
+                                    {"5": ["and", "I press 'Create Account'"]},
+                                    {"6": ["then", "a user should exist with username: 'fotoverite'"]},
+                                    {"7": ["and",  "I should be on the success page"]}
+                                    
                                 ]
                             },
                             {
                                 id: 3,
                                 outline: false,                                
                                 time: 20,
-                                name: "scenario3",                                
+                                name: "Successfully purchase subscription with a different billing address",                                
                                 description: "blah",
                                 breakdown: [
                                     {"1": ["background", "sentence1"]},

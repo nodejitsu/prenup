@@ -1,21 +1,4 @@
 
-
-(function($){
-
- 
-
-
-
-
-
- 
-
-
-
-})(window.jQuery);
-
-
-
 window.log = function(){
   log.history = log.history || []; 
   log.history.push(arguments);
