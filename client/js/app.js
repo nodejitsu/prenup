@@ -116,6 +116,22 @@ $(function() {
                 
                 // some dialogs
                 
+                var splash = $($.jup.html(
+                  ["div", { "id": "splash" },
+                    "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."]
+                  )).dialog({
+                  resizable: false,
+                  width: 655,
+                  height: 400,
+                  modal: true,
+                  dialogClass: "shadow",             
+                  buttons: {
+                    "ok": function() {
+                      $(this).dialog("close");
+                    }
+                  }
+                });                
+                
                 var exportAction = $($.jup.html(["div", "This will export your stuff someplace..."])).dialog({
                   resizable: false,
                   autoOpen: false,
@@ -178,15 +194,17 @@ $(function() {
                 var html = [];
 
                 $.each(DAL.get.milestones(), function(key, milestone) {
-                    html.push($.jup.html([
+                    html.push($.jup.html(["li",
                         ["input", { "class": "btn", "id": "ms" + key, "type": "checkbox" }], 
-                        ["label", { "for": "ms" + key }, milestone]
+                        ["label", { "class": "milestone", "for": "ms" + key }, milestone,
+                          ["img", {"src": "img/delete.png", "height": "22", "width": "22" }]   
+                        ]
                     ]));
                 });
 
                 html.push($.jup.html(['button',{ "class": "add-feature" }, 'Add Feature +']));
 
-                $("#toolbar").html(html.join("")).disableSelection();
+                $("#toolbar").html(html.join("")).disableSelection().sortable();
                 $("#toolbar .btn").button().click(function() {
                   $("h3.milestone-member." + $(this).attr("id"))[$(this).attr("checked") ? "fadeIn" : "fadeOut"]();
                   if($("h3.milestone-member." + $(this).attr("id")).hasClass('ui-state-active')){  
@@ -236,6 +254,15 @@ $(function() {
                 
                 $(".delete-feature").live("click", function(e){
                   e.stopPropagation();
+                  if($(this).hasClass('ui-state-active')) {
+                    $(this).parent().next(".ui-accordion-content").slideUp(750, function() {
+                      $(this).remove();
+                    });
+                  }
+                  else{
+                    $(this).parent().next(".ui-accordion-content").remove();
+                  }
+                  
                   $(this).parent().slideUp(750, function(){
                     $(this).remove()
                   });

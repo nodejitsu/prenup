@@ -10,6 +10,19 @@
 
 a {cursor:pointer;}
 
+.shadow {
+	-moz-box-shadow: 0px 3px 3px #666;
+	-webkit-box-shadow: 0px 3px 3px #666;
+	box-shadow: 0px 3px 3px #666;	
+}
+
+#splash {
+	padding-top: 240px;
+	height: auto !important;
+	background: url('../img/splash.png') no-repeat scroll top left;
+}
+
+
 #projectTitle {
     font-size:20px;
 	position: absolute;
@@ -36,7 +49,7 @@ a {cursor:pointer;}
 	padding: 2px;
 }
 
-.remove span {
+.remove span, .remove-milestone {
 	background-image:url("../img/ui-icons_888888_256x240.png");
 	background-position:-80px -128px;
 	background-repeat:no-repeat;
@@ -67,9 +80,14 @@ a {cursor:pointer;}
     margin:10px;
 }
 
-#milestones li{
+label img {
+	margin-left: 8px;
+	vertical-align: middle;
+}
+
+#milestones ul li{
     display:inline;
-    list-style-type: none;
+    list-style: none;
     width:150px;
     font-size:16px;
     background:#D4D58F;
@@ -160,10 +178,14 @@ footer table td{
     text-align: center;
 }
 
+footer div {
+	cursor: pointer;
+}
+
 #logo {
 	position: absolute;
 	top: 10px;
-	right: 30px;
+	right: 0px;
 	background: url('../img/logo.png') no-repeat scroll top left;
 	width: 233px;
 	height: 40px;
@@ -193,4 +215,24 @@ ul {
 
 .ui-dialog .ui-dialog-titlebar {
 	display: none;
+}
+
+#toolbar .ui-button-text-only .ui-button-text {
+	padding:2px 2px 2px 8px;
+}
+
+#toolbar {
+	height: 35px;
+}
+
+#toolbar ul {
+	list-style: none;
+}
+
+#toolbar ul li {
+	float: left;
+}
+
+.ui-accordion-content.ui-widget-content.ui-accordion-content-active {
+	
 }
