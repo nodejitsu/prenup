@@ -37,6 +37,7 @@ a {cursor:pointer;}
 	position: relative;
 	padding: 10px;
 	height: 200px;
+	display: none;
 }
 
 .remove {
