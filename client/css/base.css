@@ -50,8 +50,12 @@ a {cursor:pointer;}
 }
 
 .scenario {overflow:hidden;}
+.scenario input[type='text'] {width:80%; float:left;}
+.scenario select {float:left; margin-right:10px;}
 .grip {float:left; margin:2px 5px;  }
-.sortable-ui li {list-style-type: none; cursor:pointer; padding:5px;}
+.step-close {float:left; margin-left:10px; margin-top:5px;}
+.grip {float:left; margin:2px 5px;  }
+.sortable-ui li {list-style-type: none; cursor:pointer; padding:5px; margin:5px 0;}
 .ui-accordion-content{overflow:hidden !important;}
 
 footer {
