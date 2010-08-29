@@ -252,3 +252,23 @@ ul {
 .ui-accordion-content.ui-widget-content.ui-accordion-content-active {
 	
 }
+
+button {
+	cursor:pointer;
+	display:inline-block;
+	margin-right:0.1em;
+	overflow:visible;
+	padding:0;
+	position:relative;
+	text-align:center;
+	text-decoration:none !important;
+	-moz-border-radius:4px 4px 4px 4px;
+	background:url("../img/ui-bg_highlight-soft_75_e6e6e6_1x100.png") repeat-x scroll 50% 50% #E6E6E6;
+	border:1px solid #D3D3D3;
+	color:#555555;
+	font-weight:normal;
+	font-family:Verdana,Arial,sans-serif;
+	font-size:1.1em;
+	padding: 6px;
+	margin: 2px;
+}

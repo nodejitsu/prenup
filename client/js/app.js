@@ -231,7 +231,7 @@ $(function() {
                 });
 
                 $("#toolbar ul").html(html.join("")).disableSelection().sortable();
-                $("#toolbar .btn").button().click(function() {
+                $("#toolbar .btn").click(function() {
                   $("h3.milestone-member." + $(this).attr("id"))[$(this).attr("checked") ? "fadeIn" : "fadeOut"]();
                   if($("h3.milestone-member." + $(this).attr("id")).hasClass('ui-state-active')){  
                     $("h3.milestone-member." + $(this).attr("id")).click();
@@ -276,7 +276,7 @@ $(function() {
                 // for adding additional steps in a scenario
                 $('.add-step').live('click', function(){
                   $(this).siblings('ul').append($.jup.html(NJ.nup.renderStep()));
-                }).button();
+                });
                 
                 // for removing steps in a scenario
                 $(".delete-step").live("click", function(){
@@ -304,7 +304,7 @@ $(function() {
                 });
 
                 // for adding additional Scenarios in a Feature
-                $('.add-scenario').button().live("click", function(e){
+                $('.add-scenario').live("click", function(e){
                   // should this stop the accordion from toggling? thats what i want it to do!
                   //e.stopPropagation();
 
@@ -320,11 +320,9 @@ $(function() {
                       ev.stopPropagation();
                   });
                   
-                  $("button").button();
-                  
                 });
                 
-                $('.add-feature').button().click(function(e){
+                $('.add-feature').click(function(e){
                   var out = NJ.nup.renderFeature(1, NJ.nup.DAL.get.features()[1]);
 
                   $('#featureslist').append($.jup.html(out));
@@ -337,9 +335,7 @@ $(function() {
 
                   }).find("input").click(function(ev){
                       ev.stopPropagation();
-                  });
-                  
-                  $("button").button();                  
+                  });                  
                 });
                 
 
