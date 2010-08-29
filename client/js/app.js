@@ -108,13 +108,24 @@ $(function() {
                         ]
                     ]));                    
                 });
-                
+
                 $("#featureslist").html(html.join(""));
-                $("#featureslist, .scenario").accordion({ collapsible: true, autoHeight: false }).find('input').click(function(ev){
-                    ev.stopPropagation();
+                
+                // once the UI has rendered, we need to apply UI events to elements
+                $(".delete").live("click", function(){
+                  $(this).parent().slideUp(750, function(){
+                    $(this).remove()
+                  });
+                  
+
+                  //console.log("delete breakdown element")
                 });
-                ;
-                $('.sortable-ui').sortable();
+
+                $("#featureslist, .scenario").accordion({ 
+                  collapsible: true, autoHeight: false }).find('input').click(function(ev){
+                    ev.stopPropagation();
+                  });                
+              $('.sortable-ui').sortable();
                 
                 
                 
@@ -1514,10 +1525,3 @@ GERK.i18n = {
         "scenario": "Scenaro"
     }
 };
-
-jQuery(document).ready(function($) {
-  $(".delete").live("click", function(){
-    $(this).parent().remove();
-    console.log("delete breakdown element")
-  });
-});
