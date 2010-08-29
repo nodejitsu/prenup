@@ -4,7 +4,7 @@ Nuptials is a node.js web application (protip: it kinda works without node.js if
 
 ## Features
 
-- Scenarios are created using Kyuri, a custom dialect of Gherkin geared towards asynchronous programming
+- Scenarios are created using [Kyuri][1], a custom dialect of [Gherkin][12] geared towards asynchronous programming
 - Intuitive and friendly user interface that takes the frustration out of Behavior Driven Development
 - Generates [VowsJS][3] testing stubs (Vows is a well established node.js testing framework)
 - Milestones, Features, Scenarios, Points
@@ -80,3 +80,4 @@ Think testing business logic with all the tastiness of organizing via easily rea
 [9]:  http://socket.io/ "socket.io"
 [10]: http://cukes.info "Cucumber"
 [11]: http://nodejs.org "node.js"
+[12]: http://wiki.github.com/aslakhellesoy/cucumber/gherkin "gherkin"
