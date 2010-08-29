@@ -422,8 +422,8 @@ $(function() {
                                 name: "Divide By Zero",                                
                                 description: "In mathematics, a division is called a division by zero if the divisor is zero.",
                                 breakdown: [
-                                    {"1": ["givin", "indexzero sits at his computer and writes the lexor"]},
-                                    {"2": ["givin", "marak eats cheese burgers off of his laptop"]},
+                                    {"1": ["given", "indexzero sits at his computer and writes the lexor"]},
+                                    {"2": ["given", "marak eats cheese burgers off of his laptop"]},
                                     {"3": ["then", "code will be awesome as usual"]}
                                 ]
                             }
