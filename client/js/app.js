@@ -60,7 +60,7 @@ $(function() {
               return ["div", { "class": "scenario" },
                   ["h3", { "class": "breakdown" },
                       ["a", { "href": "#" }, scenario.name],
-                      ["div", { "class": "remove delete-scenario ui-state-default ui-corner-all", "title": "Remove scenario" }, 
+                      ["div", { "class": "remove ui-state-default ui-corner-all", "title": "Remove scenario" }, 
                         ["span", "&nbsp"]
                       ]
                   ],
@@ -81,6 +81,7 @@ $(function() {
             
             renderFeature: function(i, feature){
               return [
+                  
                   ["h3", { "class": "milestone-member ms" + feature.milestone },
                       ["input", { "type": "text", "value": feature.name }],
                       ["div", { "class": "remove delete-feature ui-state-default ui-corner-all", "title": "Remove feature"  }, 
@@ -96,11 +97,12 @@ $(function() {
                           $.each(feature.scenarios, function(key, scenario) {
                               scenarios.push($.jup.html(NJ.nup.renderScenario(key, scenario)));
                           });
-
+                          scenarios.push($.jup.html(['button',{ "class": "add-scenario" }, 'Add Scenario +']));
                           return scenarios.join("");
 
                       })()
-                  ]
+                  ],
+                  
               ];
             },
             
@@ -199,14 +201,14 @@ $(function() {
                         ]
                     ]));
                 });
-                
-                html.push()
 
-                $("#toolbar ul").html(html.join("")).disableSelection().sortable();
+                html.push($.jup.html(['button',{ "class": "add-feature" }, 'Add Feature +']));
+
+                $("#toolbar").html(html.join("")).disableSelection().sortable();
                 $("#toolbar .btn").button().click(function() {
-                  
                   $("h3.milestone-member." + $(this).attr("id"))[$(this).attr("checked") ? "fadeIn" : "fadeOut"]();
                   if($("h3.milestone-member." + $(this).attr("id")).hasClass('ui-state-active')){  
+                    $("h3.milestone-member." + $(this).attr("id")).click();
                     $("div.milestone-member." + $(this).attr("id"))[$(this).attr("checked") ? "fadeIn" : "fadeOut"]();
                   }                 
 
@@ -219,6 +221,9 @@ $(function() {
                 $.each(DAL.get.features(), function(i, feature) {
                     html.push($.jup.html(NJ.nup.renderFeature(i, feature)));                    
                 });
+
+
+                
 
                 $("#featureslist").html(html.join(""));
 
@@ -235,25 +240,59 @@ $(function() {
                 $('.sortable-ui').sortable({ containment: "parent", axis: "y" });
                 
                 // for adding additional steps in a scenario
-                $('.add-step').click(function(){
+                $('.add-step').live('click', function(){
                   $(this).siblings('ul').append($.jup.html(NJ.nup.renderStep()));
                 }).button();
                 
                 // for removing steps in a scenario
                 $(".delete-step").live("click", function(){
                   $(this).closest('li').slideUp(750, function(){
-                    $(this).remove();
+                    $(this).remove()
                   });
                 });
                 
+                
                 $(".delete-feature").live("click", function(e){
                   e.stopPropagation();
-                  $(this).parent().next(".ui-accordion-content").slideUp(750, function() {
-                    $(this).remove();
-                  });
                   $(this).parent().slideUp(750, function(){
-                    $(this).remove();
+                    $(this).remove()
                   });
+                  
+                });
+
+                // for adding additional Scenarios in a Feature
+                $('.add-scenario').live("click", function(e){
+                  // should this stop the accordion from toggling? thats what i want it to do!
+                  //e.stopPropagation();
+
+                  var out = NJ.nup.renderScenario(2, NJ.nup.DAL.get.scenariosByFeature(1)[0]);
+                  $(this).before($.jup.html(out));
+                  
+                  // rebind accordion
+                  $("#featureslist, .scenario").accordion({ 
+                    collapsible: true, 
+                    autoHeight: false 
+
+                  }).find("input").click(function(ev){
+                      ev.stopPropagation();
+                  });
+                  
+                });
+
+                $('.add-feature').live('click', function(e){
+                  var out = NJ.nup.renderFeature(1, NJ.nup.DAL.get.features()[1]);
+                  $('#featureslist').append($.jup.html(out));
+                  
+                  
+                  // rebind accordion
+                  $("#featureslist, .scenario").accordion({ 
+                    collapsible: true, 
+                    autoHeight: false 
+
+                  }).find("input").click(function(ev){
+                      ev.stopPropagation();
+                  });
+                  
                 });
 
                 $(".delete-scenario").live("click", function(e){
@@ -271,8 +310,9 @@ $(function() {
              if(!(_.isEmpty(DAL.get.milestones()))){
                $("h3.milestone-member, div.milestone-member")["hide"]();
                $("label[for='ms1']").click();
-               $("#toolbar #ms1").click();
-               $("h3.milestone-member.ms1, div.milestone-member.ms1")["show"]();
+               $("#ms1").attr("checked", true);
+               $("h3.milestone-member.ms1")["fadeIn"]();
+               $("div.milestone-member.ms1")["fadeIn"]();
               }
                 
                 
