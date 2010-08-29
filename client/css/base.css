@@ -16,6 +16,12 @@ a {cursor:pointer;}
 	box-shadow: 0px 3px 3px #666;	
 }
 
+#splash {
+	padding-top: 240px;
+	height: auto !important;
+	background: url('../img/splash.png') no-repeat scroll top left;
+}
+
 
 #projectTitle {
     font-size:20px;
@@ -74,8 +80,9 @@ a {cursor:pointer;}
     margin:10px;
 }
 
-label.milestone {
-	padding-right: 15px;
+label img {
+	margin-left: 8px;
+	vertical-align: middle;
 }
 
 #milestones li{
@@ -208,4 +215,24 @@ ul {
 
 .ui-dialog .ui-dialog-titlebar {
 	display: none;
+}
+
+#toolbar .ui-button-text-only .ui-button-text {
+	padding:2px 2px 2px 8px;
+}
+
+#toolbar {
+	height: 35px;
+}
+
+#toolbar ul {
+	list-style: none;
+}
+
+#toolbar ul li {
+	float: left;
+}
+
+.ui-accordion-content.ui-widget-content.ui-accordion-content-active {
+	
 }
