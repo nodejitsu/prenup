@@ -60,7 +60,7 @@ $(function() {
               return ["div", { "class": "scenario" },
                   ["h3", { "class": "breakdown" },
                       ["a", { "href": "#" }, scenario.name],
-                      ["div", { "class": "remove ui-state-default ui-corner-all", "title": "Remove scenario" }, 
+                      ["div", { "class": "remove delete-scenario ui-state-default ui-corner-all", "title": "Remove scenario" }, 
                         ["span", "&nbsp"]
                       ]
                   ],
