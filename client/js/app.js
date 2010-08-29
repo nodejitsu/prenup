@@ -60,7 +60,7 @@ $(function() {
               return ["div", { "class": "scenario" },
                   ["h3", { "class": "breakdown" },
                       ["a", { "href": "#" }, scenario.name],
-                      ["div", { "class": "remove ui-state-default ui-corner-all", "title": "Remove scenario" }, 
+                      ["div", { "class": "remove delete-scenario ui-state-default ui-corner-all", "title": "Remove scenario" }, 
                         ["span", "&nbsp"]
                       ]
                   ],
@@ -176,6 +176,7 @@ $(function() {
                   featureAction.dialog("open");
                 });
                 
+                
                 var usersAction = $($.jup.html(["div", "Here are all the users, create one or click one to add it to the currently open feature or scenario"])).dialog({
                   resizable: false,
                   dialogClass: "shadow",                  
@@ -217,6 +218,11 @@ $(function() {
                   }                 
 
                 });
+                
+                $('#toolbar label img').click(function() {
+                  $(this).parent().parent().remove();
+                  return false;
+                })
 
                 // load up the features/scenarios/breakdowns/steps/operators etc.
 
