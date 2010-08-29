@@ -48,7 +48,12 @@ a {cursor:pointer;}
     padding:5px;
     border-radius: 5px;
 }
-#featureslist input {margin-left:40px;}
+
+#featureslist input {
+  margin-left:40px;
+  width:350px;
+}
+
 .scenario {overflow:hidden;}
 .scenario input[type='text'] {width:80%; float:left;}
 .scenario select {float:left; margin-right:10px;height:30px;}
