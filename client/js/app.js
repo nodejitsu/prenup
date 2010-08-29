@@ -204,7 +204,7 @@ $(function() {
 
                 html.push($.jup.html(['button',{ "class": "add-feature" }, 'Add Feature +']));
 
-                $("#toolbar").html(html.join("")).disableSelection().sortable();
+                $("#toolbar ul").html(html.join("")).disableSelection().sortable();
                 $("#toolbar .btn").button().click(function() {
                   $("h3.milestone-member." + $(this).attr("id"))[$(this).attr("checked") ? "fadeIn" : "fadeOut"]();
                   if($("h3.milestone-member." + $(this).attr("id")).hasClass('ui-state-active')){  
