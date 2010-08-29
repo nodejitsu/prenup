@@ -1,3 +1,877 @@
+/* App Start */
+
+$(function() {
+
+    (function() {
+
+        var options = $.querystring.toJSON();
+        var context, DAL, DATA;
+
+        return {
+
+               Main: function() {
+
+                   APP.exec.call(this, {
+
+                       ns: "NJ.nup", /* namespace */
+
+                       plan: [ /* execution plan */
+
+                           "pageLoad"
+                           ,"determineContext"
+                       ]
+                });
+            },
+
+            pageLoad: function() {
+                DAL = this.DAL;
+                DATA = this.DATA;
+              
+                // load up the milestones
+                
+                var html = [];
+
+                $.each(DAL.get.milestones(), function(key, milestone) {
+                    html.push($.jup.html([
+                        ["input", { "class": "btn", "id": "ms" + key, "type": "checkbox" }], 
+                        ["label", { "for": "ms" + key }, milestone]
+                    ]));
+                });
+
+                $("#toolbar").html(html.join(""));
+                $("#toolbar .btn").button();
+
+                // load up the features/scenarios/breakdowns/steps/operators etc.
+
+                html = [];
+
+                $.each(DAL.get.features(), function(i, feature) {
+                    html.push($.jup.html([
+                        ["h3", { "class": "ms" + feature.milestone },
+                            ["a", { "href": "#" }, feature.name]
+                        ],
+                        ["div", { "class": "ms" + feature.milestone },
+
+                            (function() {
+
+                                var scenarios = [];
+
+                                $.each(feature.scenarios, function(key, scenario) {
+                                    scenarios.push($.jup.html(["div", { "class": "scenario" },
+
+                                        ["h3", { "class": "breakdown" }, 
+                                            ["a", { "href": "#" }, scenario.name]
+                                        ],
+                                        ["div",
+                                            (function() {
+
+                                                var breakdown = ["<ul class='sortable-ui'>"];
+
+                                                $.each(scenario.breakdown, function(key, step) {
+                                                    $.each(step, function(key, pair) {
+                                                        breakdown.push($.jup.html(["li",
+                                                            ["select", [
+
+                                                                (function() {
+
+                                                                    var options = [];
+
+                                                                    $.each(DAL.get.operators(), function(i, operator) {
+                                                                        options.push($.jup.html(["option" + (pair[0] == operator ? " selected" : ""), operator]));
+                                                                    });
+
+                                                                    return options.join("");                             
+                                                                })()
+                                                            ]],
+                                                            ["input", { "type": "text", "value": pair[1] }, ["br"]]
+                                                        ]));
+                                                    });
+                                                });
+
+                                                breakdown.push("</ul>");
+
+                                                return breakdown.join("");
+
+                                            })()
+                                        ]
+
+                                    ]));
+                                });
+
+                                return scenarios.join("");
+
+                            })()
+                        ]
+                    ]));                    
+                });
+                
+                $("#featureslist").html(html.join(""));
+                $("#featureslist, .scenario").accordion({ collapsible: true, autoHeight: false });
+                $('.sortable-ui').sortable();
+                
+                
+                
+            },
+
+            determineContext: function() {
+
+                
+                
+            },
+            
+            featureDistiller: function() {
+
+                var s = ""/*hit performance, 1:08am */;
+
+                $.each(DATA.features, function(i, feature) {
+                    s += $.string.subst("Feature: {{name}}\r\n\t{{description}}", feature);
+
+                    $.each(feature.scenarios, function(i, scenario) {
+                     
+                        s += $.string.subst("\r\n\n\tScenario " + (scenario.outline ? "Outline" : "") + ": {{name}}", scenario);
+
+                        $.each(scenario.breakdown, function(key, breakdown) {
+
+                            $.each(breakdown, function(i, motive) {
+                                s += $.string.subst("\r\n\t\t" + motive[0] + " " + motive[1]);
+                            });
+                        });
+                        
+                        if(scenario.outline) {
+                            
+                            s+="\r\n\r\n\t\tExamples:\r\n";
+                            var cols = [], len = 0, arrLen = 0;
+                            
+
+                            // determine max column width for each column
+                            $.each(scenario.examples, function(i, example) {
+                              if(example.length > arrLen){
+                                arrLen = example.length;
+                              }
+                             
+                                $.each(example, function(n) {
+                                    if(typeof cols[n] == 'undefined'){
+                                      cols[n] = 0;
+                                    }
+                                    if(example[n].length > cols[n]){
+                                      cols[n] = example[n].length;
+                                    }    
+                                });
+                            });
+
+                            
+                            $.each(scenario.examples, function(i, example) {
+                                s += "\t\t\t";
+                                s += " | "
+                                s += i;
+                            });
+                            s += "\r\n";
+                            
+                            for(var x = 0; x < arrLen; x++){
+                              $.each(scenario.examples, function(i, example) {
+                                s += "\t\t\t";
+                                s += " | "
+                                s += scenario.examples[i][x] || '';
+                              });
+                              s += "\r\n";  
+                            }
+                        }                        
+                    });
+                    
+                    s += "\r\n\n"
+                });
+
+                return s;
+
+            },
+
+            DATA: { // dummy-data, this would be replaced by loaded data.
+
+                language: "en",
+                project: "myProject",
+                milestones: {
+                    "1": "First", 
+                    "2": "Second"
+                },
+                users: {
+                    "1": "Joe",
+                    "2": "Peter",
+                    "3": "Jane"
+                },
+                features: {
+
+                    "1": {
+                        milestone: 1,
+                        owner: 1,
+                        users: [2, 3],
+                        name: "foo",
+                        description: "A Setence",
+                        timeunit: "hour",
+                        costPerTimeUnit: 80,
+                        scenarios: [
+                            {
+                                id: 0,                                
+                                outline: false,                                
+                                time: 20,
+                                name: "scenario0",
+                                description: "blah",
+                                breakdown: [
+                                    {"1": ["examples", "sentence1"]},
+                                    {"2": ["name", "sentence2"]},
+                                    {"3": ["and", "sentence3"]}
+                                ]
+                            },
+                            {
+                                id: 1,                                
+                                outline: false,
+                                time: 20,
+                                name: "scenario1",                                
+                                description: "blah",
+                                breakdown: [
+                                    {"1": ["and", "sentence1"]},
+                                    {"2": ["background", "sentence2"]},
+                                    {"3": ["when", "sentence3"]}
+                                ]
+                            }
+                        ]
+                    },
+                    "2": {
+                        milestone: 2,
+                        owner: 1,
+                        users: [2, 3],
+                        name: "bar",
+                        description: "A Setence", 
+                        timeunit: "hour",
+                        costPerTimeUnit: 80,
+                        time: 5,
+                        scenarios: [
+                            {
+                                id: 2,                                
+                                outline: true,
+                                examples: {
+                                    "username": ['charlie', 'indexzero', 'shit'],
+                                    "password": ['12345', 'abcde']
+                                },
+                                time: 20,
+                                name: "scenario2",                                
+                                description: "blah",
+                                breakdown: [
+                                    {"1": ["when", "sentence1"]},
+                                    {"2": ["and", "sentence2"]},
+                                    {"3": ["where", "sentence3"]}
+                                ]
+                            },
+                            {
+                                id: 3,
+                                outline: false,                                
+                                time: 20,
+                                name: "scenario3",                                
+                                description: "blah",
+                                breakdown: [
+                                    {"1": ["background", "sentence1"]},
+                                    {"3": ["where", "sentence2"]},
+                                    {"2": ["and", "sentence3"]}
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+
+            DAL: {
+
+                get: {
+
+                    project: function() {
+                        return DATA.project;
+                    },
+                    milestones: function() {
+                        return DATA.milestones;
+                    },
+                    features: function() {
+                        return DATA.features;
+                    },
+                    featuresByMilestone: function(id) {
+                        
+                        var features = [];
+
+                        $.each(DATA.features, function(i, feature) {
+                            if(feature.milestone == id) {
+                                features.push(feature);
+                            }
+                        });
+
+                        return features;
+                    },
+                    scenariosByFeature: function(id) {
+                        return DATA.features[id].scenarios;
+                    },
+                    usersByFeature: function(id) {
+                        
+                        var users = [];
+                        
+                        $.each(DATA.features[id].users, function(i, o) {
+                            var user = {};
+                            user[i] = DATA.users[o];
+                            users.push(user);
+                        });
+                        
+                        return users;
+                    },
+                    breakdownByFeature: function(id) {
+                        return DATA.features[id].breakdown;
+                    },
+                    projectCost: function(id) {
+                        
+                        var cost = 0;
+                        
+                        $.each(DATA.features, function(key, feature) {
+                            
+                            var time = 0;
+                            
+                            $.each(feature.scenarios, function(i, scenario) {
+                                time += scenario.time;
+                            });
+                            
+                            cost = feature.costPerTimeUnit * time;
+                        });
+                        
+                        return cost;
+
+                    },
+                    languages: function() {
+                        var languages = [];
+                        
+                        $.each(GERK.i18n, function(k, o) {
+                            languages.push(k);
+                        });
+                        
+                        return languages;
+                    },
+                    operators: function() {
+
+                        return {
+
+                            and: GERK.i18n[DATA.language]["and"]
+                            ,but: GERK.i18n[DATA.language]["but"]
+                            ,given: GERK.i18n[DATA.language]["given"]
+                            ,when: GERK.i18n[DATA.language]["when"]
+                            ,then: GERK.i18n[DATA.language]["then"]
+                        };
+
+                    },
+                    operatorById: function(id) {
+                        return GERK.i18n[DATA.language][id];
+                    },
+                    language: function() {
+                        return DATA.language;
+                    }     
+                },
+
+                set: {
+
+                    user: function (config) {
+                        if(config.id) {
+
+                            if(config.name) {
+                                DATA.users[config.id] = config.name;
+                            }
+
+                            if(config.add) {
+
+                                $.each(config.features, function(key, feature) {
+
+                                    var users = DATA.features[feature].users;
+
+                                    if(_.indexOf(users, config.id) != -1) {
+                                         users = _.without(users, config.id);
+                                    }
+
+                                    DATA.features[feature].users.push(config.id);
+
+                                });
+                            }
+
+                            if(config.remove) {
+
+                                var users = DATA.features[feature].users;
+                                users = _.without(users, config.id);
+                            }
+                        }
+                        else {
+                            DATA.users[Math.floor(Math.random()*2e9)] = config.name;
+                        }                        
+                    },
+                    project: function(name) {
+                        DATA.project = name;
+                    },
+                    milestone: function(config) {
+                        DATA.milestones[config.id] = config.name;
+                    },
+                    scenario: function(config) {
+                        if(config.id) {
+
+                            if(config.update) {
+                                $.each(DATA.features[config.id].scenarios, function(i, scenario) {
+                                    scenario[config.update.id] = value;
+                                });
+                            }
+                            if(config.create) {
+                                DATA.features[config.id].scenarios.push({
+                                    id: Math.floor(Math.random()*2e9),
+                                    outline: false,
+                                    examples: null,
+                                    time: 20,
+                                    description: "blah",
+                                    breakdown: [
+                                        {1: ["when", "something happens"]}
+                                    ]
+                                });                                
+                            }
+                        }
+                    },
+                    language: function(id) {
+                        DATA.language = id;
+                    }
+                }
+            }
+        
+        }
+        
+    })().Main(); 
+});
+
+
+(function() {
+
+    var STR_MAPS = {
+        HTML_DECODE: {
+            '&lt;': '<'
+			,'&gt;': '>'
+            ,'&amp;': '&'
+            ,'&quot;': '"'
+        },
+        HTML_ENCODE: {
+            '<': '&lt;'
+            ,'>': '&gt;'
+            ,'&': '&amp;'
+            ,'"': '&quot;'
+        },
+        ESCAPE_CHARSS: {
+            '\\': '\\\\',
+            '\'': '\\\'',
+            '"': '\\"',
+            '\r': '\\r',
+            '\n': '\\n',
+            '\t': '\\t',
+            '\f': '\\f',
+            '\b': '\\b'
+        }
+    };
+
+    var jExtras = {
+
+        jup: (function() {
+
+            var Util = {
+
+                isArray: (function() { return Array.isArray || function(obj) {
+                    // isArray function adapted from underscore.js
+                    return !!(obj && obj.concat && obj.unshift && !obj.callee); 
+                }})(),
+
+                sup: function(target, data) {
+
+                    return data ? target.replace(/\{\{([^\{\}]*)\}\}/g, function(str, r) {
+                        try { return data[r]; } catch(ex) {}
+                    }) : target;
+                },
+
+                translate: function (o, data) {
+
+                    var c = [], atts = [], count = 1, selfClosing = false;
+
+                    for (var i in o) {
+                        if (o.hasOwnProperty(i) ) {
+
+                            count++;
+                            selfClosing = false;
+
+                            if(typeof c[0] == "string") { 
+                                switch(o[0].toLowerCase()) {
+                                    case "area":
+                                    case "base":
+                                    case "basefont":
+                                    case "br":
+                                    case "hr":
+                                    case "input":
+                                    case "img":
+                                    case "link":
+                                    case "meta":
+                                        selfClosing = true;
+                                    break;
+                                }                    
+                            }
+
+                            if (o[i] && typeof o[i] == "object") {
+
+                                if(!Util.isArray(o[i])) {
+                                    for(var attribute in o[i]) {
+                                        if (o[i].hasOwnProperty(attribute)) {
+                                            atts.push([" ", Util.sup(attribute, data).replace(/ /g, "-"), "=\"", Util.sup(o[i][attribute], data), "\""].join(""));
+                                        }
+                                    }
+                                    c[i] = "";
+                                    c[0] = [c[0], atts.join("")].join("");
+                                }
+                                else {
+                                    c[i] = this.translate(o[i], data);
+                                }
+                            }
+                            else {
+                                c[i] = Util.sup(o[i], data);
+                            }
+
+                            if(typeof c[0] == "string") {
+
+                                c[0] = ["<", o[0], atts.join(""), (selfClosing ? "/>" : ">")].join("");
+
+                                if(selfClosing == false) { 
+                                    c.push("</" + o[0] + ">"); 
+                                }
+                            }
+                        }
+                    }
+                    if(count-1 == o.length) {
+                        return [c.join("")];
+                    }
+                }
+            };
+
+            return {
+        		version: "0.2",
+                data: function(str) {
+                    return ["{{", str, "}}"].join("");
+                },
+                html: function() {
+
+                    var args = Array.prototype.slice.call(arguments), structure = [], data = {};
+
+                    if(args.length == 2) {
+                        structure = args[1];
+                        data = args[0];
+                    }
+                    else {
+                        if(Util.isArray(args[0])) {
+                            structure = args[0];
+                        }
+                        else {
+                            data = args[0].data || null;
+                            structure = args[0].structure;
+                        }
+                    }
+                    if(Util.isArray(data)) {
+
+                        var copystack = [];
+
+                        for(var c=0; c < data.length; c++) {
+                            copystack.push(Util.translate(structure, data[c])[0]);
+                        }
+                        return copystack.join("");
+                    }
+                    else if(data) {
+                        for(var d=0; d < data.length; d++) {    
+                            return Util.translate(args[2] ? structure : Util.translate(structure)[0], data[d]);
+                        }
+                    }
+                    return Util.translate(structure)[0];
+                } 
+            };
+        })(),
+        
+        hash: {
+
+            path: function(hash) {
+
+                var hash = window.location.hash;
+                return hash.substr(1, hash.length).split("/");    
+            }
+        },
+
+        querystring: {
+            
+            toJSON: function(query) {
+                /* Special thanks to @bga_ for this bit of code, 
+                    a big improvement on my crummy RegEx version */
+
+                query = query || window.location.search;
+
+                var p = 0, 
+                    ret = {}, 
+                    _unescape = unescape,
+                    key,
+                    value,
+                    queryLen;
+
+                if(query.charAt(p) == '?') {
+                    ++p;      
+                }
+                
+                if(query.charAt(p) == '&') {
+                    ++p;
+                }  
+
+                if(query.charAt(query.length - 1) != '&') {
+                    query += '&';
+                }
+
+                queryLen = query.length - 1;
+
+                --p;
+                while(++p < queryLen) {
+
+                    key = _unescape(query.slice(p, (p = query.indexOf('=', p))));
+                    value = _unescape(query.slice(++p, (p = query.indexOf('&', p))));
+
+                    ret[key] = value;
+                }
+                
+                return ret;
+            }
+        },
+
+        array: {
+
+            group: function(a, callback) {
+                
+                var len = a.length, groups = [], keys = {};
+                for (var i = 0; i < length; i++) {
+                    var key = callback(a[i], i);
+                    if (! key || !key.length) {
+                        continue;
+                    }
+                    var items = keys[key];
+                    if (!items) {
+                        items = [];
+                        items.key = key;
+                        keys[key] = items;
+                        groups.add(items);
+                    }
+                    items.add(a[i]);
+                }
+                return groups;
+            },
+
+            aggregate: function(a, seed, callback) {
+                var len = a.length;
+                for (var i = 0; i < length; i++) {
+                    seed = callback(seed, a[i], i, a);
+                }
+                return seed;
+            },
+
+            removeRange: function(a, index, count) {
+                return a.splice(index, count);
+            }
+        },
+
+        string: {
+
+            html: {
+
+                decode: function(s) {
+                    s = s.replace(/(&amp;|&lt;|&gt;|&quot;)/gi,
+                    function(_s, r) {
+                        return STR_MAPS.HTML_DECODE[r];
+                    });
+                    return s;
+                },
+
+                encode: function(s) {
+                    if (/([&<>"])/g.test(s)) {
+                        s = s.replace(/([&<>"])/g,
+                        function(_s, r) {
+                            return STR_MAPS.HTML_ENCODE[r];
+                        });
+                    }
+                    return s;
+                }
+            },
+
+            quote: function(s) {
+                s.replace(new RegExp("([\'\"\\\\\x00-\x1F\x7F-\uFFFF])", "g"),
+                function(str, r) {
+                    return STR_MAPS.ESCAPE_CHARS[r] || 
+						'\\u' + r.charCodeAt(0).toString(16).toUpperCase().padLeft(4, '0');
+                });
+            },
+
+			subst: function(s, o) {
+			    var count = -1;
+			    return s.replace(/{{([^{}]*)}}/g,
+			        function(str, r) {
+			            if(!isNaN(r)) { 
+			                return o[r]; 
+			            }
+			            count++;
+			            return o[(o instanceof Array) ? count : r];
+			        }
+			    );
+			}
+				
+        }
+    };
+
+	// put everything under one roof. (assumption that $ is a library that has an extend method (most likely jQuery))
+    window.$ = (typeof window.$ != "undefined") ? $.extend($, jExtras) : jExtras;
+
+    
+
+})();
+
+window.hash = (typeof window.hash != "undefined") ? window.hash : {
+
+	ie:		/MSIE/.test(navigator.userAgent),
+	ieSupportBack:	true,
+	hash:	document.location.hash,
+	
+	check:	function () {
+		var h = document.location.hash;
+		if (h != this.hash) {
+			this.hash = h;
+			
+			this.onHashChanged();
+		}
+	},
+	
+	init:	function () {
+
+		// for IE we need the iframe state trick
+		if (this.ie && this.ieSupportBack) {
+			var frame = document.createElement("iframe");
+			frame.id = "state-frame";
+			frame.style.display = "none";
+			document.body.appendChild(frame);
+			this.writeFrame("");
+		}
+
+		var self = this;
+
+		// IE
+		if ("onpropertychange" in document && "attachEvent" in document) {
+			document.attachEvent("onpropertychange", function () {
+				if (event.propertyName == "location") {
+					self.check();
+				}
+			});
+		}
+		// poll for changes of the hash
+		window.setInterval(function () { self.check() }, 50);
+	},
+	
+	setHash: function (s) {
+		// Mozilla always adds an entry to the history
+		if (this.ie && this.ieSupportBack) {
+			this.writeFrame(s);
+		}
+		document.location.hash = s;
+	},
+	
+	getHash: function () {
+		return document.location.hash;
+	},
+	
+	writeFrame:	function (s) {
+		var f = document.getElementById("state-frame");
+		var d = f.contentDocument || f.contentWindow.document;
+		d.open();
+		d.write("<script>window._hash = '" + s + "'; window.onload = parent.hash.syncHash;<\/script>");
+		d.close();
+	},
+	
+	syncHash:	function () {
+		var s = this._hash;
+		if (s != document.location.hash) {
+			document.location.hash = s;
+		}
+	},
+	
+	onHashChanged:	function () {}
+};
+
+window.APP = (typeof window.APP != "undefined") ? window.APP : {
+
+    overrides: {},
+
+    override: function(ns, plan) {
+        overrides[ns] = plan;
+    },
+
+    exec: function(params) {
+
+        var strNS = params.ns
+            ,self = this
+            ,ns = {}
+            ,sectors = strNS.split('.')
+            ,methods
+            ,isArray = (function() { return Array.isArray || function(obj) {
+                return !!(obj && obj.concat && obj.unshift && !obj.callee);
+            }})();
+
+        var i = 0
+            ,len = sectors.length;
+
+        for (i; i < sectors.length; i++) {
+            var sector = sectors[i];
+
+            if (i == 0 && !window[sector]) {
+                window[sector] = {};
+                ns = window[sector];
+            }
+            else {
+                ns = ns[sector] = (ns[sector] ? ns[sector] : {});
+            }
+        }
+
+        delete this.Main;
+        eval(params.ns + " = this;"); // TODO: there may be a better way to do this assignment.
+
+        methods = (typeof APP.overrides[ns] == "undefined") ?
+            params.plan : APP.overrides[ns];
+
+        for(method in methods) {
+
+            if(isArray(methods[method])) {
+
+                var params = methods[method].slice(1, methods[method].length)
+                    ,i=params.length
+                    ,sync = false;
+
+                for(; i>0; i--) {
+                    if(params[i] === "sync") {
+                        sync = true;
+                    }
+                }
+
+                sync ? self[methods[method][0]].call(self, params) :
+                    (function(method) {
+                        setTimeout(function() {
+                            self[method[0]].call(self, method.slice(1, method.length));
+                        }, 1);
+                    })(methods[method]);
+            }
+            else {
+
+                (function(method) {
+                    setTimeout(function() {
+                        self[method].call(self);
+                    }, 1);
+                })(methods[method])
+            }
+        }
+    }
+};
+
 
 var GERK = {};
 
@@ -633,873 +1507,3 @@ GERK.i18n = {
         "scenario": "Scenaro"
     }
 };
-
-(function() {
-
-    var STR_MAPS = {
-        HTML_DECODE: {
-            '&lt;': '<'
-			,'&gt;': '>'
-            ,'&amp;': '&'
-            ,'&quot;': '"'
-        },
-        HTML_ENCODE: {
-            '<': '&lt;'
-            ,'>': '&gt;'
-            ,'&': '&amp;'
-            ,'"': '&quot;'
-        },
-        ESCAPE_CHARSS: {
-            '\\': '\\\\',
-            '\'': '\\\'',
-            '"': '\\"',
-            '\r': '\\r',
-            '\n': '\\n',
-            '\t': '\\t',
-            '\f': '\\f',
-            '\b': '\\b'
-        }
-    };
-
-    var jExtras = {
-
-        jup: (function() {
-
-            var Util = {
-
-                isArray: (function() { return Array.isArray || function(obj) {
-                    // isArray function adapted from underscore.js
-                    return !!(obj && obj.concat && obj.unshift && !obj.callee); 
-                }})(),
-
-                sup: function(target, data) {
-
-                    return data ? target.replace(/\{\{([^\{\}]*)\}\}/g, function(str, r) {
-                        try { return data[r]; } catch(ex) {}
-                    }) : target;
-                },
-
-                translate: function (o, data) {
-
-                    var c = [], atts = [], count = 1, selfClosing = false;
-
-                    for (var i in o) {
-                        if (o.hasOwnProperty(i) ) {
-
-                            count++;
-                            selfClosing = false;
-
-                            if(typeof c[0] == "string") { 
-                                switch(o[0].toLowerCase()) {
-                                    case "area":
-                                    case "base":
-                                    case "basefont":
-                                    case "br":
-                                    case "hr":
-                                    case "input":
-                                    case "img":
-                                    case "link":
-                                    case "meta":
-                                        selfClosing = true;
-                                    break;
-                                }                    
-                            }
-
-                            if (o[i] && typeof o[i] == "object") {
-
-                                if(!Util.isArray(o[i])) {
-                                    for(var attribute in o[i]) {
-                                        if (o[i].hasOwnProperty(attribute)) {
-                                            atts.push([" ", Util.sup(attribute, data).replace(/ /g, "-"), "=\"", Util.sup(o[i][attribute], data), "\""].join(""));
-                                        }
-                                    }
-                                    c[i] = "";
-                                    c[0] = [c[0], atts.join("")].join("");
-                                }
-                                else {
-                                    c[i] = this.translate(o[i], data);
-                                }
-                            }
-                            else {
-                                c[i] = Util.sup(o[i], data);
-                            }
-
-                            if(typeof c[0] == "string") {
-
-                                c[0] = ["<", o[0], atts.join(""), (selfClosing ? "/>" : ">")].join("");
-
-                                if(selfClosing == false) { 
-                                    c.push("</" + o[0] + ">"); 
-                                }
-                            }
-                        }
-                    }
-                    if(count-1 == o.length) {
-                        return [c.join("")];
-                    }
-                }
-            };
-
-            return {
-        		version: "0.2",
-                data: function(str) {
-                    return ["{{", str, "}}"].join("");
-                },
-                html: function() {
-
-                    var args = Array.prototype.slice.call(arguments), structure = [], data = {};
-
-                    if(args.length == 2) {
-                        structure = args[1];
-                        data = args[0];
-                    }
-                    else {
-                        if(Util.isArray(args[0])) {
-                            structure = args[0];
-                        }
-                        else {
-                            data = args[0].data || null;
-                            structure = args[0].structure;
-                        }
-                    }
-                    if(Util.isArray(data)) {
-
-                        var copystack = [];
-
-                        for(var c=0; c < data.length; c++) {
-                            copystack.push(Util.translate(structure, data[c])[0]);
-                        }
-                        return copystack.join("");
-                    }
-                    else if(data) {
-                        for(var d=0; d < data.length; d++) {    
-                            return Util.translate(args[2] ? structure : Util.translate(structure)[0], data[d]);
-                        }
-                    }
-                    return Util.translate(structure)[0];
-                } 
-            };
-        })(),
-        
-        hash: {
-
-            path: function(hash) {
-
-                var hash = window.location.hash;
-                return hash.substr(1, hash.length).split("/");    
-            }
-        },
-
-        querystring: {
-            
-            toJSON: function(query) {
-                /* Special thanks to @bga_ for this bit of code, 
-                    a big improvement on my crummy RegEx version */
-
-                query = query || window.location.search;
-
-                var p = 0, 
-                    ret = {}, 
-                    _unescape = unescape,
-                    key,
-                    value,
-                    queryLen;
-
-                if(query.charAt(p) == '?') {
-                    ++p;      
-                }
-                
-                if(query.charAt(p) == '&') {
-                    ++p;
-                }  
-
-                if(query.charAt(query.length - 1) != '&') {
-                    query += '&';
-                }
-
-                queryLen = query.length - 1;
-
-                --p;
-                while(++p < queryLen) {
-
-                    key = _unescape(query.slice(p, (p = query.indexOf('=', p))));
-                    value = _unescape(query.slice(++p, (p = query.indexOf('&', p))));
-
-                    ret[key] = value;
-                }
-                
-                return ret;
-            }
-        },
-
-        array: {
-
-            group: function(a, callback) {
-                
-                var len = a.length, groups = [], keys = {};
-                for (var i = 0; i < length; i++) {
-                    var key = callback(a[i], i);
-                    if (! key || !key.length) {
-                        continue;
-                    }
-                    var items = keys[key];
-                    if (!items) {
-                        items = [];
-                        items.key = key;
-                        keys[key] = items;
-                        groups.add(items);
-                    }
-                    items.add(a[i]);
-                }
-                return groups;
-            },
-
-            aggregate: function(a, seed, callback) {
-                var len = a.length;
-                for (var i = 0; i < length; i++) {
-                    seed = callback(seed, a[i], i, a);
-                }
-                return seed;
-            },
-
-            removeRange: function(a, index, count) {
-                return a.splice(index, count);
-            }
-        },
-
-        string: {
-
-            html: {
-
-                decode: function(s) {
-                    s = s.replace(/(&amp;|&lt;|&gt;|&quot;)/gi,
-                    function(_s, r) {
-                        return STR_MAPS.HTML_DECODE[r];
-                    });
-                    return s;
-                },
-
-                encode: function(s) {
-                    if (/([&<>"])/g.test(s)) {
-                        s = s.replace(/([&<>"])/g,
-                        function(_s, r) {
-                            return STR_MAPS.HTML_ENCODE[r];
-                        });
-                    }
-                    return s;
-                }
-            },
-
-            quote: function(s) {
-                s.replace(new RegExp("([\'\"\\\\\x00-\x1F\x7F-\uFFFF])", "g"),
-                function(str, r) {
-                    return STR_MAPS.ESCAPE_CHARS[r] || 
-						'\\u' + r.charCodeAt(0).toString(16).toUpperCase().padLeft(4, '0');
-                });
-            },
-
-			subst: function(s, o) {
-			    var count = -1;
-			    return s.replace(/{{([^{}]*)}}/g,
-			        function(str, r) {
-			            if(!isNaN(r)) { 
-			                return o[r]; 
-			            }
-			            count++;
-			            return o[(o instanceof Array) ? count : r];
-			        }
-			    );
-			}
-				
-        }
-    };
-
-	// put everything under one roof. (assumption that $ is a library that has an extend method (most likely jQuery))
-    window.$ = (typeof window.$ != "undefined") ? $.extend($, jExtras) : jExtras;
-
-})();
-
-window.hash = (typeof window.hash != "undefined") ? window.hash : {
-
-	ie:		/MSIE/.test(navigator.userAgent),
-	ieSupportBack:	true,
-	hash:	document.location.hash,
-	
-	check:	function () {
-		var h = document.location.hash;
-		if (h != this.hash) {
-			this.hash = h;
-			
-			this.onHashChanged();
-		}
-	},
-	
-	init:	function () {
-
-		// for IE we need the iframe state trick
-		if (this.ie && this.ieSupportBack) {
-			var frame = document.createElement("iframe");
-			frame.id = "state-frame";
-			frame.style.display = "none";
-			document.body.appendChild(frame);
-			this.writeFrame("");
-		}
-
-		var self = this;
-
-		// IE
-		if ("onpropertychange" in document && "attachEvent" in document) {
-			document.attachEvent("onpropertychange", function () {
-				if (event.propertyName == "location") {
-					self.check();
-				}
-			});
-		}
-		// poll for changes of the hash
-		window.setInterval(function () { self.check() }, 50);
-	},
-	
-	setHash: function (s) {
-		// Mozilla always adds an entry to the history
-		if (this.ie && this.ieSupportBack) {
-			this.writeFrame(s);
-		}
-		document.location.hash = s;
-	},
-	
-	getHash: function () {
-		return document.location.hash;
-	},
-	
-	writeFrame:	function (s) {
-		var f = document.getElementById("state-frame");
-		var d = f.contentDocument || f.contentWindow.document;
-		d.open();
-		d.write("<script>window._hash = '" + s + "'; window.onload = parent.hash.syncHash;<\/script>");
-		d.close();
-	},
-	
-	syncHash:	function () {
-		var s = this._hash;
-		if (s != document.location.hash) {
-			document.location.hash = s;
-		}
-	},
-	
-	onHashChanged:	function () {}
-};
-
-window.APP = (typeof window.APP != "undefined") ? window.APP : {
-
-    overrides: {},
-
-    override: function(ns, plan) {
-        overrides[ns] = plan;
-    },
-
-    exec: function(params) {
-
-        var strNS = params.ns
-            ,self = this
-            ,ns = {}
-            ,sectors = strNS.split('.')
-            ,methods
-            ,isArray = (function() { return Array.isArray || function(obj) {
-                return !!(obj && obj.concat && obj.unshift && !obj.callee);
-            }})();
-
-        var i = 0
-            ,len = sectors.length;
-
-        for (i; i < sectors.length; i++) {
-            var sector = sectors[i];
-
-            if (i == 0 && !window[sector]) {
-                window[sector] = {};
-                ns = window[sector];
-            }
-            else {
-                ns = ns[sector] = (ns[sector] ? ns[sector] : {});
-            }
-        }
-
-        delete this.Main;
-        eval(params.ns + " = this;"); // TODO: there may be a better way to do this assignment.
-
-        methods = (typeof APP.overrides[ns] == "undefined") ?
-            params.plan : APP.overrides[ns];
-
-        for(method in methods) {
-
-            if(isArray(methods[method])) {
-
-                var params = methods[method].slice(1, methods[method].length)
-                    ,i=params.length
-                    ,sync = false;
-
-                for(; i>0; i--) {
-                    if(params[i] === "sync") {
-                        sync = true;
-                    }
-                }
-
-                sync ? self[methods[method][0]].call(self, params) :
-                    (function(method) {
-                        setTimeout(function() {
-                            self[method[0]].call(self, method.slice(1, method.length));
-                        }, 1);
-                    })(methods[method]);
-            }
-            else {
-
-                (function(method) {
-                    setTimeout(function() {
-                        self[method].call(self);
-                    }, 1);
-                })(methods[method])
-            }
-        }
-    }
-};
-
-/* App Start */
-
-$(function() {
-
-    (function() {
-
-        var options = $.querystring.toJSON();
-        var context, DAL, DATA;
-
-        return {
-
-               Main: function() {
-
-                   APP.exec.call(this, {
-
-                       ns: "NJ.nup", /* namespace */
-
-                       plan: [ /* execution plan */
-
-                           "pageLoad"
-                           ,"determineContext"
-                       ]
-                });
-            },
-
-            pageLoad: function() {
-                DAL = this.DAL;
-                DATA = this.DATA;
-              
-                // load up the milestones
-                
-                var html = [];
-
-                $.each(DAL.get.milestones(), function(key, milestone) {
-                    html.push($.jup.html([
-                        ["input", { "class": "btn", "id": "ms" + key, "type": "checkbox" }], 
-                        ["label", { "for": "ms" + key }, milestone]
-                    ]));
-                });
-
-                $("#toolbar").html(html.join(""));
-                $("#toolbar .btn").button();
-
-                // load up the features/scenarios/breakdowns/steps/operators etc.
-
-                html = [];
-
-                $.each(DAL.get.features(), function(i, feature) {
-                    html.push($.jup.html([
-                        ["h3", { "class": "ms" + feature.milestone },
-                            ["a", { "href": "#" }, feature.name]
-                        ],
-                        ["div", { "class": "ms" + feature.milestone },
-
-                            (function() {
-
-                                var scenarios = [];
-
-                                $.each(feature.scenarios, function(key, scenario) {
-                                    scenarios.push($.jup.html(["div", { "class": "scenario" },
-
-                                        ["h3", { "class": "breakdown" }, 
-                                            ["a", { "href": "#" }, scenario.name]
-                                        ],
-                                        ["div",
-                                            (function() {
-
-                                                var breakdown = ["<ul>"];
-
-                                                $.each(scenario.breakdown, function(key, step) {
-                                                    $.each(step, function(key, pair) {
-                                                        breakdown.push($.jup.html(["li",
-                                                            ["select", [
-
-                                                                (function() {
-
-                                                                    var options = [];
-
-                                                                    $.each(DAL.get.operators(), function(i, operator) {
-                                                                        options.push($.jup.html(["option" + (pair[0] == operator ? " selected" : ""), operator]));
-                                                                    });
-
-                                                                    return options.join("");                             
-                                                                })()
-                                                            ]],
-                                                            ["input", { "type": "text", "value": pair[1] }, ["br"]]
-                                                        ]));
-                                                    });
-                                                });
-
-                                                breakdown.push("</ul>");
-
-                                                return breakdown.join("");
-
-                                            })()
-                                        ]
-
-                                    ]));
-                                });
-
-                                return scenarios.join("");
-
-                            })()
-                        ]
-                    ]));                    
-                });
-                
-                $("#featureslist").html(html.join(""));
-                $("#featureslist, .scenario").accordion({ collapsible: true, autoHeight: false });
-                
-                
-                
-            },
-
-            determineContext: function() {
-
-                
-                
-            },
-            
-            featureDistiller: function() {
-
-                var s = ""/*hit performance, 1:08am */;
-
-                $.each(DATA.features, function(i, feature) {
-                    s += $.string.subst("Feature: {{name}}\r\n\t{{description}}", feature);
-
-                    $.each(feature.scenarios, function(i, scenario) {
-                     
-                        s += $.string.subst("\r\n\n\tScenario " + (scenario.outline ? "Outline" : "") + ": {{name}}", scenario);
-
-                        $.each(scenario.breakdown, function(key, breakdown) {
-
-                            $.each(breakdown, function(i, motive) {
-                                s += $.string.subst("\r\n\t\t" + motive[0] + " " + motive[1]);
-                            });
-                        });
-                        
-                        if(scenario.outline) {
-                            
-                            s+="\r\n\r\n\t\tExamples:\r\n";
-                            var cols = [], len = 0, arrLen = 0;
-                            
-
-                            // determine max column width for each column
-                            $.each(scenario.examples, function(i, example) {
-                              if(example.length > arrLen){
-                                arrLen = example.length;
-                              }
-                             
-                                $.each(example, function(n) {
-                                    if(typeof cols[n] == 'undefined'){
-                                      cols[n] = 0;
-                                    }
-                                    if(example[n].length > cols[n]){
-                                      cols[n] = example[n].length;
-                                    }    
-                                });
-                            });
-
-                            
-                            $.each(scenario.examples, function(i, example) {
-                                s += "\t\t\t";
-                                s += " | "
-                                s += i;
-                            });
-                            s += "\r\n";
-                            
-                            for(var x = 0; x < arrLen; x++){
-                              $.each(scenario.examples, function(i, example) {
-                                s += "\t\t\t";
-                                s += " | "
-                                s += scenario.examples[i][x] || '';
-                              });
-                              s += "\r\n";  
-                            }
-                        }                        
-                    });
-                    
-                    s += "\r\n\n"
-                });
-
-                return s;
-
-            },
-
-            DATA: { // dummy-data, this would be replaced by loaded data.
-
-                language: "en",
-                project: "myProject",
-                milestones: {
-                    "1": "First", 
-                    "2": "Second"
-                },
-                users: {
-                    "1": "Joe",
-                    "2": "Peter",
-                    "3": "Jane"
-                },
-                features: {
-
-                    "1": {
-                        milestone: 1,
-                        owner: 1,
-                        users: [2, 3],
-                        name: "foo",
-                        description: "A Setence",
-                        timeunit: "hour",
-                        costPerTimeUnit: 80,
-                        scenarios: [
-                            {
-                                id: 0,                                
-                                outline: false,                                
-                                time: 20,
-                                name: "scenario0",
-                                description: "blah",
-                                breakdown: [
-                                    {"1": ["examples", "sentence1"]},
-                                    {"2": ["name", "sentence2"]},
-                                    {"3": ["and", "sentence3"]}
-                                ]
-                            },
-                            {
-                                id: 1,                                
-                                outline: false,
-                                time: 20,
-                                name: "scenario1",                                
-                                description: "blah",
-                                breakdown: [
-                                    {"1": ["and", "sentence1"]},
-                                    {"2": ["background", "sentence2"]},
-                                    {"3": ["when", "sentence3"]}
-                                ]
-                            }
-                        ]
-                    },
-                    "2": {
-                        milestone: 2,
-                        owner: 1,
-                        users: [2, 3],
-                        name: "bar",
-                        description: "A Setence", 
-                        timeunit: "hour",
-                        costPerTimeUnit: 80,
-                        time: 5,
-                        scenarios: [
-                            {
-                                id: 2,                                
-                                outline: true,
-                                examples: {
-                                    "username": ['charlie', 'indexzero', 'shit'],
-                                    "password": ['12345', 'abcde']
-                                },
-                                time: 20,
-                                name: "scenario2",                                
-                                description: "blah",
-                                breakdown: [
-                                    {"1": ["when", "sentence1"]},
-                                    {"2": ["and", "sentence2"]},
-                                    {"3": ["where", "sentence3"]}
-                                ]
-                            },
-                            {
-                                id: 3,
-                                outline: false,                                
-                                time: 20,
-                                name: "scenario3",                                
-                                description: "blah",
-                                breakdown: [
-                                    {"1": ["background", "sentence1"]},
-                                    {"3": ["where", "sentence2"]},
-                                    {"2": ["and", "sentence3"]}
-                                ]
-                            }
-                        ]
-                    }
-                }
-            },
-
-            DAL: {
-
-                get: {
-
-                    project: function() {
-                        return DATA.project;
-                    },
-                    milestones: function() {
-                        return DATA.milestones;
-                    },
-                    features: function() {
-                        return DATA.features;
-                    },
-                    featuresByMilestone: function(id) {
-                        
-                        var features = [];
-
-                        $.each(DATA.features, function(i, feature) {
-                            if(feature.milestone == id) {
-                                features.push(feature);
-                            }
-                        });
-
-                        return features;
-                    },
-                    scenariosByFeature: function(id) {
-                        return DATA.features[id].scenarios;
-                    },
-                    usersByFeature: function(id) {
-                        
-                        var users = [];
-                        
-                        $.each(DATA.features[id].users, function(i, o) {
-                            var user = {};
-                            user[i] = DATA.users[o];
-                            users.push(user);
-                        });
-                        
-                        return users;
-                    },
-                    breakdownByFeature: function(id) {
-                        return DATA.features[id].breakdown;
-                    },
-                    projectCost: function(id) {
-                        
-                        var cost = 0;
-                        
-                        $.each(DATA.features, function(key, feature) {
-                            
-                            var time = 0;
-                            
-                            $.each(feature.scenarios, function(i, scenario) {
-                                time += scenario.time;
-                            });
-                            
-                            cost = feature.costPerTimeUnit * time;
-                        });
-                        
-                        return cost;
-
-                    },
-                    languages: function() {
-                        var languages = [];
-                        
-                        $.each(GERK.i18n, function(k, o) {
-                            languages.push(k);
-                        });
-                        
-                        return languages;
-                    },
-                    operators: function() {
-
-                        return {
-
-                            and: GERK.i18n[DATA.language]["and"]
-                            ,but: GERK.i18n[DATA.language]["but"]
-                            ,given: GERK.i18n[DATA.language]["given"]
-                            ,when: GERK.i18n[DATA.language]["when"]
-                            ,then: GERK.i18n[DATA.language]["then"]
-                        };
-
-                    },
-                    operatorById: function(id) {
-                        return GERK.i18n[DATA.language][id];
-                    },
-                    language: function() {
-                        return DATA.language;
-                    }     
-                },
-
-                set: {
-
-                    user: function (config) {
-                        if(config.id) {
-
-                            if(config.name) {
-                                DATA.users[config.id] = config.name;
-                            }
-
-                            if(config.add) {
-
-                                $.each(config.features, function(key, feature) {
-
-                                    var users = DATA.features[feature].users;
-
-                                    if(_.indexOf(users, config.id) != -1) {
-                                         users = _.without(users, config.id);
-                                    }
-
-                                    DATA.features[feature].users.push(config.id);
-
-                                });
-                            }
-
-                            if(config.remove) {
-
-                                var users = DATA.features[feature].users;
-                                users = _.without(users, config.id);
-                            }
-                        }
-                        else {
-                            DATA.users[Math.floor(Math.random()*2e9)] = config.name;
-                        }                        
-                    },
-                    project: function(name) {
-                        DATA.project = name;
-                    },
-                    milestone: function(config) {
-                        DATA.milestones[config.id] = config.name;
-                    },
-                    scenario: function(config) {
-                        if(config.id) {
-
-                            if(config.update) {
-                                $.each(DATA.features[config.id].scenarios, function(i, scenario) {
-                                    scenario[config.update.id] = value;
-                                });
-                            }
-                            if(config.create) {
-                                DATA.features[config.id].scenarios.push({
-                                    id: Math.floor(Math.random()*2e9),
-                                    outline: false,
-                                    examples: null,
-                                    time: 20,
-                                    description: "blah",
-                                    breakdown: [
-                                        {1: ["when", "something happens"]}
-                                    ]
-                                });                                
-                            }
-                        }
-                    },
-                    language: function(id) {
-                        DATA.language = id;
-                    }
-                }
-            }
-        
-        }
-        
-    })().Main(); 
-});
