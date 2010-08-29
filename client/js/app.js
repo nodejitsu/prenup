@@ -109,6 +109,8 @@ $(function() {
             pageLoad: function() {
                 DAL = this.DAL;
                 DATA = this.DATA;
+                
+                $("#projectTitle").text(DAL.get.projectTitle());
               
                 $("#instructions .remove").click(function() {
                   $(this).parent().fadeOut();
@@ -151,13 +153,17 @@ $(function() {
                   exportAction.dialog("open");
                 });                
                 
-                var stepAndScenarioAction = $($.jup.html(["div", "Here are all your steps and scenarios, click one to add it to the currently open feature or scenario"])).dialog({
+                var featureAction = $($.jup.html(["div", "Add a new feature to the project"])).dialog({
                   resizable: false,
                   autoOpen: false,
                   modal: true,
                   dialogClass: "shadow",             
                   buttons: {
                     "ok": function() {
+                      
+                      // TO-DO: Add feature logic here.
+                      
+                      
                       $(this).dialog("close");
                     },
                     "cancel": function() {
@@ -167,7 +173,7 @@ $(function() {
                 }); 
                 
                 $("#features").click(function() {
-                  stepAndScenarioAction.dialog("open");
+                  featureAction.dialog("open");
                 });
                 
                 var usersAction = $($.jup.html(["div", "Here are all the users, create one or click one to add it to the currently open feature or scenario"])).dialog({
@@ -202,8 +208,6 @@ $(function() {
                     ]));
                 });
 
-                html.push($.jup.html(['button',{ "class": "add-feature" }, 'Add Feature +']));
-
                 $("#toolbar ul").html(html.join("")).disableSelection().sortable();
                 $("#toolbar .btn").button().click(function() {
                   $("h3.milestone-member." + $(this).attr("id"))[$(this).attr("checked") ? "fadeIn" : "fadeOut"]();
@@ -222,9 +226,6 @@ $(function() {
                     html.push($.jup.html(NJ.nup.renderFeature(i, feature)));                    
                 });
 
-
-                
-
                 $("#featureslist").html(html.join(""));
 
                 // once the UI has rendered, we need to apply UI events to elements
@@ -235,7 +236,13 @@ $(function() {
                 
                 }).find("input").click(function(ev){
                     ev.stopPropagation();
-                });                
+                });
+                
+                $("#featureslist input").mouseover(function() {
+                  $(this).addClass("inlineEditHover");
+                }).mouseout(function() {
+                  $(this).removeClass("inlineEditHover");
+                })
                 
                 $('.sortable-ui').sortable({ containment: "parent", axis: "y" });
                 
@@ -270,7 +277,7 @@ $(function() {
                 });
 
                 // for adding additional Scenarios in a Feature
-                $('.add-scenario').live("click", function(e){
+                $('.add-scenario').button().live("click", function(e){
                   // should this stop the accordion from toggling? thats what i want it to do!
                   //e.stopPropagation();
 
@@ -496,7 +503,7 @@ $(function() {
 
                 get: {
 
-                    project: function() {
+                    projectTitle: function() {
                         return DATA.project;
                     },
                     milestones: function() {

@@ -100,9 +100,12 @@ label img {
   width:350px;
 }
 
-h3 input, .inlineEdit {
-	background: #fff;
+input, .inlineEdit {
 	height: 20px;
+}
+
+.inlineEditHover {
+	background: #fff;
 }
 
 .scenario {overflow:hidden;}
@@ -114,8 +117,12 @@ h3 input, .inlineEdit {
 	height: 23px;
 }
 
-.add-step {
+.add-step, .add-scenario {
 	float: right;
+}
+
+.add-scenario {
+	margin-top: 4px;
 }
 
 .step {
