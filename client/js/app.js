@@ -228,6 +228,9 @@ $(function() {
                 
                 $(".delete-feature").live("click", function(e){
                   e.stopPropagation();
+                  $(this).parent().next(".ui-accordion-content").slideUp(750, function() {
+                    $(this).remove();
+                  });
                   $(this).parent().slideUp(750, function(){
                     $(this).remove();
                   });
@@ -235,6 +238,9 @@ $(function() {
 
                 $(".delete-scenario").live("click", function(e){
                   e.stopPropagation();
+                  $(this).parent().next(".ui-accordion-content").slideUp(750, function() {
+                    $(this).remove();
+                  });                  
                   $(this).parent().slideUp(750, function(){
                     $(this).remove();
                   });
