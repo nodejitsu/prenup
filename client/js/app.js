@@ -112,6 +112,47 @@ $(function() {
                   $(this).parent().fadeOut();
                 });
                 
+                // some dialogs
+                
+                var exportAction = $($.jup.html(["div", "This will export your stuff someplace..."])).dialog({
+                  resizable: false,
+                  autoOpen: false,
+                  buttons: {
+                    "ok": function() {
+                      $(this).dialog("close");
+                    },
+                    "cancel": function() {
+                      $(this).dialog("close");                      
+                    }
+                  }
+                });
+                
+                var stepAndScenarioAction = $($.jup.html(["div", "Here are all your steps and scenarios, click one to add it to the currently open feature or scenario"])).dialog({
+                  resizable: false,
+                  autoOpen: false,                  
+                  buttons: {
+                    "ok": function() {
+                      $(this).dialog("close");
+                    },
+                    "cancel": function() {
+                      $(this).dialog("close");                      
+                    }
+                  }
+                });        
+                
+                var usersAction = $($.jup.html(["div", "Here are all the users, create one or click one to add it to the currently open feature or scenario"])).dialog({
+                  resizable: false,
+                  autoOpen: false,                  
+                  buttons: {
+                    "ok": function() {
+                      $(this).dialog("close");
+                    },
+                    "cancel": function() {
+                      $(this).dialog("close");                      
+                    }
+                  }
+                });                
+                
                 // load up the milestones
 
                 var html = [];
@@ -123,14 +164,12 @@ $(function() {
                     ]));
                 });
 
-                $("#toolbar").html(html.join(""));
+                $("#toolbar").html(html.join("")).disableSelection();
                 $("#toolbar .btn").button().click(function() {
 
-                  $(".milestone-member." + $(this).attr("id"))[$(this).attr("checked") ? "fadeIn" : "fadeOut"]()
+                  $(".milestone-member." + $(this).attr("id"))[$(this).attr("checked") ? "fadeIn" : "fadeOut"]();                  
 
                 });
-                
-                $("label[for=ms1]").click();
 
                 // load up the features/scenarios/breakdowns/steps/operators etc.
 
@@ -152,9 +191,12 @@ $(function() {
                 });
 
                 $("#featureslist, .scenario").accordion({ 
-                  collapsible: true, autoHeight: false }).find('input').click(function(ev){
+                  collapsible: true, 
+                  autoHeight: false 
+                
+                }).find("input").click(function(ev){
                     ev.stopPropagation();
-                  });                
+                });                
                 
                 $('.sortable-ui').sortable({ containment: "parent", axis: "y" });
                 
@@ -162,6 +204,13 @@ $(function() {
                 $('.add-step').click(function(){
                   $(this).siblings('ul').append($.jup.html(NJ.nup.renderStep()));
                 }).button();
+                
+                // do some default stuff, this should be done better.
+
+                $(".milestone-member").hide(function(){
+                  $("label[for=ms1]").click();
+                });
+                
                 
             },
 

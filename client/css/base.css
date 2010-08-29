@@ -109,7 +109,7 @@ h3 input, .inlineEdit {
 }
 
 .step .operator-col {
-	width: 100px;
+	width: 80px;
 }
 
 .step .content-col {
@@ -189,4 +189,8 @@ footer table td{
 
 ul {
 	margin: 2px;
+}
+
+.ui-dialog .ui-dialog-titlebar {
+	display: none;
 }
