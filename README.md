@@ -1,6 +1,6 @@
 # Nuptials
 
-##A project planning tool that allows you to meaningfully engage your clients and convert their domain knowledge into tangible milestones, features, scenarions, and unit tests.
+Nuptials is a project planning tool that allows you to meaningfully engage your clients and convert their domain knowledge into tangible milestones, features, scenarions, and unit tests.
 
 ## Features
 
