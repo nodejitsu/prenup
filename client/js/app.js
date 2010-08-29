@@ -194,7 +194,7 @@ $(function() {
                   collapsible: true, 
                   autoHeight: false 
                 
-                }).find("input").click(function(ev){
+                }).find("input, .remove").click(function(ev){
                     ev.stopPropagation();
                 });                
                 
