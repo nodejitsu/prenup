@@ -48,29 +48,21 @@ $(function() {
             
             renderScenario: function(key, scenario){
               return ["div", { "class": "scenario" },
-
                   ["h3", { "class": "breakdown" },
                       ["a", { "href": "#" }, scenario.name]
                   ],
                   ["div",
                       (function() {
-
                           var breakdown = ["<ul class='sortable-ui'>"];
-
                           $.each(scenario.breakdown, function(key, step) {
                               $.each(step, function(key, pair) {
                                   breakdown.push($.jup.html(NJ.nup.renderStep(pair)));
                               });
                           });
-
-
                           breakdown.push("</ul>");
-
                           return breakdown.join("") + $.jup.html(['button',{ "class": "add-step" }, 'Add Step +']) ;
-                          
                       })()
                   ]
-
               ];
             },
             
