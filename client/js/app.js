@@ -170,6 +170,7 @@ $(function() {
                   stepAndScenarioAction.dialog("open");
                 });
                 
+                
                 var usersAction = $($.jup.html(["div", "Here are all the users, create one or click one to add it to the currently open feature or scenario"])).dialog({
                   resizable: false,
                   dialogClass: "shadow",                  
@@ -213,6 +214,11 @@ $(function() {
                   }                 
 
                 });
+                
+                $('#toolbar label img').click(function() {
+                  $(this).parent().parent().remove();
+                  return false;
+                })
 
                 // load up the features/scenarios/breakdowns/steps/operators etc.
 
