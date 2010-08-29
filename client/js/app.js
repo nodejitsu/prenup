@@ -30,7 +30,7 @@ $(function() {
                 var pair = [];
               }
               
-              return ["li",
+              return ["li", { "class": "ui-corner-all ui-state-default" },
               ["span", { "class": "ui-icon ui-icon-arrowthick-2-n-s grip" }],
               [NJ.nup.renderWordSelector(DAL.get.operators())],
                   ["input", { "type": "text", "value": pair[1] },
@@ -106,9 +106,9 @@ $(function() {
                 $("#instructions .remove").click(function() {
                   $(this).parent().fadeOut();
                 });
-              
-                // load up the milestones
                 
+                // load up the milestones
+
                 var html = [];
 
                 $.each(DAL.get.milestones(), function(key, milestone) {
@@ -121,7 +121,6 @@ $(function() {
                 $("#toolbar").html(html.join(""));
                 $("#toolbar .btn").button();
                 $("label[for=ms1]").click();
-                
 
                 // load up the features/scenarios/breakdowns/steps/operators etc.
 
@@ -132,13 +131,12 @@ $(function() {
                 });
 
                 $("#featureslist").html(html.join(""));
-                
+
                 // once the UI has rendered, we need to apply UI events to elements
                 $(".delete").live("click", function(){
                   $(this).parent().slideUp(750, function(){
                     $(this).remove()
                   });
-                  
 
                   //console.log("delete breakdown element")
                 });
@@ -153,7 +151,7 @@ $(function() {
                 // for adding additional steps in a scenario
                 $('.add-step').click(function(){
                   $(this).siblings('ul').append($.jup.html(NJ.nup.renderStep()));
-                });
+                }).button();
                 
             },
 

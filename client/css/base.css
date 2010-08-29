@@ -54,6 +54,7 @@ a {cursor:pointer;}
 	padding-left: 30px;
 	padding-right: 30px;
 	overflow: auto;
+	min-width: 700px;
 }
 
 
@@ -84,6 +85,16 @@ a {cursor:pointer;}
 .scenario {overflow:hidden;}
 .scenario input[type='text'] {width:80%; float:left;}
 .scenario select {float:left; margin-right:10px;height:30px;}
+
+.scenario li {
+	border: 1px solid #eaeaea;
+	height: 28px;
+}
+
+.add-step {
+	float: right;
+}
+
 .grip {float:left; margin:2px 5px;  }
 .step-close {float:left; margin-left:10px; margin-top:5px;}
 .grip {float:left; margin:2px 5px;  }
@@ -135,4 +146,8 @@ footer table td{
 	background: url('../img/features.png') no-repeat scroll top left;
 	width: 61px;
 	height: 53px;
+}
+
+ul {
+	margin: 2px;
 }
