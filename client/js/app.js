@@ -248,6 +248,16 @@ $(function() {
 
                   var out = NJ.nup.renderScenario(2, NJ.nup.DAL.get.scenariosByFeature(1)[0]);
                   $(this).before($.jup.html(out));
+                  
+                  // rebind accordion
+                  $("#featureslist, .scenario").accordion({ 
+                    collapsible: true, 
+                    autoHeight: false 
+
+                  }).find("input").click(function(ev){
+                      ev.stopPropagation();
+                  });
+                  
                 });
 
                 $(".delete-scenario").live("click", function(e){
