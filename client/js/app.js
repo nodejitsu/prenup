@@ -380,7 +380,7 @@ $(function() {
             DATA: { // dummy-data, this would be replaced by loaded data.
 
                 language: "en",
-                project: "myProject",
+                project: "My Math Project",
                 milestones: {
                     "1": "First", 
                     "2": "Second"
@@ -419,12 +419,12 @@ $(function() {
                                 id: 1,                                
                                 outline: false,
                                 time: 20,
-                                name: "scenario1",                                
-                                description: "blah",
+                                name: "Divide By Zero",                                
+                                description: "In mathematics, a division is called a division by zero if the divisor is zero.",
                                 breakdown: [
-                                    {"1": ["and", "sentence1"]},
-                                    {"2": ["background", "sentence2"]},
-                                    {"3": ["when", "sentence3"]}
+                                    {"1": ["givin", "indexzero sits at his computer and writes the lexor"]},
+                                    {"2": ["givin", "marak eats cheese burgers off of his laptop"]},
+                                    {"3": ["then", "code will be awesome as usual"]}
                                 ]
                             }
                         ]
