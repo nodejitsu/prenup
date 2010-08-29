@@ -10,73 +10,61 @@
 
 a {cursor:pointer;}
 
-.shadow {
-  -moz-box-shadow: 0px 3px 3px #666;
-  -webkit-box-shadow: 0px 3px 3px #666;
-  box-shadow: 0px 3px 3px #666; 
-}
-
-
 #projectTitle {
-  font-size:20px;
-  position: absolute;
-  top: 30px;
-  left: 30px;
-  color: #777;
+    font-size:20px;
+	position: absolute;
+	top: 30px;
+	left: 30px;
+	color: #777;
 }
 
 #instructions {
-  margin-top: 1px;
-  border:1px solid #AAAAAA;
-  position: relative;
-  padding: 10px;
-  height: 200px;
-  display:none;
+	margin-top: 1px;
+	border:1px solid #AAAAAA;
+	position: relative;
+	padding: 10px;
+	height: 200px;
 }
 
 .remove {
-  cursor: pointer;
-  position: absolute;
-  right: 2px;
-  top: 2px;
-  width: 16px;
-  height: 16px; 
-  padding: 2px;
+	cursor: pointer;
+	position: absolute;
+	right: 2px;
+	top: 2px;
+	width: 16px;
+	height: 16px;	
+	padding: 2px;
 }
 
-.remove span, .remove-milestone {
-  background-image:url("../img/ui-icons_888888_256x240.png");
-  background-position:-80px -128px;
-  background-repeat:no-repeat;
-  display:block;
-  overflow:hidden;
-  text-indent:-99999px; 
+.remove span {
+	background-image:url("../img/ui-icons_888888_256x240.png");
+	background-position:-80px -128px;
+	background-repeat:no-repeat;
+	display:block;
+	overflow:hidden;
+	text-indent:-99999px;	
 }
 
 #main {
-  position: absolute;
-  top: 60px;
-  right: 0px;
-  left: 0px;
-  bottom: 80px;
-  padding-left: 30px;
-  padding-right: 30px;
-  overflow: auto;
-  min-width: 700px;
+	position: absolute;
+	top: 60px;
+	right: 0px;
+	left: 0px;
+	bottom: 80px;
+	padding-left: 30px;
+	padding-right: 30px;
+	overflow: auto;
+	min-width: 700px;
 }
 
 
 #toolbar {
-  padding: 10px;
+	padding: 10px;
 }
 
 #milestones {
     height:50px;
     margin:10px;
-}
-
-label.milestone {
-  padding-right: 15px;
 }
 
 #milestones li{
@@ -95,8 +83,8 @@ label.milestone {
 }
 
 h3 input, .inlineEdit {
-  background: #fff;
-  height: 20px;
+	background: #fff;
+	height: 20px;
 }
 
 .scenario {overflow:hidden;}
@@ -104,46 +92,46 @@ h3 input, .inlineEdit {
 .scenario select {float:left; margin-right:10px;}
 
 .scenario li {
-  border: 1px solid #eaeaea;
-  height: 23px;
+	border: 1px solid #eaeaea;
+	height: 23px;
 }
 
 .add-step {
-  float: right;
+	float: right;
 }
 
 .step {
-  width: 100%;
+	width: 100%;
 }
 
 .step .grip-col {
-  width: 20px;
+	width: 20px;
 }
 
 .step .operator-col {
-  width: 80px;
+	width: 80px;
 }
 
 .step .content-col {
-  width: 80%;
+	width: 80%;
 }
 
 .step .content-col input {
-  background-color: #fff;
-  border: 1px solid #aaa;
-  -moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;
+	background-color: #fff;
+	border: 1px solid #aaa;
+	-moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;
 }
 
 .step .delete-col {
-  width: 20px;
+	width: 20px;
 }
 
 .step .delete-col div {
-  position: relative;
-  top:0px;
-  left:0px;
-  padding: 2px;
-  margin-left: 10px;
+	position: relative;
+	top:0px;
+	left:0px;
+	padding: 2px;
+	margin-left: 10px;
 }
 
 .grip {float:left; margin:2px 5px;  }
@@ -153,12 +141,12 @@ h3 input, .inlineEdit {
 .ui-accordion-content{overflow:hidden !important;}
 
 footer {
-  background: #555 url('../img/footer.png') repeat-x 0px 0px;
-  position: absolute;
-  bottom: 0px;
-  right: 0px;
-  left: 0px;
-  height: 80px;
+	background: #555 url('../img/footer.png') repeat-x 0px 0px;
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+	left: 0px;
+	height: 80px;
     border-top: 1px solid #999;
 }
 
@@ -167,46 +155,42 @@ footer table {
 }
 
 footer table td{
-  padding: 10px;
-  padding-left: 13%;
+	padding: 10px;
+	padding-left: 13%;
     text-align: center;
 }
 
-footer div {
-  cursor: pointer;
-}
-
 #logo {
-  position: absolute;
-  top: 10px;
-  right: 0px;
-  background: url('../img/logo.png') no-repeat scroll top left;
-  width: 233px;
-  height: 40px;
+	position: absolute;
+	top: 10px;
+	right: 30px;
+	background: url('../img/logo.png') no-repeat scroll top left;
+	width: 233px;
+	height: 40px;
 }
 
 #settings {
-  background: url('../img/settings.png') no-repeat scroll top left;
-  width: 61px;
-  height: 53px;
+	background: url('../img/settings.png') no-repeat scroll top left;
+	width: 61px;
+	height: 53px;
 }
 
 #export {
-  background: url('../img/export.png') no-repeat scroll top left;
-  width: 61px;
-  height: 53px;
+	background: url('../img/export.png') no-repeat scroll top left;
+	width: 61px;
+	height: 53px;
 }
 
 #features {
-  background: url('../img/features.png') no-repeat scroll top left;
-  width: 61px;
-  height: 53px;
+	background: url('../img/features.png') no-repeat scroll top left;
+	width: 61px;
+	height: 53px;
 }
 
 ul {
-  margin: 2px;
+	margin: 2px;
 }
 
 .ui-dialog .ui-dialog-titlebar {
-  display: none;
+	display: none;
 }
