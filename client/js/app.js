@@ -184,6 +184,8 @@ $(function() {
                     ]));
                 });
 
+                html.push($.jup.html(['button',{ "class": "add-feature" }, 'Add Feature +']));
+
                 $("#toolbar").html(html.join("")).disableSelection();
                 $("#toolbar .btn").button().click(function() {
                   $("h3.milestone-member." + $(this).attr("id"))[$(this).attr("checked") ? "fadeIn" : "fadeOut"]();
@@ -201,6 +203,9 @@ $(function() {
                 $.each(DAL.get.features(), function(i, feature) {
                     html.push($.jup.html(NJ.nup.renderFeature(i, feature)));                    
                 });
+
+
+                
 
                 $("#featureslist").html(html.join(""));
 
@@ -253,6 +258,22 @@ $(function() {
 
                   var out = NJ.nup.renderScenario(2, NJ.nup.DAL.get.scenariosByFeature(1)[0]);
                   $(this).before($.jup.html(out));
+                  
+                  // rebind accordion
+                  $("#featureslist, .scenario").accordion({ 
+                    collapsible: true, 
+                    autoHeight: false 
+
+                  }).find("input").click(function(ev){
+                      ev.stopPropagation();
+                  });
+                  
+                });
+
+                $('.add-feature').live('click', function(e){
+                  var out = NJ.nup.renderFeature(1, NJ.nup.DAL.get.features()[1]);
+                  $('#featureslist').append($.jup.html(out));
+                  
                   
                   // rebind accordion
                   $("#featureslist, .scenario").accordion({ 
