@@ -31,11 +31,16 @@ $(function() {
               }
               
               return ["li", { "class": "ui-corner-all ui-state-default" },
-              ["span", { "class": "ui-icon ui-icon-arrowthick-2-n-s grip" }],
-              [NJ.nup.renderWordSelector(DAL.get.operators())],
-                  ["input", { "type": "text", "value": pair[1] },
-                  ["span", { "class": "ui-icon ui-icon-circle-close step-close delete" }],
-                   ["br"]]
+                  ["table", { "class": "step" },
+                    ["tr", [
+                      ["td", { "class": "grip-col" }, ["span", { "class": "ui-icon ui-icon-arrowthick-2-n-s grip" }]],
+                      ["td", { "class": "operator-col" }, [NJ.nup.renderWordSelector(DAL.get.operators())]],
+                      ["td", { "class": "content-col" }, ["input", { "type": "text", "value": pair[1] }]],
+                      ["td", { "class": "delete-col" }, ["div", { "class": "remove ui-state-default ui-corner-all", "title": "Remove scenario" }, 
+                        ["span", "&nbsp"]
+                      ]]
+                    ]]
+                  ]
               ];
             },
 
