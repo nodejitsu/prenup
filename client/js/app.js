@@ -60,7 +60,7 @@ $(function() {
               return ["div", { "class": "scenario" },
                   ["h3", { "class": "breakdown" },
                       ["a", { "href": "#" }, scenario.name],
-                      ["div", { "class": "remove ui-state-default ui-corner-all", "title": "Remove scenario" }, 
+                      ["div", { "class": "remove delete-scenario ui-state-default ui-corner-all", "title": "Remove scenario" }, 
                         ["span", "&nbsp"]
                       ]
                   ],
@@ -222,16 +222,22 @@ $(function() {
                 // for removing steps in a scenario
                 $(".delete-step").live("click", function(){
                   $(this).closest('li').slideUp(750, function(){
-                    $(this).remove()
+                    $(this).remove();
                   });
                 });
                 
                 $(".delete-feature").live("click", function(e){
                   e.stopPropagation();
                   $(this).parent().slideUp(750, function(){
-                    $(this).remove()
+                    $(this).remove();
                   });
-                  
+                });
+
+                $(".delete-scenario").live("click", function(e){
+                  e.stopPropagation();
+                  $(this).parent().slideUp(750, function(){
+                    $(this).remove();
+                  });
                 });
                 
                 // do some default stuff, this should be done better.
