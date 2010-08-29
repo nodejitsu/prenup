@@ -36,7 +36,7 @@ $(function() {
                       ["td", { "class": "grip-col" }, ["span", { "class": "ui-icon ui-icon-arrowthick-2-n-s grip" }]],
                       ["td", { "class": "operator-col" }, [NJ.nup.renderWordSelector(DAL.get.operators())]],
                       ["td", { "class": "content-col" }, ["input", { "type": "text", "value": pair[1] }]],
-                      ["td", { "class": "delete-col" }, ["div", { "class": "remove ui-state-default ui-corner-all", "title": "Remove scenario" }, 
+                      ["td", { "class": "delete-col" }, ["div", { "class": "remove delete-step ui-state-default ui-corner-all", "title": "Remove scenario" }, 
                         ["span", "&nbsp"]
                       ]]
                     ]]
@@ -200,19 +200,12 @@ $(function() {
                 $("#featureslist").html(html.join(""));
 
                 // once the UI has rendered, we need to apply UI events to elements
-                $(".delete").live("click", function(){
-                  $(this).parent().slideUp(750, function(){
-                    $(this).remove()
-                  });
-
-                  //console.log("delete breakdown element")
-                });
 
                 $("#featureslist, .scenario").accordion({ 
                   collapsible: true, 
                   autoHeight: false 
                 
-                }).find("input, .remove").click(function(ev){
+                }).find("input").click(function(ev){
                     ev.stopPropagation();
                 });                
                 
@@ -222,6 +215,15 @@ $(function() {
                 $('.add-step').click(function(){
                   $(this).siblings('ul').append($.jup.html(NJ.nup.renderStep()));
                 }).button();
+                
+                // for removing steps in a scenario
+                $(".delete-step").live("click", function(){
+                  $(this).closest('li').slideUp(750, function(){
+                    $(this).remove()
+                  });
+                });
+                
+                
                 
                 // do some default stuff, this should be done better.
 
