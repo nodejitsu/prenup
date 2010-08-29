@@ -117,6 +117,8 @@ $(function() {
                 var exportAction = $($.jup.html(["div", "This will export your stuff someplace..."])).dialog({
                   resizable: false,
                   autoOpen: false,
+                  modal: true,                  
+                  dialogClass: "shadow",                  
                   buttons: {
                     "ok": function() {
                       $(this).dialog("close");
@@ -127,9 +129,15 @@ $(function() {
                   }
                 });
                 
+                $("#export").click(function() {
+                  exportAction.dialog("open");
+                });                
+                
                 var stepAndScenarioAction = $($.jup.html(["div", "Here are all your steps and scenarios, click one to add it to the currently open feature or scenario"])).dialog({
                   resizable: false,
-                  autoOpen: false,                  
+                  autoOpen: false,
+                  modal: true,
+                  dialogClass: "shadow",             
                   buttons: {
                     "ok": function() {
                       $(this).dialog("close");
@@ -138,11 +146,17 @@ $(function() {
                       $(this).dialog("close");                      
                     }
                   }
-                });        
+                }); 
+                
+                $("#features").click(function() {
+                  stepAndScenarioAction.dialog("open");
+                });
                 
                 var usersAction = $($.jup.html(["div", "Here are all the users, create one or click one to add it to the currently open feature or scenario"])).dialog({
                   resizable: false,
-                  autoOpen: false,                  
+                  dialogClass: "shadow",                  
+                  autoOpen: false,   
+                  modal: true,                                 
                   buttons: {
                     "ok": function() {
                       $(this).dialog("close");
@@ -151,7 +165,11 @@ $(function() {
                       $(this).dialog("close");                      
                     }
                   }
-                });                
+                });
+                
+                $("#settings").click(function() {
+                  usersAction.dialog("open");
+                });                                
                 
                 // load up the milestones
 
