@@ -180,7 +180,9 @@ $(function() {
                 $.each(DAL.get.milestones(), function(key, milestone) {
                     html.push($.jup.html([
                         ["input", { "class": "btn", "id": "ms" + key, "type": "checkbox" }], 
-                        ["label", { "for": "ms" + key }, milestone]
+                        ["label", { "class": "milestone", "for": "ms" + key }, milestone + "<span class='remove remove-milestone'></span>",
+                                                  
+                        ]
                     ]));
                 });
 
@@ -260,9 +262,12 @@ $(function() {
                 
                 // do some default stuff, this should be done better.
 
-                $(".milestone-member").hide(function(){
-                  $("label[for=ms1]").click();
-                });
+             if(!(_.isEmpty(DAL.get.milestones()))){
+               $("h3.milestone-member, div.milestone-member")["hide"]();
+               $("label[for='ms1']").click();
+               $("#toolbar #ms1").click();
+               $("h3.milestone-member.ms1, div.milestone-member.ms1")["show"]();
+              }
                 
                 
             },
