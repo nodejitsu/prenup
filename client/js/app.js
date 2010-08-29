@@ -249,7 +249,6 @@ $(function() {
                     $("h3.milestone-member." + $(this).attr("id")).click();
                     $("div.milestone-member." + $(this).attr("id"))[$(this).attr("checked") ? "fadeIn" : "fadeOut"]();
                   }                 
-
                 });
                 
                 $('#toolbar label img').click(function() {
@@ -357,7 +356,10 @@ $(function() {
 
                 $('.add-milestone').live('click', function(e){
                   
-                  
+                  var html = [];
+                  html.push(NJ.nup.renderMilestone(1, 'milestone x'));
+                  $("#toolbar ul").append(html.join("")).disableSelection().sortable();
+                  console.log('adding milestone');
                   
                 });
 
