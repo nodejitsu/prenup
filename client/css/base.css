@@ -1,3 +1,5 @@
+
+
 .action-button {
     background:#D4D5C9;
     padding:5px;
@@ -8,20 +10,35 @@
 
 a {cursor:pointer;}
 
-h1 {
-    font-size:24px;
-    border-bottom: 1px solid #999;
-    }
+#projectTitle {
+    font-size:20px;
+	position: absolute;
+	top: 30px;
+	left: 30px;
+	color: #777;
+}
 
-#container {
-    width:1000px;
-    margin:auto;
+#main {
+	position: absolute;
+	top: 60px;
+	right: 0px;
+	left: 0px;
+	bottom: 80px;
+	padding-left: 30px;
+	padding-right: 30px;
+	overflow: auto;
+}
+
+
+#toolbar {
+	padding: 10px;
 }
 
 #milestones {
     height:50px;
     margin:10px;
 }
+
 #milestones li{
     display:inline;
     list-style-type: none;
@@ -32,82 +49,50 @@ h1 {
     border-radius: 5px;
 }
 
-.features {
-    border: 1px solid #999;
-    background:orange;
-    padding:15px;
-}
-
-.feature-info {
-    background:yellow;
-    padding:20px;
-    position:relative;
-}
-
-.feature-close-link {
-    background:#D4D5C9;
-}
-
-.feature-meta {
-    position:absolute;
-    right:20px;
-    bottom:20px;
-}
-
-.features label {
-    font-weight: bold;
-    font-size:16px;
-    width:100px;
-    display:block;
-    float:left;
-}
-
-.features input {
-    width:650px;
-}
-.features textarea {
-    width:750px;
-    height:50px;
-}
-
-.scenarios {
-    margin:15px;
-    padding:25px;
-    border: 1px solid #999;
-    background:blue;
-}
-
-.hours-input {
-    width:50px !important;
-}
-
-.scenarios label {
-    float:none;
-    display:inline;
-}
-
-.steps {
-    border: 1px solid #999;
-    margin:10px 0;
-    padding:5px 10px;
-}
 
 footer {
-    background:#F6A4FD;
+	background: #555 url('../img/footer.png') repeat-x 0px 0px;
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+	left: 0px;
+	height: 80px;
     border-top: 1px solid #999;
 }
 
-footer h3 {
-    font-size:16px;
-    display:inline;
+footer table {
+    width: 100%;
 }
 
-footer dl, footer dt {
-    display:inline;
-    margin-left:10px;
+footer table td{
+	padding: 10px;
+	padding-left: 13%;
+    text-align: center;
 }
 
-footer dd {
-    display:inline;
-    margin-left:5px;
+#logo {
+	position: absolute;
+	top: 10px;
+	right: 30px;
+	background: url('../img/logo.png') no-repeat scroll top left;
+	width: 233px;
+	height: 40px;
+}
+
+#settings {
+	background: url('../img/settings.png') no-repeat scroll top left;
+	width: 61px;
+	height: 53px;
+}
+
+#export {
+	background: url('../img/export.png') no-repeat scroll top left;
+	width: 61px;
+	height: 53px;
+}
+
+#features {
+	background: url('../img/features.png') no-repeat scroll top left;
+	width: 61px;
+	height: 53px;
 }
