@@ -153,9 +153,11 @@ $(function() {
                   }
                 });                
                 
-                var exportAction = $($.jup.html(["div", "This will export your stuff someplace..."])).dialog({
+                var exportAction = $("#export-data").dialog({
                   resizable: false,
                   autoOpen: false,
+                  height: 400,
+                  width: 600,
                   modal: true,                  
                   dialogClass: "shadow",                  
                   buttons: {
@@ -166,15 +168,12 @@ $(function() {
                         type: "POST",
                         data: JSON.stringify(NJ.nup.DATA),
                         success: function(data) {
-                          $('.result').html(data);
+                          $('#export-data code').html(data);
                         }
                       });
                       
                       $(this).dialog("close");
                       
-                    },
-                    "cancel": function() {
-                      $(this).dialog("close");                      
                     }
                   }
                 });
@@ -183,46 +182,7 @@ $(function() {
                   exportAction.dialog("open");
                 });                
                 
-                var featureAction = $("#feature-add").dialog({
-                  resizable: false,
-                  autoOpen: false,
-                  modal: true,
-                  dialogClass: "shadow",             
-                  buttons: {
-                    "ok": function() {
-
-                      $(this).dialog("close");
-                      
-                    },
-                    "cancel": function() {
-                      $(this).dialog("close");
-                    }
-                  }
-                }); 
-                
-                $("#features").click(function() {
-                  featureAction.dialog("open");
-                });
-                
-                
-                var usersAction = $($.jup.html(["div", "Here are all the users, create one or click one to add it to the currently open feature or scenario"])).dialog({
-                  resizable: false,
-                  dialogClass: "shadow",                  
-                  autoOpen: false,   
-                  modal: true,                                 
-                  buttons: {
-                    "ok": function() {
-                      $(this).dialog("close");
-                    },
-                    "cancel": function() {
-                      $(this).dialog("close");                      
-                    }
-                  }
-                });
-                
-                $("#settings").click(function() {
-                  usersAction.dialog("open");
-                });                                
+                                          
                 
                 // render milestones
                 var html = [];
