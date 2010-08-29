@@ -5,12 +5,19 @@
 ## Features
 
 - Scenarios are created using Kyuri, a custom dialect of Gherkin geared towards asynchronous programming
-- Heavily influenced by Cucumber. If you know Cuke, you know Nuptials.
 - Generates VowsJS testing stubs (VowsJS is a well established node.js testing framework)
 - Intuitive and friendly user interface that takes the frustration out of Behavior Driven Development
 - Milestones, Features, Scenarios, Points
 - Support for 160+ languages
+- Heavily influenced by Cucumber. If you know Cuke, you know Nuptials.
 
+
+## things that would be implemented if we didn't build this in 48 hours
+
+- real-time project management collaboration using [socket.io][9]
+- user accounts using [roles.js][7]
+- automated billing using [paynode][8]
+- native mobile app (iPhone / iPad / BlackBerry) using [Titanium AppCelerator][6]
 
 ## Using Nuptials
 
@@ -67,3 +74,7 @@ Think testing business logic with all the tastiness of organizing via easily rea
 [3]:  http://vowsjs.org/  "Vowjs"
 [4]:  http://lowdownapp.com/  "Lowdownapp"
 [5]:  http://foo.com/ "nuptials"
+[6]:  http://www.appcelerator.com/ "Titanium AppCelerator"
+[7]:  http://github.com/marak/roles.js/ "roles.js"
+[8]:  http://github.com/jamescarr/paynode "paynode"
+[9]:  http://socket.io/ "socket.io"
