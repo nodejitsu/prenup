@@ -226,9 +226,9 @@ $(function() {
                     ev.stopPropagation();
                 });
                 
-                $("#featureslist input").mouseover(function() {
+                $("#featureslist input").live("mouseover", function() {
                   $(this).addClass("inlineEditHover");
-                }).mouseout(function() {
+                }).live("mouseout", function() {
                   $(this).removeClass("inlineEditHover");
                 })
                 
