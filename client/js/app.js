@@ -231,7 +231,7 @@ $(function() {
                 });
 
                 $("#toolbar ul").html(html.join("")).disableSelection().sortable();
-                $("#toolbar .btn").live('click', function() {
+                $("#toolbar .btn").button().live('click', function() {
                   $("h3.milestone-member." + $(this).attr("id"))[$(this).attr("checked") ? "fadeIn" : "fadeOut"]();
                   if($("h3.milestone-member." + $(this).attr("id")).hasClass('ui-state-active')){  
                     $("h3.milestone-member." + $(this).attr("id")).click();
@@ -342,9 +342,9 @@ $(function() {
                 $('.add-milestone').live('click', function(e){
                   
                   var html = [];
-                  html.push(NJ.nup.renderMilestone(1, 'milestone x'));
+                  html.push(NJ.nup.renderMilestone($("#toolbar .btn").length + 1, 'milestone x'));
                   $("#toolbar ul").append(html.join("")).disableSelection().sortable();
-                  console.log('adding milestone');
+                  $("#toolbar .btn:last").button();
                   
                 });
 
