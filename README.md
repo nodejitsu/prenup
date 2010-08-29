@@ -1,15 +1,15 @@
 # Nuptials
 
-Nuptials is a project planning tool that allows you to meaningfully engage your clients and convert their domain knowledge into tangible milestones, features, scenarions, and unit tests.
+Nuptials is a node.js web application (protip: it kinda works without node.js if you just open index.html in your browser) project planning tool that allows you to meaningfully engage your clients and convert their domain knowledge into tangible milestones, features, scenarions, and unit tests.
 
 ## Features
 
 - Scenarios are created using Kyuri, a custom dialect of Gherkin geared towards asynchronous programming
-- Generates VowsJS testing stubs (VowsJS is a well established node.js testing framework)
 - Intuitive and friendly user interface that takes the frustration out of Behavior Driven Development
+- Generates [VowsJS][3] testing stubs (Vows is a well established node.js testing framework)
 - Milestones, Features, Scenarios, Points
 - Support for 160+ languages
-- Heavily influenced by Cucumber. If you know Cuke, you know Nuptials.
+- Heavily influenced by Cucumber. If you know [Cuke][10], you know Nuptials.
 
 
 ## things that would be implemented if we didn't build this in 48 hours
@@ -44,9 +44,9 @@ If you want to run your own Nuptials instance (instead of using the free service
 
 ## VowsJS
 
-Vows is a popular behavior driven development framework for Node.js. [Vows][3] was built from the ground up to test asynchronous code. It executes your tests in parallel when it makes sense, and sequentially when there are dependencies.
+[VowsJS][3] is a popular behavior driven development framework for node.js. Vows was built from the ground up to test asynchronous code. It executes your tests in parallel when it makes sense, and sequentially when there are dependencies.
 
-Instead of crafting your [Vows][3] code from hand (using JavaScript), Nuptials allows you to auto-generate Vows stubs. 
+Instead of crafting your [Vows][3] code from hand (using JavaScript and node.js), Nuptials allows you to auto-generate Vows stubs using [Kyuri][1] and an intuitive user interface. 
 
 For further information about [Vows][3], please visit it's repository here. 
 
@@ -79,3 +79,4 @@ Think testing business logic with all the tastiness of organizing via easily rea
 [8]:  http://github.com/jamescarr/paynode "paynode"
 [9]:  http://socket.io/ "socket.io"
 [10]: http://cukes.info "Cucumber"
+[11]: http://nodejs.org "node.js"
