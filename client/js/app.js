@@ -175,14 +175,24 @@ $(function() {
                   dialogClass: "shadow",             
                   buttons: {
                     "ok": function() {
-                      
-                      // TO-DO: Add feature logic here.
-                      
+
+                        var out = NJ.nup.renderFeature(1, NJ.nup.DAL.get.features()[1]);
+                        $('#featureslist').append($.jup.html(out));
+
+                        // rebind accordion
+                        $("#featureslist, .scenario").accordion({ 
+                          collapsible: true, 
+                          autoHeight: false 
+
+                        }).find("input").click(function(ev){
+                            ev.stopPropagation();
+                        });
                       
                       $(this).dialog("close");
+                      
                     },
                     "cancel": function() {
-                      $(this).dialog("close");                      
+                      $(this).dialog("close");
                     }
                   }
                 }); 
@@ -305,22 +315,6 @@ $(function() {
 
                   var out = NJ.nup.renderScenario(2, NJ.nup.DAL.get.scenariosByFeature(1)[0]);
                   $(this).before($.jup.html(out));
-                  
-                  // rebind accordion
-                  $("#featureslist, .scenario").accordion({ 
-                    collapsible: true, 
-                    autoHeight: false 
-
-                  }).find("input").click(function(ev){
-                      ev.stopPropagation();
-                  });
-                  
-                });
-
-                $('.add-feature').live('click', function(e){
-                  var out = NJ.nup.renderFeature(1, NJ.nup.DAL.get.features()[1]);
-                  $('#featureslist').append($.jup.html(out));
-                  
                   
                   // rebind accordion
                   $("#featureslist, .scenario").accordion({ 
