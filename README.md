@@ -52,7 +52,7 @@ For further information about [Vows][3], please visit it's repository here.
 
 ## Kyuri
 
-[Kyuri][1] comes pre-bundled with Nuptials. [Kyuri][1] is the language used to describe your Features and Scenarios. [Kyuri][1] is a dialect of Gherkin, a well establish BDD language made popular by the Cucumber framework. 
+[Kyuri][1] comes pre-bundled with Nuptials. [Kyuri][1] is the language used to describe your Features and Scenarios. [Kyuri][1] is a dialect of Gherkin, a well establish BDD language made popular by [Cucumber][10]. 
 
 For further information about [Kyuri][1], please visit it's repository here.
 
@@ -78,3 +78,4 @@ Think testing business logic with all the tastiness of organizing via easily rea
 [7]:  http://github.com/marak/roles.js/ "roles.js"
 [8]:  http://github.com/jamescarr/paynode "paynode"
 [9]:  http://socket.io/ "socket.io"
+[10]: http://cukes.info "Cucumber"
