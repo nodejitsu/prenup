@@ -34,7 +34,7 @@ $(function() {
                   ["table", { "class": "step" },
                     ["tr", [
                       ["td", { "class": "grip-col" }, ["span", { "class": "ui-icon ui-icon-arrowthick-2-n-s grip" }]],
-                      ["td", { "class": "operator-col" }, [NJ.nup.renderWordSelector(DAL.get.operators())]],
+                      ["td", { "class": "operator-col" }, [NJ.nup.renderWordSelector(DAL.get.operators(), pair[0])]],
                       ["td", { "class": "content-col" }, ["input", { "type": "text", "value": pair[1] }]],
                       ["td", { "class": "delete-col" }, ["div", { "class": "remove delete-step ui-state-default ui-corner-all", "title": "Remove scenario" }, 
                         ["span", "&nbsp"]
@@ -44,12 +44,13 @@ $(function() {
               ];
             },
 
-            renderWordSelector: function(data){
+            renderWordSelector: function(data, value){
               return ["select", [
                   (function() {
                       var options = [];
                       $.each(data, function(i, operator) {
-                          options.push($.jup.html(["option", operator]));
+                        
+                          options.push($.jup.html(["option", (value.toLowerCase() === operator.toLowerCase() ? { "selected": "true" } : {}), operator]));
                       });
                       return options;                             
                   })()
@@ -395,8 +396,8 @@ $(function() {
                         milestone: 1,
                         owner: 1,
                         users: [2, 3],
-                        name: "foo",
-                        description: "A Setence",
+                        name: "Addition",
+                        description: "In order to avoid silly mistakes, as a genius, I want to be told the sum of two numbers.",
                         timeunit: "hour",
                         costPerTimeUnit: 80,
                         scenarios: [
@@ -404,12 +405,14 @@ $(function() {
                                 id: 0,                                
                                 outline: false,                                
                                 time: 20,
-                                name: "scenario0",
+                                name: "Add two numbers",
                                 description: "blah",
                                 breakdown: [
-                                    {"1": ["examples", "sentence1"]},
-                                    {"2": ["name", "sentence2"]},
-                                    {"3": ["and", "sentence3"]}
+                                    {"1": ["given", "I have entered 50 into the calculator"]},
+                                    {"2": ["and", "I press add button"]},                                    
+                                    {"3": ["and", "I have entered 70 into the calculator"]},
+                                    {"4": ["and", "I press the add button again or the sum button"]},                                    
+                                    {"5": ["then", "the result should be 120 on the screen"]}
                                 ]
                             },
                             {
