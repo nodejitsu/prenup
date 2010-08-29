@@ -20,6 +20,7 @@ a {cursor:pointer;}
 	padding-top: 240px;
 	height: auto !important;
 	background: url('../img/splash.png') no-repeat scroll top left;
+	text-align: 'center';
 }
 
 
