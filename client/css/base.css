@@ -217,6 +217,10 @@ footer div {
 	height: 53px;
 }
 
+#feature-add {
+	display: none;
+}
+
 ul {
 	margin: 2px;
 }
