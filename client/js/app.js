@@ -59,7 +59,7 @@ $(function() {
             renderScenario: function(key, scenario){
               return ["div", { "class": "scenario" },
                   ["h3", { "class": "breakdown" },
-                      ["a", { "href": "#" }, scenario.name],
+                      ["input", { "type": "text", "value": scenario.name }],
                       ["div", { "class": "remove delete-scenario ui-state-default ui-corner-all", "title": "Remove scenario" }, 
                         ["span", "&nbsp"]
                       ]
