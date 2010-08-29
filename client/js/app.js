@@ -48,10 +48,11 @@ $(function() {
                 $.each(DAL.get.features(), function(i, feature) {
                     html.push($.jup.html([
                         ["h3", { "class": "ms" + feature.milestone },
-                            ["a", { "href": "#" }, feature.name]
+                            ["input", { 'type': "text", 'value': feature.name }],
+                            
                         ],
+                        
                         ["div", { "class": "ms" + feature.milestone },
-
                             (function() {
 
                                 var scenarios = [];
@@ -93,8 +94,8 @@ $(function() {
 
                                                 breakdown.push("</ul>");
 
-                                                return breakdown.join("");
-
+                                                return breakdown.join("") + $.jup.html(['span',{ "class": "button" }, 'Add Step +']) ;
+                                                
                                             })()
                                         ]
 
@@ -109,7 +110,10 @@ $(function() {
                 });
                 
                 $("#featureslist").html(html.join(""));
-                $("#featureslist, .scenario").accordion({ collapsible: true, autoHeight: false });
+                $("#featureslist, .scenario").accordion({ collapsible: true, autoHeight: false }).find('input').click(function(ev){
+                    ev.stopPropagation();
+                });
+                ;
                 $('.sortable-ui').sortable();
                 
                 
