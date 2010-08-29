@@ -24,8 +24,14 @@ $(function() {
                 });
             },
             
-            renderStep: function(){
-              return 'hr';
+            renderStep: function(pair){
+              return ["li",
+              ["span", { "class": "ui-icon ui-icon-arrowthick-2-n-s grip" }],
+              [NJ.nup.renderWordSelector(DAL.get.operators())],
+                  ["input", { "type": "text", "value": pair[1] },
+                  ["span", { "class": "ui-icon ui-icon-circle-close step-close delete" }],
+                   ["br"]]
+              ];
             },
 
             renderWordSelector: function(data){
@@ -87,15 +93,10 @@ $(function() {
 
                                                 $.each(scenario.breakdown, function(key, step) {
                                                     $.each(step, function(key, pair) {
-                                                        breakdown.push($.jup.html(["li",
-                                                        ["span", { "class": "ui-icon ui-icon-arrowthick-2-n-s grip" }],
-                                                        [NJ.nup.renderWordSelector(DAL.get.operators())],
-                                                            ["input", { "type": "text", "value": pair[1] },
-                                                            ["span", { "class": "ui-icon ui-icon-circle-close step-close delete" }],
-                                                             ["br"]]
-                                                        ]));
+                                                        breakdown.push($.jup.html(NJ.nup.renderStep(pair)));
                                                     });
                                                 });
+
 
                                                 breakdown.push("</ul>");
 
