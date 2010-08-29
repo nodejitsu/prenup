@@ -254,6 +254,15 @@ $(function() {
                 
                 $(".delete-feature").live("click", function(e){
                   e.stopPropagation();
+                  if($(this).hasClass('ui-state-active')) {
+                    $(this).parent().next(".ui-accordion-content").slideUp(750, function() {
+                      $(this).remove();
+                    });
+                  }
+                  else{
+                    $(this).parent().next(".ui-accordion-content").remove();
+                  }
+                  
                   $(this).parent().slideUp(750, function(){
                     $(this).remove()
                   });
