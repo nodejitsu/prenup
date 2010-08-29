@@ -170,11 +170,13 @@ input, .inlineEdit {
 footer {
 	background: #555 url('../img/footer.png') repeat-x 0px 0px;
 	position: absolute;
-	bottom: 0px;
+	bottom: 30px;
 	right: 0px;
 	left: 0px;
-	height: 80px;
+	height: 60px;
     border-top: 1px solid #999;
+		color: #fff;
+		cursor: pointer;
 }
 
 footer table {
@@ -182,9 +184,9 @@ footer table {
 }
 
 footer table td{
-	padding: 10px;
-	padding-left: 13%;
-    text-align: center;
+	padding: 20px;
+  text-align: center;
+	vertical-align: middle;
 }
 
 footer div {
@@ -207,6 +209,7 @@ footer div {
 }
 
 #export {
+	float: right;
 	background: url('../img/export.png') no-repeat scroll top left;
 	width: 61px;
 	height: 53px;

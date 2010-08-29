@@ -178,7 +178,7 @@ $(function() {
                   }
                 });
                 
-                $("#export").click(function() {
+                $("footer").click(function() {
                   exportAction.dialog("open");
                 });                
                 
@@ -190,18 +190,6 @@ $(function() {
                   buttons: {
                     "ok": function() {
 
-                        var out = NJ.nup.renderFeature(1, NJ.nup.DAL.get.features()[1]);
-                        $('#featureslist').append($.jup.html(out));
-
-                        // rebind accordion
-                        $("#featureslist, .scenario").accordion({ 
-                          collapsible: true, 
-                          autoHeight: false 
-
-                        }).find("input").click(function(ev){
-                            ev.stopPropagation();
-                        });
-                      
                       $(this).dialog("close");
                       
                     },
@@ -339,6 +327,7 @@ $(function() {
                 
                 $('.add-feature').button().click(function(e){
                   var out = NJ.nup.renderFeature(1, NJ.nup.DAL.get.features()[1]);
+
                   $('#featureslist').append($.jup.html(out));
                   
                   
