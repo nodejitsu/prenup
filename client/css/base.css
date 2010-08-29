@@ -43,7 +43,7 @@ a {cursor:pointer;}
 	padding: 2px;
 }
 
-.remove span {
+.remove span, .remove-milestone {
 	background-image:url("../img/ui-icons_888888_256x240.png");
 	background-position:-80px -128px;
 	background-repeat:no-repeat;
@@ -72,6 +72,10 @@ a {cursor:pointer;}
 #milestones {
     height:50px;
     margin:10px;
+}
+
+label.milestone {
+	padding-right: 15px;
 }
 
 #milestones li{
@@ -174,7 +178,7 @@ footer div {
 #logo {
 	position: absolute;
 	top: 10px;
-	right: 30px;
+	right: 0px;
 	background: url('../img/logo.png') no-repeat scroll top left;
 	width: 233px;
 	height: 40px;
