@@ -59,7 +59,7 @@ $(function() {
                                 $.each(feature.scenarios, function(key, scenario) {
                                     scenarios.push($.jup.html(["div", { "class": "scenario" },
 
-                                        ["h3", { "class": "breakdown" }, 
+                                        ["h3", { "class": "breakdown" },
                                             ["a", { "href": "#" }, scenario.name]
                                         ],
                                         ["div",
@@ -85,7 +85,7 @@ $(function() {
                                                                 })()
                                                             ]],
                                                             ["input", { "type": "text", "value": pair[1] },
-                                                            ["span", { "class": "ui-icon ui-icon-circle-close grip" }],
+                                                            ["span", { "class": "ui-icon ui-icon-circle-close step-close delete" }],
                                                              ["br"]]
                                                         ]));
                                                     });
@@ -1510,3 +1510,10 @@ GERK.i18n = {
         "scenario": "Scenaro"
     }
 };
+
+jQuery(document).ready(function($) {
+  $(".delete").live("click", function(){
+    $(this).parent().remove();
+    console.log("delete breakdown element")
+  });
+});
