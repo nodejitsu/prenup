@@ -49,11 +49,11 @@ If you want to run your own prenup instance (instead of using the free service a
 
 ## Vows
 
-[VowsJS][3] is a popular behavior driven development framework for node.js. Vows was built from the ground up to test asynchronous code. It executes your tests in parallel when it makes sense, and sequentially when there are dependencies.
+[###VowsJS
 
-Instead of crafting your [Vows][3] code from hand (using JavaScript and node.js), prenup allows you to auto-generate Vows stubs using [kyuri][1] and an intuitive user interface. 
+[Vows][3]  is a popular [Behavior Driven Development][4] framework for node.js. Vows was built from the ground up to test asynchronous code. It executes your tests in parallel when it makes sense, and sequentially when there are dependencies.
 
-For further information about [Vows][3], please visit it's repository here. 
+Instead of crafting your VowsJS code from hand (using JavaScript), kyuri allows you to auto-generate Vows stubs. 
 
 ## kyuri
 
