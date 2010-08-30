@@ -1,5 +1,4 @@
-var sys = require('sys'),
-eyes = require('eyes');
+var sys = require('sys');
 
 var static = require('./vendor/node-static/lib/node-static');
 

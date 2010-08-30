@@ -1,4 +1,5 @@
 
+
 <img src="http://imgur.com/RcVnG.png" border="0"/>
 
 # a collaborative bdd project planning tool for node
@@ -24,34 +25,22 @@ prenup allows you to meaningfully engage your clients and convert their domain k
 - automated billing using [paynode][8]
 - native mobile app (iPhone / iPad / BlackBerry) using [Titanium AppCelerator][6]
 
-## using prenup
+##Usage
 
-prenup can be used as a software as a service located @ [http://prenup.nodejitsu.com][5].
-
-prenup is also open-source, so you can run your own customizable version (see below)
-
-
-## installation
-
-If you want to run your own prenup instance (instead of using the free service available at http://foo.com), you will need to install prenup via npm.
-
-
-### Installing npm (node package manager)
+### using prenup locally
 <pre>
-  curl http://npmjs.org/install.sh | sh
+  git clone git@github.com:nodejitsu/prenup.git
+  cd prenup
+  node server.js
 </pre>
 
-### Installing prenup
-<pre>
-  npm install prenup
-</pre>
+### using prenup online
 
+visit [http://prenup.nodejitsu.com][4]
 
 ## Vows
 
-[###VowsJS
-
-[Vows][3]  is a popular [Behavior Driven Development][4] framework for node.js. Vows was built from the ground up to test asynchronous code. It executes your tests in parallel when it makes sense, and sequentially when there are dependencies.
+[VowsJS][3]  is a popular [Behavior Driven Development][4] framework for node.js. Vows was built from the ground up to test asynchronous code. It executes your tests in parallel when it makes sense, and sequentially when there are dependencies.
 
 Instead of crafting your VowsJS code from hand (using JavaScript), kyuri allows you to auto-generate Vows stubs. 
 
