@@ -26,7 +26,7 @@ require('http').createServer(function (request, response) {
             }
         });
     });
-}).listen(80);
+}).listen(8080);
 
 sys.puts("> nuptials is listening on http://127.0.0.1:8080");
  
