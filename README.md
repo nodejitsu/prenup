@@ -1,7 +1,7 @@
 
 <img src="http://imgur.com/RcVnG.png" border="0"/>
 
-prenup allows you to meaningfully engage your clients and convert their domain knowledge into tangible milestones, features, scenarions, and unit tests.
+### prenup allows you to meaningfully engage your clients and convert their domain knowledge into tangible milestones, features, scenarios, and unit tests.
 
 
 ## features
