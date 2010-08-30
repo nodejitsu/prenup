@@ -1,6 +1,8 @@
+
 <img src="http://imgur.com/65WRt.gif" border="0"/>
 
-prenup is a [node.js][11] web application (<i>protip: it kinda works without node.js if you just open index.html in your browser</i>) project planning tool that allows you to meaningfully engage your clients and convert their domain knowledge into tangible milestones, features, scenarions, and unit tests.
+prenup allows you to meaningfully engage your clients and convert their domain knowledge into tangible milestones, features, scenarions, and unit tests.
+
 
 ## features
 
