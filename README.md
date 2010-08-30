@@ -48,8 +48,6 @@ Instead of crafting your VowsJS code from hand (using JavaScript), kyuri allows 
 
 [kyuri][1] comes pre-bundled with prenup. [kyuri][1] is the language used to describe your Features and Scenarios. [kyuri][1] is a dialect of Gherkin, a well establish BDD language made popular by [Cucumber][10]. 
 
-For further information about [kyuri][1], please visit it's repository here.
-
 
 ## authors
 ### created for node knockout 2010 by The NYC Nodejitsu Ninjas
