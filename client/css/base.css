@@ -17,71 +17,71 @@ code .comment              { color: grey }
 a {cursor:pointer;}
 
 .shadow {
-	-moz-box-shadow: 0px 3px 3px #666;
-	-webkit-box-shadow: 0px 3px 3px #666;
-	box-shadow: 0px 3px 3px #666;	
+  -moz-box-shadow: 0px 3px 3px #666;
+  -webkit-box-shadow: 0px 3px 3px #666;
+  box-shadow: 0px 3px 3px #666; 
 }
 
 #splash {
-	padding-top: 240px;
-	height: auto !important;
-	background: url('../img/splash.png') no-repeat scroll top left;
-	text-align: 'center';
+  padding-top: 240px;
+  height: auto !important;
+  background: url('../img/splash.png') no-repeat scroll top left;
+  text-align: 'center';
 }
 
 
 #projectTitle {
-    font-size:20px;
-	position: absolute;
-	top: 30px;
-	left: 30px;
-	color: #777;
+  font-size:20px;
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  color: #777;
 }
 
 #instructions {
-	margin-top: 1px;
-	border:1px solid #AAAAAA;
-	position: relative;
-	padding: 10px;
-	height: 200px;
-	display: none;
+  margin-top: 1px;
+  border:1px solid #AAAAAA;
+  position: relative;
+  padding: 10px;
+  height: 200px;
+  display: none;
 }
 
 .remove {
-	cursor: pointer;
-	position: absolute;
-	right: 2px;
-	top: 2px;
-	width: 16px;
-	height: 16px;	
-	padding: 2px;
+  cursor: pointer;
+  position: absolute;
+  right: 2px;
+  top: 2px;
+  width: 16px;
+  height: 16px; 
+  padding: 2px;
 }
 
 .remove span, .remove-milestone {
-	background-image:url("../img/ui-icons_888888_256x240.png");
-	background-position:-80px -128px;
-	background-repeat:no-repeat;
-	display:block;
-	overflow:hidden;
-	text-indent:-99999px;	
+  background-image:url("../img/ui-icons_888888_256x240.png");
+  background-position:-80px -128px;
+  background-repeat:no-repeat;
+  display:block;
+  overflow:hidden;
+  text-indent:-99999px; 
 }
 
 #main {
-	position: absolute;
-	top: 60px;
-	right: 0px;
-	left: 0px;
-	bottom: 95px;
-	padding-left: 30px;
-	padding-right: 30px;
-	overflow: auto;
-	min-width: 700px;
-	padding-bottom: 20px;
+  position: absolute;
+  top: 60px;
+  right: 0px;
+  left: 0px;
+  bottom: 95px;
+  padding-left: 30px;
+  padding-right: 30px;
+  overflow: auto;
+  min-width: 700px;
+  padding-bottom: 20px;
 }
 
 
 #toolbar {
-	padding: 10px;
+  padding: 10px;
 }
 
 #milestones {
@@ -90,8 +90,8 @@ a {cursor:pointer;}
 }
 
 label img {
-	margin-left: 8px;
-	vertical-align: middle;
+  margin-left: 8px;
+  vertical-align: middle;
 }
 
 #milestones ul li{
@@ -109,24 +109,24 @@ h3 input {
   width:80% !important;
   border: 1px solid transparent;
   background-color: transparent;
-	margin-top: 2px;
-	height: 18px;
-	-moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;
+  margin-top: 2px;
+  height: 18px;
+  -moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;
 }
 
 input, .inlineEdit {
-	height: 20px;
+  height: 20px;
 }
 
 .add-milestone {
-	position: absolute;
-	right: 40px;
-	top: 10px;
+  position: absolute;
+  right: 40px;
+  top: 10px;
 }
 
 .inlineEditHover {
-	background: #fff;
-	border: 1px solid #aaa;
+  background: #fff;
+  border: 1px solid #aaa;
 }
 
 .scenario {overflow:hidden;}
@@ -134,50 +134,50 @@ input, .inlineEdit {
 .scenario select {float:left; margin-right:10px;}
 
 .scenario li {
-	border: 1px solid #eaeaea;
-	height: 23px;
+  border: 1px solid #eaeaea;
+  height: 23px;
 }
 
 .add-step, .add-scenario, .add-feature {
-	float: right;
+  float: right;
 }
 
 .add-scenario, .add-feature {
-	margin-top: 4px;
+  margin-top: 4px;
 }
 
 .step {
-	width: 100%;
+  width: 100%;
 }
 
 .step .grip-col {
-	width: 20px;
+  width: 20px;
 }
 
 .step .operator-col {
-	width: 80px;
+  width: 80px;
 }
 
 .step .content-col {
-	width: 80%;
+  width: 80%;
 }
 
 .step .content-col input {
-	background-color: #fff;
-	border: 1px solid #aaa;
-	-moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;
+  background-color: #fff;
+  border: 1px solid #aaa;
+  -moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;
 }
 
 .step .delete-col {
-	width: 20px;
+  width: 20px;
 }
 
 .step .delete-col div {
-	position: relative;
-	top:0px;
-	left:0px;
-	padding: 2px;
-	margin-left: 10px;
+  position: relative;
+  top:0px;
+  left:0px;
+  padding: 2px;
+  margin-left: 10px;
 }
 
 .grip {float:left; margin:2px 5px;  }
@@ -187,15 +187,15 @@ input, .inlineEdit {
 .ui-accordion-content{overflow:hidden !important;}
 
 footer {
-	background: #555 url('../img/footer.png') repeat-x 0px 0px;
-	position: absolute;
-	bottom: 35px;
-	right: 0px;
-	left: 0px;
-	height: 60px;
+  background: #555 url('../img/footer.png') repeat-x 0px 0px;
+  position: absolute;
+  bottom: 35px;
+  right: 0px;
+  left: 0px;
+  height: 60px;
     border-top: 1px solid #999;
-		color: #fff;
-		cursor: pointer;
+    color: #fff;
+    cursor: pointer;
 }
 
 footer table {
@@ -203,92 +203,92 @@ footer table {
 }
 
 footer table td{
-	padding: 20px;
+  padding: 20px;
   text-align: center;
-	vertical-align: middle;
+  vertical-align: middle;
 }
 
 footer div {
-	cursor: pointer;
+  cursor: pointer;
 }
 
 #logo {
-	position: absolute;
-	top: 10px;
-	right: 0px;
-	background: url('../img/logo.png') no-repeat scroll top left;
-	width: 233px;
-	height: 40px;
+  position: absolute;
+  top: 10px;
+  right: 0px;
+  background: url('../img/logo.png') no-repeat scroll top left;
+  width: 233px;
+  height: 40px;
 }
 
 #settings {
-	background: url('../img/settings.png') no-repeat scroll top left;
-	width: 61px;
-	height: 53px;
+  background: url('../img/settings.png') no-repeat scroll top left;
+  width: 61px;
+  height: 53px;
 }
 
 #export {
-	float: right;
-	background: url('../img/export.png') no-repeat scroll top left;
-	width: 61px;
-	height: 53px;
+  float: right;
+  background: url('../img/export.png') no-repeat scroll top left;
+  width: 61px;
+  height: 53px;
 }
 
 #features {
-	background: url('../img/features.png') no-repeat scroll top left;
-	width: 61px;
-	height: 53px;
+  background: url('../img/features.png') no-repeat scroll top left;
+  width: 61px;
+  height: 53px;
 }
 
 #feature-add {
-	display: none;
+  display: none;
 }
 
 ul {
-	margin: 2px;
+  margin: 2px;
 }
 
 .ui-dialog .ui-dialog-titlebar {
-	display: none;
+  display: none;
 }
 
 #toolbar .ui-button-text-only .ui-button-text {
-	padding:2px 2px 2px 8px;
+  padding:2px 2px 2px 8px;
 }
 
 #toolbar {
-	height: 35px;
+  height: 35px;
 }
 
 #toolbar ul {
-	list-style: none;
+  list-style: none;
 }
 
 #toolbar ul li {
-	float: left;
+  float: left;
 }
 
 #export-data {
 }
 
 button {
-	cursor:pointer;
-	display:inline-block;
-	margin-right:0.1em;
-	overflow:visible;
-	padding:0;
-	position:relative;
-	text-align:center;
-	text-decoration:none !important;
-	-moz-border-radius:4px 4px 4px 4px;
-	background:url("../img/ui-bg_highlight-soft_75_e6e6e6_1x100.png") repeat-x scroll 50% 50% #E6E6E6;
-	border:1px solid #D3D3D3;
-	color:#555555;
-	font-weight:normal;
-	font-family:Verdana,Arial,sans-serif;
-	font-size:1.1em;
-	padding: 6px;
-	margin: 2px;
+  cursor:pointer;
+  display:inline-block;
+  margin-right:0.1em;
+  overflow:visible;
+  padding:0;
+  position:relative;
+  text-align:center;
+  text-decoration:none !important;
+  -moz-border-radius:4px 4px 4px 4px;
+  background:url("../img/ui-bg_highlight-soft_75_e6e6e6_1x100.png") repeat-x scroll 50% 50% #E6E6E6;
+  border:1px solid #D3D3D3;
+  color:#555555;
+  font-weight:normal;
+  font-family:Verdana,Arial,sans-serif;
+  font-size:1.1em;
+  padding: 6px;
+  margin: 2px;
 }
 
 #container{display:none;}
