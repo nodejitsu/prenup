@@ -131,14 +131,17 @@ $(function() {
                   $(this).parent().fadeOut();
                 });
                 
-                // some dialogs
-                
+                // splash page dialog
                 var splash = $("#splash").dialog({
                   resizable: false,
                   width: 655,
                   height: 400,
                   modal: true,
-                  dialogClass: "shadow splash",             
+                  speed: 1500,
+                  dialogClass: "shadow splash",
+                  close: function(event, ui){
+                    $('#container').fadeIn(1500);
+                  },             
                   buttons: {
                     "ok": function() {
                       var self = this;
@@ -316,6 +319,9 @@ $(function() {
                     $(this).remove();
                   });
                 });
+                
+                // fade in container when splash closes 
+                //$('#container').hide();
                 
                 // do some default stuff, this should be done better.
 
