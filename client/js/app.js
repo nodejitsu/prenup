@@ -268,9 +268,9 @@ $(function() {
                 }).find("input, h3").click(function(ev){
                     ev.stopPropagation();
                 });
-
                 
-                $("#featureslist, .scenario").accordion( "activate" , 0 );
+                $("#featureslist").accordion( "activate" , 0 );
+                $(".scenario").accordion( "activate" , $(".scenario h3:first"));
                 
                 $("#featureslist input, #projectTitle").live("mouseover", function() {
                   $(this).addClass("inlineEditHover");
