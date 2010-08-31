@@ -303,6 +303,7 @@ $(function() {
                 // for adding additional steps in a scenario
                 $('.add-step').live('click', function(){
                   $(this).siblings('ul').append($.jup.html(NJ.nup.renderStep()));
+                  $('.sortable-ui').sortable('refresh')
                 });
                 
                 // for removing steps in a scenario
