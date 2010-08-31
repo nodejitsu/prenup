@@ -406,6 +406,8 @@ $(function() {
                       if(!$(e.originalTarget).get(0).tagName == 'INPUT'){
                         console.log(e, 'del key', $('.active:last'));
                       }
+                      
+                      return false; // required to prevent browser from navigating to previous page
                     }
                   });
                 });
