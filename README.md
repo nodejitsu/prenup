@@ -51,7 +51,7 @@ Instead of crafting your VowsJS code from hand (using JavaScript), kyuri allows 
 
 ## authors
 ### created for node knockout 2010 by The NYC Nodejitsu Ninjas
-#### Charlie Robbins, hij1nx, Matthew Bergman & Marak Squires
+#### [indexzero][15], [hij1nx][14], [FotoVerite][16] & [Marak][13]
 
 ### acknowledgments
 Heavily inspired by Sean Cribbs' [Lowdownapp][4], an entry in the 2009 Rails Rumble
@@ -69,3 +69,7 @@ Heavily inspired by Sean Cribbs' [Lowdownapp][4], an entry in the 2009 Rails Rum
 [10]: http://cukes.info "Cucumber"
 [11]: http://nodejs.org "node.js"
 [12]: http://wiki.github.com/aslakhellesoy/cucumber/gherkin "gherkin"
+[13]: http://github.com/Marak "Marak"
+[14]: http://github.com/hij1nx "hij1nx"
+[15]: http://github.com/indexzero "indexzero"
+[16]: http://github.com/FotoVerite "FotoVerite"
