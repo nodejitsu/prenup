@@ -1,5 +1,5 @@
 /* App Start */
-
+   var stop = false;
 
 $(function() {
 
@@ -260,16 +260,20 @@ $(function() {
                     ev.stopPropagation();
                 });
 
+                $("#featureslist").accordion( "activate" , 0 );
+
+
                 $(".scenario").accordion({ 
                   collapsible: true, 
                   autoHeight: false, 
                   active: false
                 
                 }).find("input, h3").click(function(ev){
-                    ev.stopPropagation();
+                    event.stopImmediatePropagation();
+                    event.preventDefault();
+                    stop = false;
                 });
                 
-                $("#featureslist").accordion( "activate" , 0 );
                 $(".scenario").accordion( "activate" , $(".scenario h3:first"));
                 
                 $("#featureslist input, #projectTitle").live("mouseover", function() {
