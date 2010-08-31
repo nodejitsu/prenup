@@ -198,7 +198,7 @@ $(function() {
                     "ok": function() {
                       
                       $.ajax({
-                        url: '/whatever/someurl', /* TO-DO: Need real URL to submit to */
+                        url: '/whatever/someurl', /* TODO: Need real URL to submit to */
                         type: "POST",
                         data: JSON.stringify(NJ.nup.DATA),
                         success: function(data) {
@@ -211,6 +211,26 @@ $(function() {
                     }
                   }
                 });
+                
+                
+                $('.ui-dialog-buttonpane').prepend('<div id="progressBar"/>'); // slight hack to add progressBar to modal
+                $('.ui-button').attr('disabled', 'disabled');
+                $('.ui-button').css('opacity', 0.5);
+                $('#progressBar').slider().show();
+                
+                // Remark: start up the progress bar, perhaps move this code
+                function progressSlider() {
+                  if($('#progressBar').slider('value') < 100){
+                    $('#progressBar').slider('value', $('#progressBar').slider('value') + 1);
+                    setTimeout(progressSlider, 10);
+                  }
+                  else{
+                    $('.ui-button').attr('disabled', '');
+                    $('.ui-button').css('opacity', 1);
+                  }
+                }
+                
+                setTimeout(progressSlider, 500);
                 
                 $("footer").click(function() {
                   exportAction.dialog("open");
@@ -250,7 +270,6 @@ $(function() {
                 $("#featureslist").html(html.join(""));
 
                 // once the UI has rendered, we need to apply UI events to elements
-
                 $("#featureslist").accordion({ 
                   collapsible: true, 
                   autoHeight: false, 
@@ -259,9 +278,7 @@ $(function() {
                 }).find("input, h3").click(function(ev){
                     ev.stopPropagation();
                 });
-
                 $("#featureslist").accordion( "activate" , 0 );
-
 
                 $(".scenario").accordion({ 
                   collapsible: true, 
@@ -273,7 +290,6 @@ $(function() {
                     event.preventDefault();
                     stop = false;
                 });
-                
                 $(".scenario").accordion( "activate" , $(".scenario h3:first"));
                 
                 $("#featureslist input, #projectTitle").live("mouseover", function() {

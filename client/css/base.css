@@ -298,7 +298,14 @@ button {
   margin: 2px;
 }
 
-#container{display:none;}
+#container{ display:none; }
+#progressBar{ 
+  float:left;
+  margin-left:15px;
+  margin-top:20px;
+  position:relative;
+  width:495px;
+}
 
 .active{
   border:1px solid red !important;
