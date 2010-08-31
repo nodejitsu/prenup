@@ -32,10 +32,14 @@ a {cursor:pointer;}
 
 #projectTitle {
   font-size:20px;
-  position: absolute;
-  top: 30px;
-  left: 30px;
-  color: #777;
+  -moz-border-radius:4px 4px 4px 4px;
+  background-color:transparent;
+  border:1px solid transparent;
+  height:18px;
+  margin-left:40px;
+  margin-top:2px;
+  width:80% !important;
+  
 }
 
 #instructions {
@@ -125,8 +129,8 @@ input, .inlineEdit {
 }
 
 .inlineEditHover {
-  background: #fff;
-  border: 1px solid #aaa;
+  background: #fff !important;
+  border: 1px solid #aaa !important;
 }
 
 .scenario {overflow:hidden;}

@@ -227,7 +227,7 @@ $(function() {
                 
                 $("#featureslist, .scenario").accordion( "activate" , 0 );
                 
-                $("#featureslist input").live("mouseover", function() {
+                $("#featureslist input, #projectTitle").live("mouseover", function() {
                   $(this).addClass("inlineEditHover");
                 }).live("mouseout", function() {
                   $(this).removeClass("inlineEditHover");
