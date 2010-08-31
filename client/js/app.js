@@ -251,14 +251,24 @@ $(function() {
 
                 // once the UI has rendered, we need to apply UI events to elements
 
-                $("#featureslist, .scenario").accordion({ 
+                $("#featureslist").accordion({ 
                   collapsible: true, 
                   autoHeight: false, 
                   active: false
                 
-                }).find("input").click(function(ev){
+                }).find("input, h3").click(function(ev){
                     ev.stopPropagation();
                 });
+
+                $(".scenario").accordion({ 
+                  collapsible: true, 
+                  autoHeight: false, 
+                  active: false
+                
+                }).find("input, h3").click(function(ev){
+                    ev.stopPropagation();
+                });
+
                 
                 $("#featureslist, .scenario").accordion( "activate" , 0 );
                 
