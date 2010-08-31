@@ -149,6 +149,10 @@ input, .inlineEdit {
   margin-top: 4px;
 }
 
+.steps {
+  
+}
+
 .step {
   width: 100%;
 }
@@ -295,3 +299,4 @@ button {
 }
 
 #container{display:none;}
+.active{border:1px solid red !important;}

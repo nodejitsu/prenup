@@ -66,7 +66,7 @@ $(function() {
                   ],
                   ["div",
                       (function() {
-                          var breakdown = ["<ul class='sortable-ui'>"];
+                          var breakdown = ["<ul class='sortable-ui steps'>"];
                           $.each(scenario.breakdown, function(key, step) {
                               $.each(step, function(key, pair) {
                                   breakdown.push($.jup.html(NJ.nup.renderStep(pair)));
@@ -121,6 +121,14 @@ $(function() {
             },
             
             pageLoad: function() {
+              
+                // jQuery event pooling can be fun for UI events!!!
+                // http://www.michaelhamrah.com/blog/2008/12/event-pooling-with-jquery-using-bind-and-trigger-managing-complex-javascript/
+                $(document).bind('step.activate', function(e, step){
+                  $('.steps li').removeClass('active');
+                  $(step).addClass('active');
+                });
+              
                 DAL = this.DAL;
                 DATA = this.DATA;
                 
@@ -233,8 +241,15 @@ $(function() {
                   $(this).removeClass("inlineEditHover");
                 })
                 
-                $('.sortable-ui').sortable({ containment: "parent", axis: "y" });
+                $('.sortable-ui').sortable({ 
+                  containment: "parent", 
+                  axis: "y"
+                });
                 
+                $('.steps li').live('mousedown', function(e){
+                  $(document).trigger('step.activate', this);
+                });
+                                
                 // for adding additional steps in a scenario
                 $('.add-step').live('click', function(){
                   $(this).siblings('ul').append($.jup.html(NJ.nup.renderStep()));
