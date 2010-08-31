@@ -27,7 +27,7 @@ $(function() {
             renderStep: function(pair){
               
               if(typeof pair == 'undefined'){
-                var pair = [];
+                var pair = ["foo"];
               }
               
               return ["li", { "class": "ui-corner-all ui-state-default" },
@@ -49,7 +49,6 @@ $(function() {
                   (function() {
                       var options = [];
                       $.each(data, function(i, operator) {
-                        
                           options.push($.jup.html(["option", (value.toLowerCase() === operator.toLowerCase() ? { "selected": "true" } : {}), operator]));
                       });
                       return options;                             
