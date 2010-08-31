@@ -36,10 +36,9 @@ a {cursor:pointer;}
   background-color:transparent;
   border:1px solid transparent;
   height:18px;
-  margin-left:40px;
-  margin-top:2px;
   width:80% !important;
-  
+  padding-left:42px;
+  padding-top:30px;
 }
 
 #instructions {
