@@ -128,6 +128,7 @@ $(function() {
                 $(document).bind('step.activate', function(e, step){
                   $('.steps li').removeClass('active').removeClass('hover');
                   $(step).addClass('active');
+                  $('input').blur(); // this call needs to be changed. we should delegate focus and assign state using .data()
                 });
                 
                 $(document).bind('step.hover', function(e, step){
@@ -143,11 +144,10 @@ $(function() {
                   });
                 });
                 
-                
-
                 $(document).bind('scenario.activate', function(e, scenario){
                   $('.scenario').removeClass('active').removeClass('hover');
                   $(scenario).addClass('active');
+                  $('input').blur(); // this call needs to be changed. we should delegate focus and assign state using .data()
                 });
 
                 $(document).bind('scenario.hover', function(e, scenario){
@@ -382,17 +382,29 @@ $(function() {
                   });
                 });
                 
-                $(document).bind('keydown',  function(e){
-                  if(e.which == 8){
-                    $(document).trigger('step.delete', $('.active:last'));
-                    console.log($(e.originalTarget).get(0).tagName);
-                    // Remark: we should be doing this with classes instead
-                    if(!$(e.originalTarget).get(0).tagName == 'INPUT'){
-                      console.log(e, 'del key', $('.active:last'));
+
+                $(document).trigger('applyKeyBindings');
+
+                $(document).bind('applyKeyBindings', function(e, data){
+                  $(document).bind('keydown',  function(e){
+                    if(e.which == 8){
+                      $(e.originalTarget);
+                      $(document).trigger('step.delete', $('.active:last'));
+                      //console.log(.get(0).tagName);
+                      // Remark: we should be doing this with classes instead
+                      if(!$(e.originalTarget).get(0).tagName == 'INPUT'){
+                        console.log(e, 'del key', $('.active:last'));
+                      }
                     }
-                    
-                  }
-                  
+                  });
+                });
+                
+                
+                $('input').focus(function(){
+                  $(document).unbind('keydown');
+                });
+                $('input').blur(function(){
+                  $(document).trigger('applyKeyBindings');
                 });
                 
              if(!(_.isEmpty(DAL.get.milestones()))){
