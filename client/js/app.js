@@ -124,10 +124,17 @@ $(function() {
               
                 // jQuery event pooling can be fun for UI events!!!
                 // http://www.michaelhamrah.com/blog/2008/12/event-pooling-with-jquery-using-bind-and-trigger-managing-complex-javascript/
+
                 $(document).bind('step.activate', function(e, step){
                   $('.steps li').removeClass('active');
                   $(step).addClass('active');
                 });
+
+                $(document).bind('scenario.activate', function(e, scenario){
+                  $('.scenario').removeClass('active');
+                  $(scenario).addClass('active');
+                });
+
               
                 DAL = this.DAL;
                 DATA = this.DATA;
@@ -249,6 +256,11 @@ $(function() {
                 $('.steps li').live('mousedown', function(e){
                   $(document).trigger('step.activate', this);
                 });
+
+                $('.scenario').live('mousedown', function(e){
+                  $(document).trigger('scenario.activate', this);
+                });
+
                                 
                 // for adding additional steps in a scenario
                 $('.add-step').live('click', function(){
