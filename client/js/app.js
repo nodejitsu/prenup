@@ -137,6 +137,14 @@ $(function() {
                   }
                 });
 
+                $(document).bind('step.delete', function(e, step){
+                  $(step).closest('li').slideUp(300, function(){
+                    $(step).remove()
+                  });
+                });
+                
+                
+
                 $(document).bind('scenario.activate', function(e, scenario){
                   $('.scenario').removeClass('active').removeClass('hover');
                   $(scenario).addClass('active');
@@ -299,9 +307,7 @@ $(function() {
                 
                 // for removing steps in a scenario
                 $(".delete-step").live("click", function(){
-                  $(this).closest('li').slideUp(300, function(){
-                    $(this).remove()
-                  });
+                  $(document).trigger('step.delete', this);
                 });
                 
                 
@@ -376,11 +382,19 @@ $(function() {
                   });
                 });
                 
-                // fade in container when splash closes 
-                //$('#container').hide();
+                $(document).bind('keydown',  function(e){
+                  if(e.which == 8){
+                    $(document).trigger('step.delete', $('.active:last'));
+                    console.log($(e.originalTarget).get(0).tagName);
+                    // Remark: we should be doing this with classes instead
+                    if(!$(e.originalTarget).get(0).tagName == 'INPUT'){
+                      console.log(e, 'del key', $('.active:last'));
+                    }
+                    
+                  }
+                  
+                });
                 
-                // do some default stuff, this should be done better.
-
              if(!(_.isEmpty(DAL.get.milestones()))){
                $("h3.milestone-member, div.milestone-member")["hide"]();
                $("label[for='ms1']").click();
