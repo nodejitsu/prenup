@@ -126,13 +126,25 @@ $(function() {
                 // http://www.michaelhamrah.com/blog/2008/12/event-pooling-with-jquery-using-bind-and-trigger-managing-complex-javascript/
 
                 $(document).bind('step.activate', function(e, step){
-                  $('.steps li').removeClass('active');
+                  $('.steps li').removeClass('active').removeClass('hover');
                   $(step).addClass('active');
+                });
+                
+                $(document).bind('step.hover', function(e, step){
+                  $('.steps li').removeClass('hover');
+                  if(!$(step).hasClass('active')){
+                    $(step).addClass('hover');
+                  }
                 });
 
                 $(document).bind('scenario.activate', function(e, scenario){
-                  $('.scenario').removeClass('active');
+                  $('.scenario').removeClass('active').removeClass('hover');
                   $(scenario).addClass('active');
+                });
+
+                $(document).bind('scenario.hover', function(e, scenario){
+                  $('.scenario').removeClass('hover');
+                  $(scenario).addClass('hover');
                 });
 
               
@@ -261,6 +273,24 @@ $(function() {
                   $(document).trigger('scenario.activate', this);
                 });
 
+                // Remark: step.hover should take in two callbacks as arguments
+                $('.steps li').live('hover', 
+                  function(e){
+                    $(document).trigger('step.hover', this)
+                  },
+                  function(e){
+                    $(this).removeClass('hover');
+                  }
+                );
+
+                $('.scenario').live('hover', 
+                  function(e){
+                    $(document).trigger('scenario.hover', this);
+                  },
+                  function(e){
+                    $(this).removeClass('hover');                    
+                  }
+                );
                                 
                 // for adding additional steps in a scenario
                 $('.add-step').live('click', function(){

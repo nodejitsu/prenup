@@ -299,4 +299,11 @@ button {
 }
 
 #container{display:none;}
-.active{border:1px solid red !important;}
+
+.active{
+  border:1px solid red !important;
+}
+
+.hover{
+  border:1px solid green !important;
+}
