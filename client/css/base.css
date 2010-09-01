@@ -133,7 +133,17 @@ input, .inlineEdit {
 }
 
 .scenario {overflow:hidden;}
-.scenario input[type='text'] {width: 100%; float:left;}
+.scenario input[type='text'] {
+  width: 100%; 
+  float:left;
+  background-color:transparent;
+  border:1px solid transparent;
+  height:18px;
+  margin-left:40px;
+  margin-top:2px;
+  -moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;
+  
+}
 .scenario select {float:left; margin-right:10px;}
 
 .scenario li {
@@ -167,12 +177,6 @@ input, .inlineEdit {
 
 .step .content-col {
   width: 80%;
-}
-
-.step .content-col input {
-  background-color: #fff;
-  border: 1px solid #aaa;
-  -moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;
 }
 
 .step .delete-col {
