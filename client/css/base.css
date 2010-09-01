@@ -306,11 +306,11 @@ button {
 #progressBar{ 
   float:left;
   margin-left:15px;
-  margin-top:8px;
+  margin-top:7px;
   position:relative;
-  width:495px;
+  width:550px;
 	border:1px solid #D3D3D3;
-	height: 31.45px;
+	height: 29px;
 }
 
 #progressBar .ui-slider-handle {
