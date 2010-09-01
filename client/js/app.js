@@ -433,17 +433,22 @@ $(function() {
                 });
                 
 
-                $(document).trigger('applyKeyBindings');
+               
 
-                $(document).bind('applyKeyBindings', function(e, data){
+                $(document).bind('keyBindings.apply', function(e, data){
+                   $(document).trigger('keyBindings.canDeleteSteps');
+                });
+
+                $(document).bind('keyBindings.canDeleteSteps', function(e, data){
                   $(document).bind('keydown',  function(e){
+                    //console.log(e.which);
                     if(e.which == 8){
                       $(e.originalTarget);
                       $(document).trigger('step.delete', $('.active:last'));
                       //console.log(.get(0).tagName);
                       // Remark: we should be doing this with classes instead
                       if(!$(e.originalTarget).get(0).tagName == 'INPUT'){
-                        console.log(e, 'del key', $('.active:last'));
+                        //console.log(e, 'del key', $('.active:last'));
                       }
                       
                       return false; // required to prevent browser from navigating to previous page
@@ -451,12 +456,11 @@ $(function() {
                   });
                 });
                 
-                
                 $('input').focus(function(){
                   $(document).unbind('keydown');
                 });
                 $('input').blur(function(){
-                  $(document).trigger('applyKeyBindings');
+                  $(document).trigger('keyBindings.apply');
                 });
                 
              if(!(_.isEmpty(DAL.get.milestones()))){
