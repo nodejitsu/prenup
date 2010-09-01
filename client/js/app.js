@@ -433,28 +433,29 @@ $(function() {
                 });
                 
 
-               
+               // TODO: this shouldn't be in the global namespace
+               var keyBindings = {};
+               keyBindings.canDeleteSteps = function(data){
+                 $(document).bind('keydown',  function(e){
+                   //console.log(e.which);
+                   if(e.which == 8){
+                     $(e.originalTarget);
+                     $(document).trigger('step.delete', $('.active:last'));
+                     //console.log(.get(0).tagName);
+                     // Remark: we should be doing this with classes instead
+                     if(!$(e.originalTarget).get(0).tagName == 'INPUT'){
+                       //console.log(e, 'del key', $('.active:last'));
+                     }
+                     return false; // required to prevent browser from navigating to previous page
+                   }
+                 });
+               };
 
                 $(document).bind('keyBindings.apply', function(e, data){
                    $(document).trigger('keyBindings.canDeleteSteps');
                 });
 
-                $(document).bind('keyBindings.canDeleteSteps', function(e, data){
-                  $(document).bind('keydown',  function(e){
-                    //console.log(e.which);
-                    if(e.which == 8){
-                      $(e.originalTarget);
-                      $(document).trigger('step.delete', $('.active:last'));
-                      //console.log(.get(0).tagName);
-                      // Remark: we should be doing this with classes instead
-                      if(!$(e.originalTarget).get(0).tagName == 'INPUT'){
-                        //console.log(e, 'del key', $('.active:last'));
-                      }
-                      
-                      return false; // required to prevent browser from navigating to previous page
-                    }
-                  });
-                });
+                $(document).bind('keyBindings.canDeleteSteps', keyBindings.canDeleteSteps);
                 
                 $('input').focus(function(){
                   $(document).unbind('keydown');
