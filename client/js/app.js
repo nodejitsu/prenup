@@ -245,7 +245,9 @@ $(function() {
                 $('.ui-dialog-buttonpane').prepend('<div id="progressBar"/>'); // slight hack to add progressBar to modal
                 $('.ui-button').attr('disabled', 'disabled');
                 $('.ui-button').css('opacity', 0.5);
-                $('#progressBar').slider().show();
+                $('#progressBar').slider({
+                  range: "min"
+                }).show();
                 
                 // Remark: start up the progress bar, perhaps move this code
                 function progressSlider() {
@@ -254,12 +256,13 @@ $(function() {
                     setTimeout(progressSlider, 10);
                   }
                   else{
+                    $('#progressBar').unbind("click mousedown");
                     $('.ui-button').attr('disabled', '');
                     $('.ui-button').css('opacity', 1);
                   }
                 }
                 
-                setTimeout(progressSlider, 500);
+                setTimeout(progressSlider, 200);
                 
                 $("footer").click(function() {
                   exportAction.dialog("open");

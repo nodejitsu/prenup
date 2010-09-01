@@ -306,9 +306,23 @@ button {
 #progressBar{ 
   float:left;
   margin-left:15px;
-  margin-top:20px;
+  margin-top:8px;
   position:relative;
   width:495px;
+	border:1px solid #D3D3D3;
+	height: 31.45px;
+}
+
+#progressBar .ui-slider-handle {
+	display: none;
+}
+
+#progressBar .ui-slider-horizontal {
+
+}
+
+#progressBar .ui-slider-range-min {
+	background: url("../img/ui-bg_highlight-soft_75_e6e6e6_1x100.png") repeat-x scroll 50% 50% #E6E6E6;
 }
 
 .active{
