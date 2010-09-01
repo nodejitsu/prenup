@@ -144,6 +144,11 @@ input, .inlineEdit {
   -moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;
   
 }
+.scenario .step input[type="text"] {
+  margin-left:0px;
+  width:96%;
+}
+
 .scenario select {float:left; margin-right:10px;}
 
 .scenario li {
