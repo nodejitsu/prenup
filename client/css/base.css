@@ -278,6 +278,10 @@ ul {
 #export-data {
 }
 
+#export-data code{
+  width:200px;
+}
+
 button {
   cursor:pointer;
   display:inline-block;

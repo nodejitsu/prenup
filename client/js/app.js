@@ -122,6 +122,10 @@ $(function() {
             
             pageLoad: function() {
               
+                // Remark: 
+                DAL = this.DAL;
+                DATA = this.DATA;
+              
                 // jQuery event pooling can be fun for UI events!!!
                 // http://www.michaelhamrah.com/blog/2008/12/event-pooling-with-jquery-using-bind-and-trigger-managing-complex-javascript/
 
@@ -155,9 +159,34 @@ $(function() {
                   $(scenario).addClass('hover');
                 });
 
-              
-                DAL = this.DAL;
-                DATA = this.DATA;
+                // Remark: this is a basic fix to apply all .accordion() events across the entire page
+                //         this event is a good candidate for refactoring
+                
+                $(document).bind('features.applyAccordions', function(e, scenario){
+                  
+                  $("#featureslist").accordion({ 
+                    collapsible: true, 
+                    autoHeight: false, 
+                    active: false
+
+                  }).find("input, h3").click(function(ev){
+                      ev.stopPropagation();
+                  });
+                  $("#featureslist").accordion( "activate" , 0 );
+
+                  $(".scenario").accordion({ 
+                    collapsible: true, 
+                    autoHeight: false, 
+                    active: false
+
+                  }).find("input, h3").click(function(ev){
+                      ev.stopImmediatePropagation();
+                      ev.preventDefault();
+                      stop = false;
+                  });
+                  $(".scenario").accordion( "activate" , $(".scenario h3:first"));
+                  
+                });
                 
                 $("#projectTitle").text(DAL.get.projectTitle());
               
@@ -270,27 +299,8 @@ $(function() {
                 $("#featureslist").html(html.join(""));
 
                 // once the UI has rendered, we need to apply UI events to elements
-                $("#featureslist").accordion({ 
-                  collapsible: true, 
-                  autoHeight: false, 
-                  active: false
                 
-                }).find("input, h3").click(function(ev){
-                    ev.stopPropagation();
-                });
-                $("#featureslist").accordion( "activate" , 0 );
-
-                $(".scenario").accordion({ 
-                  collapsible: true, 
-                  autoHeight: false, 
-                  active: false
-                
-                }).find("input, h3").click(function(ev){
-                    ev.stopImmediatePropagation();
-                    ev.preventDefault();
-                    stop = false;
-                });
-                $(".scenario").accordion( "activate" , $(".scenario h3:first"));
+                $(document).trigger('features.applyAccordions');
                 
                 $("#featureslist input, #projectTitle").live("mouseover", function() {
                   $(this).addClass("inlineEditHover");
@@ -381,14 +391,13 @@ $(function() {
                   //$(".scenario").accordion( "activate" , $(".scenario h3:first"));
                   $('.steps').sortable();
                   
-                  
                 });
                 
                 $('.add-feature').click(function(e){
                   var out = NJ.nup.renderFeature(1, NJ.nup.DAL.get.features()[1]);
 
                   $('#featureslist').append($.jup.html(out));
-                  
+                  /*
                   // rebind accordion
                   $("#featureslist, .scenario").accordion('destroy').accordion({ 
                     collapsible: true, 
@@ -396,7 +405,8 @@ $(function() {
 
                   }).find("input").click(function(ev){
                       ev.stopPropagation();
-                  });                  
+                  });
+                  */                  
                 });
                 
 
