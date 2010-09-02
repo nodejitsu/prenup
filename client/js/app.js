@@ -136,10 +136,13 @@ $(function() {
                 // http://www.michaelhamrah.com/blog/2008/12/event-pooling-with-jquery-using-bind-and-trigger-managing-complex-javascript/
 
                 $(document).bind('step.activate', function(e, step){
+                  
                   $('.steps li').removeClass('active').removeClass('hover');
                   $(step).addClass('active');
                   $('.steps input').removeClass("inlineEditHover");
+                  //console.log($(step).find('input'));
                   $(step).find('input').focus().addClass("inlineEditHover");
+                  
                   $(document).unbind('keyBindings.canCycleThroughSteps');
                   $(document).bind('keyBindings.canCycleThroughSteps', keyBindings.canCycleThroughSteps);
                 });
@@ -485,9 +488,18 @@ $(function() {
                $(document).bind('keyBindings.canDeleteSteps', keyBindings.canDeleteSteps);
 
                $('input').focus(function(){
+                 
+                 // TODO: determine if input is inside of Step, this will check whole document
+                 var step =  $(this).closest('.step').parent();
+                 if(!$(step).hasClass('active')){
+                   $(document).trigger('step.activate', step);
+                 }
+                 
+                 /*
                  $('input').removeClass('inlineEditHover');
                  $(this).addClass('inlineEditHover');
                  $(document).unbind('keyBindings.canDeleteSteps');
+                 */
                });
                 
                $('input').bind('blur',function(){
