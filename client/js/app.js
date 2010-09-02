@@ -28,29 +28,15 @@ $(function() {
             },
             
             renderStep: function(pair){
-              
               if(typeof pair == 'undefined'){
                 var pair = ["foo"];
               }
-              ppp = $("<input/>").attr({"val": pair[1], "type": "text"})
-              html = Mustache.to_html($("#step_template").text(), {
-                  select: NJ.nup.renderWordSelector(DAL.get.operators(), pair[0]),
-                  content: ppp.end()
+              return Mustache.to_html($("#step_template").text(), {
+                  select: $.jup.html([NJ.nup.renderWordSelector(DAL.get.operators(), pair[0])]),
+                  content: pair[1]
                 }
               );
-             ["li", { "class": "ui-corner-all ui-state-default" },
-                  ["table", { "class": "step" },
-                    ["tr", [
-                      ["td", { "class": "grip-col" }, ["span", { "class": "ui-icon ui-icon-arrowthick-2-n-s grip" }]],
-                      ["td", { "class": "operator-col" }, [NJ.nup.renderWordSelector(DAL.get.operators(), pair[0])]],
-                      ["td", { "class": "content-col" }, ["input", { "type": "text", "value": pair[1] }]],
-                      ["td", { "class": "delete-col" }, ["div", { "class": "remove delete-step ui-state-default ui-corner-all", "title": "Remove scenario" }, 
-                        ["span", "&nbsp"]
-                      ]]
-                    ]]
-                  ]
-              ];
-              return html
+        
             },
 
             renderWordSelector: function(data, value){
@@ -66,53 +52,35 @@ $(function() {
             },
             
             renderScenario: function(key, scenario){
-              return ["div", { "class": "scenario" },
-                  ["h3", { "class": "breakdown" },
-                      ["input", { "type": "text", "value": scenario.name }],
-                      ["div", { "class": "remove delete-scenario ui-state-default ui-corner-all", "title": "Remove scenario" }, 
-                        ["span", "&nbsp"]
-                      ]
-                  ],
-                  ["div",
-                      (function() {
-                          var breakdown = ["<ul class='sortable-ui steps'>"];
-                          $.each(scenario.breakdown, function(key, step) {
-                              $.each(step, function(key, pair) {
-                                  breakdown.push(NJ.nup.renderStep(pair));
-                              });
-                          });
-                          breakdown.push("</ul>");
-                          return breakdown.join("") + $.jup.html(['button',{ "class": "add-step" }, 'Add Step +']) ;
-                      })()
-                  ]
-              ];
+              
+              var breakdown = [];
+              $.each(scenario.breakdown, function(key, step) {
+                  $.each(step, function(key, pair) {
+                      breakdown.push(NJ.nup.renderStep(pair));
+                  });
+              });
+              
+               return Mustache.to_html($("#scenario_template").text(), {
+                    name: scenario.name,
+                    steps: breakdown.join("")
+                  }
+                );
             },
             
             renderFeature: function(i, feature){
-              return [
-                  
-                  ["h3", { "class": "milestone-member ms" + feature.milestone },
-                      ["input", { "type": "text", "value": feature.name }],
-                      ["div", { "class": "remove delete-feature ui-state-default ui-corner-all", "title": "Remove feature"  }, 
-                        ["span", "&nbsp"]
-                      ]
-                  ],
-                  
-                  ["div", { "class": "milestone-member ms" + feature.milestone },
-                      (function() {
+              
+              var scenarios = [];
 
-                          var scenarios = [];
-
-                          $.each(feature.scenarios, function(key, scenario) {
-                              scenarios.push($.jup.html(NJ.nup.renderScenario(key, scenario)));
-                          });
-                          scenarios.push($.jup.html(['button',{ "class": "add-scenario" }, 'Add Scenario +']));
-                          return scenarios.join("");
-
-                      })()
-                  ],
-                  
-              ];
+              $.each(feature.scenarios, function(key, scenario) {
+                  scenarios.push(NJ.nup.renderScenario(key, scenario));
+              });
+              
+               return Mustache.to_html($("#feature_template").text(), {
+                    name: feature.name,
+                    milestone_id: feature.milestone,
+                    scenarios: scenarios.join("")
+                  }
+                );
             },
             
             renderMilestone: function(key, milestone){
@@ -308,7 +276,7 @@ $(function() {
                 html = [];
 
                 $.each(DAL.get.features(), function(i, feature) {
-                    html.push($.jup.html(NJ.nup.renderFeature(i, feature)));                    
+                    html.push(NJ.nup.renderFeature(i, feature));                    
                 });
 
                 $("#featureslist").html(html.join(""));
@@ -390,7 +358,7 @@ $(function() {
                   //e.stopPropagation();
 
                   var out = NJ.nup.renderScenario(2, NJ.nup.DAL.get.scenariosByFeature(1)[0]);
-                  $(this).before($.jup.html(out));
+                  $(this).before(out);
                   
                   $(".scenario").accordion({ 
                     collapsible: true, 
@@ -411,7 +379,7 @@ $(function() {
                 $('.add-feature').click(function(e){
                   var out = NJ.nup.renderFeature(1, NJ.nup.DAL.get.features()[1]);
 
-                  $('#featureslist').append($.jup.html(out));
+                  $('#featureslist').append(out);
                   /*
                   // rebind accordion
                   $("#featureslist, .scenario").accordion('destroy').accordion({ 

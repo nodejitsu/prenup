@@ -22,8 +22,8 @@
       <table class="step">
         <tr>
           <td class="grip-col"></td>
-          <td class="operator-col"><span class="ui-icon ui-icon-arrowthick-2-n-s grip">{{select}}</span></td>
-          <td class = "content-col">{{content}}</td>
+          <td class="operator-col"><span class="ui-icon ui-icon-arrowthick-2-n-s grip"></span> {{{select}}}</td>
+          <td class = "content-col"><input type="text" value="{{content}}" /></td>
           <td class = "delete-col">
             <div class="remove delete-step ui-state-default ui-corner-all" title="Remove scenario">
               <span>&nbsp;</span>
@@ -33,7 +33,35 @@
       </table>
     </li>
   </script>
-
+  
+  <script id="scenario_template" type="text/html">
+    <div class="scenario">
+      <h3 class="breakdown">
+        <input type="text" value="{{name}}" />
+        <div class="remove delete-scenario ui-state-default ui-corner-all" title="Remove scenario">
+          <span>&nbsp;</span>
+        </div>
+      </h3>
+      <div>
+        <ul  class='sortable-ui steps'>
+          {{{steps}}}
+        </ul>
+        <button class="add-step" value="Add Step" />
+      </div>
+    </div>
+   </script>
+   
+   <script id="feature_template" type="text/html">
+    <h3 class="milestone-member ms{{milestone_id}}">
+      <input type='text' value="{{name}}" />
+      <div class="remove delete-feature ui-state-default ui-corner-all" title="Remove feature">
+        <span>&nbsp;</span>
+      </div>
+    </h3>
+    <div class="milestone-member ms{{milestone_id}}">
+      {{{scenarios}}}
+    </div>
+   </script>
 </head>
 <!--[if lt IE 7 ]> <body class="ie6"> <![endif]-->
 <!--[if IE 7 ]>    <body class="ie7"> <![endif]-->
