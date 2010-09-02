@@ -1,5 +1,8 @@
 /* App Start */
-   var stop = false;
+
+// TODO: this shouldn't be in the global namespace
+// TODO: key bindings could done be via event delegation of keypress on the document, possible candidate for refactor 
+var keyBindings = {};
 
 $(function() {
 
@@ -128,6 +131,9 @@ $(function() {
             
             pageLoad: function() {
               
+                jQuery.extend(jQuery.expr[':'], {
+                  focus: "a == document.activeElement"
+                });
                 // Remark: 
                 DAL = this.DAL;
                 DATA = this.DATA;
@@ -138,7 +144,7 @@ $(function() {
                 $(document).bind('step.activate', function(e, step){
                   $('.steps li').removeClass('active').removeClass('hover');
                   $(step).addClass('active');
-                  $('input').blur(); // this call needs to be changed. we should delegate focus and assign state using .data()
+                  $('input:focus').blur();
                 });
                 
                 $(document).bind('step.hover', function(e, step){
@@ -157,7 +163,7 @@ $(function() {
                 $(document).bind('scenario.activate', function(e, scenario){
                   $('.scenario').removeClass('active').removeClass('hover');
                   $(scenario).addClass('active');
-                  $('input').blur(); // this call needs to be changed. we should delegate focus and assign state using .data()
+                  $('input:focus').blur();
                 });
 
                 $(document).bind('scenario.hover', function(e, scenario){
@@ -438,32 +444,43 @@ $(function() {
                   });
                 });
                 
-
-                $(document).trigger('applyKeyBindings');
-
-                $(document).bind('applyKeyBindings', function(e, data){
-                  $(document).bind('keydown',  function(e){
-                    if(e.which == 8){
-                      $(e.originalTarget);
-                      $(document).trigger('step.delete', $('.active:last'));
-                      //console.log(.get(0).tagName);
-                      // Remark: we should be doing this with classes instead
-                      if(!$(e.originalTarget).get(0).tagName == 'INPUT'){
-                        console.log(e, 'del key', $('.active:last'));
+               function onKeyDown(e){
+                  var events = $(document).data('events');
+                  for(var eventName in events){
+                    for(var i = 0; i < events[eventName].length; i++){
+                      if(events[eventName][i].type == 'keyBindings'){
+                        $(document).trigger(events[eventName][i].type + '.' + events[eventName][i].namespace, e);
                       }
-                      
-                      return false; // required to prevent browser from navigating to previous page
                     }
-                  });
-                });
+                  }
+               }
                 
+               $(document).bind('keydown', onKeyDown);
+               
+               keyBindings.canDeleteSteps = function(e, originalEvent){
+                   if(originalEvent.which == 8){
+                     $(document).trigger('step.delete', $('.active:last'));
+                     // Remark: we should be doing this with classes instead
+                     if(!$(originalEvent.originalTarget).get(0).tagName == 'INPUT'){
+                       //console.log(e, 'del key', $('.active:last'));
+                     }
+                     return false; // required to prevent browser from navigating to previous page
+                   }
+               };
+               
+               keyBindings.canCycleThroughSteps = function(data){
+               }
+
+               $(document).bind('keyBindings.canDeleteSteps', keyBindings.canDeleteSteps);
+               $(document).bind('keyBindings.canCycleThroughSteps', keyBindings.canCycleThroughSteps);
+
+               $('input').focus(function(){
+                 $(document).unbind('keyBindings.canDeleteSteps');
+               });
                 
-                $('input').focus(function(){
-                  $(document).unbind('keydown');
-                });
-                $('input').blur(function(){
-                  $(document).trigger('applyKeyBindings');
-                });
+               $('input').bind('blur',function(){
+                 $(document).bind('keyBindings.canDeleteSteps', keyBindings.canDeleteSteps);
+               });
                 
              if(!(_.isEmpty(DAL.get.milestones()))){
                $("h3.milestone-member, div.milestone-member")["hide"]();

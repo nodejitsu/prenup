@@ -14,3 +14,4 @@ window.log = function(){
     if (/docwriteregexwhitelist/.test(q)) write.apply(doc,arguments);  
   };
 })(document);
+
