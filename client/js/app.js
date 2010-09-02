@@ -85,14 +85,14 @@ $(function() {
             renderFeature: function(i, feature){
               return [
                   
-                  ["h3", { "class": "kyuri ms" + feature.milestone },
+                  ["h3", { "class": "feature ms" + feature.milestone },
                       ["input", { "type": "text", "value": feature.name }],
                       ["div", { "class": "remove delete-feature ui-state-default ui-corner-all", "title": "Remove feature"  }, 
                         ["span", "&nbsp"]
                       ]
                   ],
                   
-                  ["div", { "class": "kyuri ms" + feature.milestone },
+                  ["div", { "class": "feature ms" + feature.milestone },
                       (function() {
 
                           var scenarios = [];
@@ -160,6 +160,12 @@ $(function() {
                   });
                 });
                 
+                $(document).bind('scenario.delete', function(e, scenario){
+                  $(scenario).slideUp(300, function(){
+                    $(this).remove()
+                  });
+                });
+
                 $(document).bind('scenario.activate', function(e, scenario){
                   $('.scenario').removeClass('active').removeClass('hover');
                   $(scenario).addClass('active');
@@ -177,10 +183,8 @@ $(function() {
                   // close all other Featuresaccordions
                   $('#featureslist').accordion( "activate", false);
                   // rebind accordion
-                  $("#featureslist").accordion('destroy').accordion({ 
-                    collapsible: true, 
-                    autoHeight: false 
-                  }).accordion( "activate", 1);
+                  $(document).trigger('features.applyAccordions');
+
                 });
 
                 $(document).bind('feature.activate', function(e, scenario){
@@ -197,27 +201,36 @@ $(function() {
                 // Remark: this is a basic fix to apply all .accordion() events across the entire page
                 //         this event is a good candidate for refactoring
                 
-                $(document).bind('features.applyAccordions', function(e, scenario){
+                $(document).bind('features.applyAccordions', function(e){
                   
-                  $("#featureslist").accordion({ 
+                  
+                  $("#featureslist").accordion('destroy').accordion({ 
                     collapsible: true, 
                     autoHeight: false, 
                     active: false
-
-                  }).find("input, h3").click(function(ev){
-                      ev.stopPropagation();
+                  }).find("input, h3").click(function(e){
+                      console.log('click on input h3 of accordion');
+                      
+                      if($(e.originalTarget).parent().hasClass('delete-scenario')){
+                        console.log('delete-scenario');
+                        e.stopPropagation();
+                        e.preventDefault();
+                        
+                        $(document).trigger('scenario.delete', $(e.originalTarget).closest('.scenario'));
+                        return false;
+                      }
+                      console.log();
+                      //e.stopPropagation();
+                      //e.preventDefault();
                   });
-                  $("#featureslist").accordion( "activate" , 0 );
+                  
+                  //$("#featureslist").accordion( "activate" , 0 );
 
                   $(".scenario").accordion({ 
                     collapsible: true, 
                     autoHeight: false, 
                     active: false
 
-                  }).find("input, h3").click(function(ev){
-                      ev.stopImmediatePropagation();
-                      ev.preventDefault();
-                      stop = false;
                   });
                   //$(".scenario:last").accordion( "activate" , $(".scenario h3:last"));
                   
@@ -312,10 +325,10 @@ $(function() {
 
                 $("#toolbar ul").html(html.join("")).disableSelection().sortable();
                 $("#toolbar .btn").button().live('click', function() {
-                  $("h3.kyuri." + $(this).attr("id"))[$(this).attr("checked") ? "fadeIn" : "fadeOut"]();
-                  if($("h3.kyuri." + $(this).attr("id")).hasClass('ui-state-active')){  
-                    $("h3.kyuri." + $(this).attr("id")).click();
-                    $("div.kyuri." + $(this).attr("id"))[$(this).attr("checked") ? "fadeIn" : "fadeOut"]();
+                  $("h3.feature." + $(this).attr("id"))[$(this).attr("checked") ? "fadeIn" : "fadeOut"]();
+                  if($("h3.feature." + $(this).attr("id")).hasClass('ui-state-active')){  
+                    $("h3.feature." + $(this).attr("id")).click();
+                    $("div.feature." + $(this).attr("id"))[$(this).attr("checked") ? "fadeIn" : "fadeOut"]();
                   }                 
                 });
                 
@@ -395,6 +408,7 @@ $(function() {
                 
                 
                 $(".delete-feature").live("click", function(e){
+                  console.log('delete feature');
                   e.stopPropagation();
                   if($(this).hasClass('ui-state-active')) {
                     $(this).parent().next(".ui-accordion-content").slideUp(300, function() {
@@ -424,11 +438,15 @@ $(function() {
                     autoHeight: false, 
                     active: false
 
-                  }).find("input, h3").click(function(ev){
-                      //ev.stopImmediatePropagation();
-                      //ev.preventDefault();
+                  });
+                  
+                  /*
+                  .find("input, h3").click(function(ev){
+                      ev.stopImmediatePropagation();
+                      ev.preventDefault();
                       stop = false;
                   });
+                  */
                   //$(document).trigger('features.applyAccordions');
                   //$(".scenario:last").accordion( "activate" , $(".scenario h3:last"));
                   
@@ -520,10 +538,10 @@ $(function() {
                });
                 
              if(!(_.isEmpty(DAL.get.milestones()))){
-               $("h3.kyuri, div.kyuri")["hide"]();
+               $("h3.feature, div.feature")["hide"]();
                $("label[for='ms1']").click();
                $("#ms1").attr("checked", true);
-               $("h3.kyuri.ms1")["fadeIn"]();
+               $("h3.feature.ms1")["fadeIn"]();
               }
                 
                 
