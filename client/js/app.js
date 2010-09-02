@@ -472,23 +472,21 @@ $(function() {
                    if(prevStep.length!=0){
                      $(document).trigger('step.activate', prevStep);
                    }
-                   console.log('up');
                  }
                  if(originalEvent.which == 40) { // down
                    var nextStep = $(originalEvent.originalTarget).closest('.step').parent().next();
                    if(nextStep.length!=0){
                      $(document).trigger('step.activate', nextStep);
                    }
-                   console.log('down');
                  }
 
-                 var nextInput;
-                 console.log(nextStep);
                }
 
                $(document).bind('keyBindings.canDeleteSteps', keyBindings.canDeleteSteps);
 
                $('input').focus(function(){
+                 $('input').removeClass('inlineEditHover');
+                 $(this).addClass('inlineEditHover');
                  $(document).unbind('keyBindings.canDeleteSteps');
                });
                 
