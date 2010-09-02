@@ -209,17 +209,13 @@ $(function() {
                     autoHeight: false, 
                     active: false
                   }).find("input, h3").click(function(e){
-                      console.log('click on input h3 of accordion');
-                      
                       if($(e.originalTarget).parent().hasClass('delete-scenario')){
-                        console.log('delete-scenario');
                         e.stopPropagation();
                         e.preventDefault();
                         
                         $(document).trigger('scenario.delete', $(e.originalTarget).closest('.scenario'));
                         return false;
                       }
-                      console.log();
                       //e.stopPropagation();
                       //e.preventDefault();
                   });
