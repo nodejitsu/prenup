@@ -171,6 +171,29 @@ $(function() {
                   $(scenario).addClass('hover');
                 });
 
+                $(document).bind('feature.add', function(e, feature){
+                  var out = NJ.nup.renderFeature(1, feature);
+                  $('#featureslist').append($.jup.html(out));
+                  // close all other Featuresaccordions
+                  $('#featureslist').accordion( "activate", false);
+                  // rebind accordion
+                  $("#featureslist").accordion('destroy').accordion({ 
+                    collapsible: true, 
+                    autoHeight: false 
+                  }).accordion( "activate", 1);
+                });
+
+                $(document).bind('feature.activate', function(e, scenario){
+                  //$('.scenario').removeClass('hover');
+                  //$(scenario).addClass('hover');
+                });
+
+                $(document).bind('feature.feature', function(e, scenario){
+                  //$('.scenario').removeClass('hover');
+                  //$(scenario).addClass('hover');
+                });
+
+
                 // Remark: this is a basic fix to apply all .accordion() events across the entire page
                 //         this event is a good candidate for refactoring
                 
@@ -412,22 +435,8 @@ $(function() {
                 });
                 
                 $('.add-feature').click(function(e){
-                  var out = NJ.nup.renderFeature(1, NJ.nup.DAL.get.features()[1]);
-                  $('#featureslist').append($.jup.html(out));
-      
-                  // rebind accordion
-                  $("#featureslist, .scenario").accordion('destroy').accordion({ 
-                    collapsible: true, 
-                    autoHeight: false 
-
-                  }).find("input").click(function(ev){
-                      ev.stopPropagation();
-                  });
-                  
-                  //$("#featureslist:last").accordion( "activate" , 1);
-                  //$(document).trigger('features.applyAccordions');           
+                  $(document).trigger('feature.add', NJ.nup.DAL.get.features()[1]);
                 });
-                
 
                 $('.add-milestone').live('click', function(e){
                   
