@@ -68,8 +68,17 @@ $(function() {
             },
             
             renderFeature: function(i, feature){
-              
-              var scenarios = [];
+              return [
+                  
+                  ["h3", { "class": "feature ms" + feature.milestone },
+                      ["input", { "type": "text", "value": feature.name }],
+                      ["div", { "class": "remove delete-feature ui-state-default ui-corner-all", "title": "Remove feature"  }, 
+                        ["span", "&nbsp"]
+                      ]
+                  ],
+                  
+                  ["div", { "class": "feature ms" + feature.milestone },
+                      (function() {
 
               $.each(feature.scenarios, function(key, scenario) {
                   scenarios.push(NJ.nup.renderScenario(key, scenario));
@@ -110,9 +119,15 @@ $(function() {
                 // http://www.michaelhamrah.com/blog/2008/12/event-pooling-with-jquery-using-bind-and-trigger-managing-complex-javascript/
 
                 $(document).bind('step.activate', function(e, step){
+                  
                   $('.steps li').removeClass('active').removeClass('hover');
                   $(step).addClass('active');
-                  $('input:focus').blur();
+                  $('.steps input').removeClass("inlineEditHover");
+                  //console.log($(step).find('input'));
+                  $(step).find('input').focus().addClass("inlineEditHover");
+                  
+                  $(document).unbind('keyBindings.canCycleThroughSteps');
+                  $(document).bind('keyBindings.canCycleThroughSteps', keyBindings.canCycleThroughSteps);
                 });
                 
                 $(document).bind('step.hover', function(e, step){
@@ -128,10 +143,16 @@ $(function() {
                   });
                 });
                 
+                $(document).bind('scenario.delete', function(e, scenario){
+                  $(scenario).slideUp(300, function(){
+                    $(this).remove()
+                  });
+                });
+
                 $(document).bind('scenario.activate', function(e, scenario){
                   $('.scenario').removeClass('active').removeClass('hover');
                   $(scenario).addClass('active');
-                  $('input:focus').blur();
+                  //$('input:focus').blur();
                 });
 
                 $(document).bind('scenario.hover', function(e, scenario){
@@ -139,32 +160,61 @@ $(function() {
                   $(scenario).addClass('hover');
                 });
 
+                $(document).bind('feature.add', function(e, feature){
+                  var out = NJ.nup.renderFeature(1, feature);
+                  $('#featureslist').append($.jup.html(out));
+                  // close all other Featuresaccordions
+                  $('#featureslist').accordion( "activate", false);
+                  // rebind accordion
+                  $(document).trigger('features.applyAccordions');
+
+                });
+
+                $(document).bind('feature.activate', function(e, scenario){
+                  //$('.scenario').removeClass('hover');
+                  //$(scenario).addClass('hover');
+                });
+
+                $(document).bind('feature.feature', function(e, scenario){
+                  //$('.scenario').removeClass('hover');
+                  //$(scenario).addClass('hover');
+                });
+
+
                 // Remark: this is a basic fix to apply all .accordion() events across the entire page
                 //         this event is a good candidate for refactoring
                 
-                $(document).bind('features.applyAccordions', function(e, scenario){
+                $(document).bind('features.applyAccordions', function(e){
                   
-                  $("#featureslist").accordion({ 
+                  
+                  $("#featureslist").accordion('destroy').accordion({ 
                     collapsible: true, 
                     autoHeight: false, 
                     active: false
+                  }).find("input, h3").click(function(e){
+                      
+                      
+                      if($(e.originalTarget).parent().hasClass('delete-scenario')){
+                        //e.stopPropagation();
+                        //e.preventDefault();
+                        
+                        $(document).trigger('scenario.delete', $(e.originalTarget).closest('.scenario'));
+                        return false;
+                      }
 
-                  }).find("input, h3").click(function(ev){
-                      ev.stopPropagation();
+                      //e.stopPropagation();
+                      //e.preventDefault();
                   });
-                  $("#featureslist").accordion( "activate" , 0 );
+                  
+                  //$("#featureslist").accordion( "activate" , 0 );
 
                   $(".scenario").accordion({ 
                     collapsible: true, 
                     autoHeight: false, 
                     active: false
 
-                  }).find("input, h3").click(function(ev){
-                      ev.stopImmediatePropagation();
-                      ev.preventDefault();
-                      stop = false;
                   });
-                  $(".scenario").accordion( "activate" , $(".scenario h3:first"));
+                  //$(".scenario:last").accordion( "activate" , $(".scenario h3:last"));
                   
                 });
                 
@@ -248,8 +298,6 @@ $(function() {
                   exportAction.dialog("open");
                 });                
                 
-                                          
-                
                 // render milestones
                 var html = [];
                 
@@ -259,10 +307,10 @@ $(function() {
 
                 $("#toolbar ul").html(html.join("")).disableSelection().sortable();
                 $("#toolbar .btn").button().live('click', function() {
-                  $("h3.milestone-member." + $(this).attr("id"))[$(this).attr("checked") ? "fadeIn" : "fadeOut"]();
-                  if($("h3.milestone-member." + $(this).attr("id")).hasClass('ui-state-active')){  
-                    $("h3.milestone-member." + $(this).attr("id")).click();
-                    $("div.milestone-member." + $(this).attr("id"))[$(this).attr("checked") ? "fadeIn" : "fadeOut"]();
+                  $("h3.feature." + $(this).attr("id"))[$(this).attr("checked") ? "fadeIn" : "fadeOut"]();
+                  if($("h3.feature." + $(this).attr("id")).hasClass('ui-state-active')){  
+                    $("h3.feature." + $(this).attr("id")).click();
+                    $("div.feature." + $(this).attr("id"))[$(this).attr("checked") ? "fadeIn" : "fadeOut"]();
                   }                 
                 });
                 
@@ -293,7 +341,13 @@ $(function() {
                 
                 $('.sortable-ui').sortable({ 
                   containment: "parent", 
-                  axis: "y"
+                  axis: "y",
+                  stop: function(e){
+                    var step =  $(e.originalTarget).closest('.step').parent();
+                    if(!$(step).hasClass('active')){
+                      $(document).trigger('step.activate', step);
+                    }
+                  }
                 });
                 
                 $('.steps li').live('mousedown', function(e){
@@ -325,8 +379,8 @@ $(function() {
                                 
                 // for adding additional steps in a scenario
                 $('.add-step').live('click', function(){
-                  $(this).siblings('ul').append(NJ.nup.renderStep());
-                  $('.sortable-ui').sortable('refresh')
+                  $(this).siblings('ul').append($.jup.html(NJ.nup.renderStep()));
+                  $('.sortable-ui').sortable('refresh');
                 });
                 
                 // for removing steps in a scenario
@@ -336,6 +390,7 @@ $(function() {
                 
                 
                 $(".delete-feature").live("click", function(e){
+                  console.log('delete feature');
                   e.stopPropagation();
                   if($(this).hasClass('ui-state-active')) {
                     $(this).parent().next(".ui-accordion-content").slideUp(300, function() {
@@ -356,7 +411,7 @@ $(function() {
                 $('.add-scenario').live("click", function(e){
                   // should this stop the accordion from toggling? thats what i want it to do!
                   //e.stopPropagation();
-
+                  
                   var out = NJ.nup.renderScenario(2, NJ.nup.DAL.get.scenariosByFeature(1)[0]);
                   $(this).before(out);
                   
@@ -365,33 +420,23 @@ $(function() {
                     autoHeight: false, 
                     active: false
 
-                  }).find("input, h3").click(function(ev){
-                      //ev.stopImmediatePropagation();
-                      //ev.preventDefault();
-                      stop = false;
                   });
                   
-                  //$(".scenario").accordion( "activate" , $(".scenario h3:first"));
-                  $('.steps').sortable();
+                  /*
+                  .find("input, h3").click(function(ev){
+                      ev.stopImmediatePropagation();
+                      ev.preventDefault();
+                      stop = false;
+                  });
+                  */
+                  //$(document).trigger('features.applyAccordions');
+                  //$(".scenario:last").accordion( "activate" , $(".scenario h3:last"));
                   
                 });
                 
                 $('.add-feature').click(function(e){
-                  var out = NJ.nup.renderFeature(1, NJ.nup.DAL.get.features()[1]);
-
-                  $('#featureslist').append(out);
-                  /*
-                  // rebind accordion
-                  $("#featureslist, .scenario").accordion('destroy').accordion({ 
-                    collapsible: true, 
-                    autoHeight: false 
-
-                  }).find("input").click(function(ev){
-                      ev.stopPropagation();
-                  });
-                  */                  
+                  $(document).trigger('feature.add', NJ.nup.DAL.get.features()[1]);
                 });
-                
 
                 $('.add-milestone').live('click', function(e){
                   
@@ -426,24 +471,48 @@ $(function() {
                $(document).bind('keydown', onKeyDown);
                
                keyBindings.canDeleteSteps = function(e, originalEvent){
-                   if(originalEvent.which == 8){
-                     $(document).trigger('step.delete', $('.active:last'));
-                     // Remark: we should be doing this with classes instead
-                     if(!$(originalEvent.originalTarget).get(0).tagName == 'INPUT'){
-                       //console.log(e, 'del key', $('.active:last'));
-                     }
-                     return false; // required to prevent browser from navigating to previous page
+                 if(originalEvent.which == 8){
+                   $(document).trigger('step.delete', $('.active:last'));
+                   // Remark: we should be doing this with classes instead
+                   if(!$(originalEvent.originalTarget).get(0).tagName == 'INPUT'){
+                     //console.log(e, 'del key', $('.active:last'));
                    }
+                   return false; // required to prevent browser from navigating to previous page
+                 }
                };
                
-               keyBindings.canCycleThroughSteps = function(data){
+               keyBindings.canCycleThroughSteps = function(e, originalEvent){
+
+                 if(originalEvent.which == 38) { // up
+                   var prevStep = $(originalEvent.originalTarget).closest('.step').parent().prev();
+                   if(prevStep.length!=0){
+                     $(document).trigger('step.activate', prevStep);
+                   }
+                 }
+                 if(originalEvent.which == 40) { // down
+                   var nextStep = $(originalEvent.originalTarget).closest('.step').parent().next();
+                   if(nextStep.length!=0){
+                     $(document).trigger('step.activate', nextStep);
+                   }
+                 }
+
                }
 
                $(document).bind('keyBindings.canDeleteSteps', keyBindings.canDeleteSteps);
-               $(document).bind('keyBindings.canCycleThroughSteps', keyBindings.canCycleThroughSteps);
 
                $('input').focus(function(){
+                 
+                 // TODO: determine if input is inside of Step, this will check whole document
+                 var step =  $(this).closest('.step').parent();
+                 if(!$(step).hasClass('active')){
+                   $(document).trigger('step.activate', step);
+                 }
+                 
+                 /*
+                 $('input').removeClass('inlineEditHover');
+                 $(this).addClass('inlineEditHover');
                  $(document).unbind('keyBindings.canDeleteSteps');
+                 */
                });
                 
                $('input').bind('blur',function(){
@@ -451,10 +520,10 @@ $(function() {
                });
                 
              if(!(_.isEmpty(DAL.get.milestones()))){
-               $("h3.milestone-member, div.milestone-member")["hide"]();
+               $("h3.feature, div.feature")["hide"]();
                $("label[for='ms1']").click();
                $("#ms1").attr("checked", true);
-               $("h3.milestone-member.ms1")["fadeIn"]();
+               $("h3.feature.ms1")["fadeIn"]();
               }
                 
                 
