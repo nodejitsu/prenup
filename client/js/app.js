@@ -209,13 +209,16 @@ $(function() {
                     autoHeight: false, 
                     active: false
                   }).find("input, h3").click(function(e){
+                      
+                      
                       if($(e.originalTarget).parent().hasClass('delete-scenario')){
-                        e.stopPropagation();
-                        e.preventDefault();
+                        //e.stopPropagation();
+                        //e.preventDefault();
                         
                         $(document).trigger('scenario.delete', $(e.originalTarget).closest('.scenario'));
                         return false;
                       }
+
                       //e.stopPropagation();
                       //e.preventDefault();
                   });
