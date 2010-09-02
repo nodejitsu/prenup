@@ -325,7 +325,13 @@ $(function() {
                 
                 $('.sortable-ui').sortable({ 
                   containment: "parent", 
-                  axis: "y"
+                  axis: "y",
+                  stop: function(e){
+                    var step =  $(e.originalTarget).closest('.step').parent();
+                    if(!$(step).hasClass('active')){
+                      $(document).trigger('step.activate', step);
+                    }
+                  }
                 });
                 
                 $('.steps li').live('mousedown', function(e){
@@ -358,7 +364,7 @@ $(function() {
                 // for adding additional steps in a scenario
                 $('.add-step').live('click', function(){
                   $(this).siblings('ul').append($.jup.html(NJ.nup.renderStep()));
-                  $('.sortable-ui').sortable('refresh')
+                  $('.sortable-ui').sortable('refresh');
                 });
                 
                 // for removing steps in a scenario
@@ -392,6 +398,7 @@ $(function() {
                   var out = NJ.nup.renderScenario(2, NJ.nup.DAL.get.scenariosByFeature(1)[0]);
                   $(this).before($.jup.html(out));
                   
+                  /*
                   $(".scenario").accordion({ 
                     collapsible: true, 
                     autoHeight: false, 
@@ -402,9 +409,11 @@ $(function() {
                       //ev.preventDefault();
                       stop = false;
                   });
-                  
-                  //$(".scenario").accordion( "activate" , $(".scenario h3:first"));
                   $('.steps').sortable();
+                  $(".scenario").accordion( "activate" , $(".scenario h3:first"));
+                  */
+
+                  $(document).trigger('features.applyAccordions');
                   
                 });
                 
@@ -421,7 +430,9 @@ $(function() {
                   }).find("input").click(function(ev){
                       ev.stopPropagation();
                   });
-                  */                  
+                  */       
+                  
+                  $(document).trigger('features.applyAccordions');           
                 });
                 
 
