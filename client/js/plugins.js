@@ -7,6 +7,11 @@ window.log = function(){
   }
 };
 
+if(typeof console == 'undefined'){
+  var console = {};
+  console.log = function(){return false;}
+}
+
 (function(doc){
   var write = doc.write;
   doc.write = function(q){ 
