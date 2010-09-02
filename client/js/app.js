@@ -29,8 +29,13 @@ $(function() {
               if(typeof pair == 'undefined'){
                 var pair = ["foo"];
               }
-              
-              return ["li", { "class": "ui-corner-all ui-state-default" },
+              ppp = $("<input/>").attr({"val": pair[1], "type": "text"})
+              html = Mustache.to_html($("#step_template").text(), {
+                  select: NJ.nup.renderWordSelector(DAL.get.operators(), pair[0]),
+                  content: ppp.end()
+                }
+              );
+             ["li", { "class": "ui-corner-all ui-state-default" },
                   ["table", { "class": "step" },
                     ["tr", [
                       ["td", { "class": "grip-col" }, ["span", { "class": "ui-icon ui-icon-arrowthick-2-n-s grip" }]],
@@ -42,6 +47,7 @@ $(function() {
                     ]]
                   ]
               ];
+              return html
             },
 
             renderWordSelector: function(data, value){
@@ -69,7 +75,7 @@ $(function() {
                           var breakdown = ["<ul class='sortable-ui steps'>"];
                           $.each(scenario.breakdown, function(key, step) {
                               $.each(step, function(key, pair) {
-                                  breakdown.push($.jup.html(NJ.nup.renderStep(pair)));
+                                  breakdown.push(NJ.nup.renderStep(pair));
                               });
                           });
                           breakdown.push("</ul>");
@@ -345,7 +351,7 @@ $(function() {
                                 
                 // for adding additional steps in a scenario
                 $('.add-step').live('click', function(){
-                  $(this).siblings('ul').append($.jup.html(NJ.nup.renderStep()));
+                  $(this).siblings('ul').append(NJ.nup.renderStep());
                   $('.sortable-ui').sortable('refresh')
                 });
                 
@@ -433,35 +439,30 @@ $(function() {
                 });
                 
 
-               // TODO: this shouldn't be in the global namespace
-               var keyBindings = {};
-               keyBindings.canDeleteSteps = function(data){
-                 $(document).bind('keydown',  function(e){
-                   //console.log(e.which);
-                   if(e.which == 8){
-                     $(e.originalTarget);
-                     $(document).trigger('step.delete', $('.active:last'));
-                     //console.log(.get(0).tagName);
-                     // Remark: we should be doing this with classes instead
-                     if(!$(e.originalTarget).get(0).tagName == 'INPUT'){
-                       //console.log(e, 'del key', $('.active:last'));
-                     }
-                     return false; // required to prevent browser from navigating to previous page
-                   }
-                 });
-               };
+                $(document).trigger('applyKeyBindings');
 
-                $(document).bind('keyBindings.apply', function(e, data){
-                   $(document).trigger('keyBindings.canDeleteSteps');
+                $(document).bind('applyKeyBindings', function(e, data){
+                  $(document).bind('keydown',  function(e){
+                    if(e.which == 8){
+                      $(e.originalTarget);
+                      $(document).trigger('step.delete', $('.active:last'));
+                      //console.log(.get(0).tagName);
+                      // Remark: we should be doing this with classes instead
+                      if(!$(e.originalTarget).get(0).tagName == 'INPUT'){
+                        console.log(e, 'del key', $('.active:last'));
+                      }
+                      
+                      return false; // required to prevent browser from navigating to previous page
+                    }
+                  });
                 });
-
-                $(document).bind('keyBindings.canDeleteSteps', keyBindings.canDeleteSteps);
+                
                 
                 $('input').focus(function(){
                   $(document).unbind('keydown');
                 });
                 $('input').blur(function(){
-                  $(document).trigger('keyBindings.apply');
+                  $(document).trigger('applyKeyBindings');
                 });
                 
              if(!(_.isEmpty(DAL.get.milestones()))){

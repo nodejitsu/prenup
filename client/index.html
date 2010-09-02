@@ -17,7 +17,22 @@
   <link rel="stylesheet" href="css/jquery-ui-1.8.4.custom.css" type="text/css" media="screen" title="no title" charset="utf-8">
   <script src="js/modernizr-1.5.min.js"></script>
 
-  
+  <script id="step_template" type="text/html">
+    <li class="ui-corner-all ui-state-default">
+      <table class="step">
+        <tr>
+          <td class="grip-col"></td>
+          <td class="operator-col"><span class="ui-icon ui-icon-arrowthick-2-n-s grip">{{select}}</span></td>
+          <td class = "content-col">{{content}}</td>
+          <td class = "delete-col">
+            <div class="remove delete-step ui-state-default ui-corner-all" title="Remove scenario">
+              <span>&nbsp;</span>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </li>
+  </script>
 
 </head>
 <!--[if lt IE 7 ]> <body class="ie6"> <![endif]-->
@@ -113,6 +128,8 @@ vows.describe('Addition').addBatch({
   <script src="js/app.js?v=1"></script>
   <script src="js/gerk.js"></script>
   <script src="js/onhashchange.js"></script>
+  <script src="js/mustache.js"></script>
+  
   
   <!--[if lt IE 7 ]>
     <script src="js/dd_belatedpng.js?v=1"></script>
