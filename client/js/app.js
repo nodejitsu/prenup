@@ -280,8 +280,6 @@ $(function() {
                   exportAction.dialog("open");
                 });                
                 
-                                          
-                
                 // render milestones
                 var html = [];
                 
@@ -415,9 +413,8 @@ $(function() {
                 
                 $('.add-feature').click(function(e){
                   var out = NJ.nup.renderFeature(1, NJ.nup.DAL.get.features()[1]);
-
                   $('#featureslist').append($.jup.html(out));
-                  /*
+      
                   // rebind accordion
                   $("#featureslist, .scenario").accordion('destroy').accordion({ 
                     collapsible: true, 
@@ -426,9 +423,9 @@ $(function() {
                   }).find("input").click(function(ev){
                       ev.stopPropagation();
                   });
-                  */       
                   
-                  $(document).trigger('features.applyAccordions');           
+                  //$("#featureslist:last").accordion( "activate" , 1);
+                  //$(document).trigger('features.applyAccordions');           
                 });
                 
 
@@ -476,7 +473,7 @@ $(function() {
                };
                
                keyBindings.canCycleThroughSteps = function(e, originalEvent){
-                 
+
                  if(originalEvent.which == 38) { // up
                    var prevStep = $(originalEvent.originalTarget).closest('.step').parent().prev();
                    if(prevStep.length!=0){
