@@ -85,14 +85,14 @@ $(function() {
             renderFeature: function(i, feature){
               return [
                   
-                  ["h3", { "class": "milestone-member ms" + feature.milestone },
+                  ["h3", { "class": "kyuri ms" + feature.milestone },
                       ["input", { "type": "text", "value": feature.name }],
                       ["div", { "class": "remove delete-feature ui-state-default ui-corner-all", "title": "Remove feature"  }, 
                         ["span", "&nbsp"]
                       ]
                   ],
                   
-                  ["div", { "class": "milestone-member ms" + feature.milestone },
+                  ["div", { "class": "kyuri ms" + feature.milestone },
                       (function() {
 
                           var scenarios = [];
@@ -289,10 +289,10 @@ $(function() {
 
                 $("#toolbar ul").html(html.join("")).disableSelection().sortable();
                 $("#toolbar .btn").button().live('click', function() {
-                  $("h3.milestone-member." + $(this).attr("id"))[$(this).attr("checked") ? "fadeIn" : "fadeOut"]();
-                  if($("h3.milestone-member." + $(this).attr("id")).hasClass('ui-state-active')){  
-                    $("h3.milestone-member." + $(this).attr("id")).click();
-                    $("div.milestone-member." + $(this).attr("id"))[$(this).attr("checked") ? "fadeIn" : "fadeOut"]();
+                  $("h3.kyuri." + $(this).attr("id"))[$(this).attr("checked") ? "fadeIn" : "fadeOut"]();
+                  if($("h3.kyuri." + $(this).attr("id")).hasClass('ui-state-active')){  
+                    $("h3.kyuri." + $(this).attr("id")).click();
+                    $("div.kyuri." + $(this).attr("id"))[$(this).attr("checked") ? "fadeIn" : "fadeOut"]();
                   }                 
                 });
                 
@@ -511,10 +511,10 @@ $(function() {
                });
                 
              if(!(_.isEmpty(DAL.get.milestones()))){
-               $("h3.milestone-member, div.milestone-member")["hide"]();
+               $("h3.kyuri, div.kyuri")["hide"]();
                $("label[for='ms1']").click();
                $("#ms1").attr("checked", true);
-               $("h3.milestone-member.ms1")["fadeIn"]();
+               $("h3.kyuri.ms1")["fadeIn"]();
               }
                 
                 
