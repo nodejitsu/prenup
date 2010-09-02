@@ -138,7 +138,10 @@ $(function() {
                 $(document).bind('step.activate', function(e, step){
                   $('.steps li').removeClass('active').removeClass('hover');
                   $(step).addClass('active');
-                  $('input:focus').blur();
+                  console.log($(step).find('input'));
+                  $(step).find('input').focus();
+                  $(document).unbind('keyBindings.canCycleThroughSteps');
+                  $(document).bind('keyBindings.canCycleThroughSteps', keyBindings.canCycleThroughSteps);
                 });
                 
                 $(document).bind('step.hover', function(e, step){
@@ -157,7 +160,7 @@ $(function() {
                 $(document).bind('scenario.activate', function(e, scenario){
                   $('.scenario').removeClass('active').removeClass('hover');
                   $(scenario).addClass('active');
-                  $('input:focus').blur();
+                  //$('input:focus').blur();
                 });
 
                 $(document).bind('scenario.hover', function(e, scenario){
@@ -452,21 +455,34 @@ $(function() {
                $(document).bind('keydown', onKeyDown);
                
                keyBindings.canDeleteSteps = function(e, originalEvent){
-                   if(originalEvent.which == 8){
-                     $(document).trigger('step.delete', $('.active:last'));
-                     // Remark: we should be doing this with classes instead
-                     if(!$(originalEvent.originalTarget).get(0).tagName == 'INPUT'){
-                       //console.log(e, 'del key', $('.active:last'));
-                     }
-                     return false; // required to prevent browser from navigating to previous page
+                 if(originalEvent.which == 8){
+                   $(document).trigger('step.delete', $('.active:last'));
+                   // Remark: we should be doing this with classes instead
+                   if(!$(originalEvent.originalTarget).get(0).tagName == 'INPUT'){
+                     //console.log(e, 'del key', $('.active:last'));
                    }
+                   return false; // required to prevent browser from navigating to previous page
+                 }
                };
                
-               keyBindings.canCycleThroughSteps = function(data){
+               keyBindings.canCycleThroughSteps = function(e, originalEvent){
+                 
+                 if(originalEvent.which == 38) { // up
+                   var nextStep = $(originalEvent.originalTarget).closest('.step').parent().prev();
+                   $(document).trigger('step.activate', nextStep);
+                   console.log('up');
+                 }
+                 if(originalEvent.which == 40) { // down
+                   var nextStep = $(originalEvent.originalTarget).closest('.step').parent().next();
+                   $(document).trigger('step.activate', nextStep);
+                   console.log('down');
+                 }
+                 
+                 var nextInput;
+                 console.log(nextStep);
                }
 
                $(document).bind('keyBindings.canDeleteSteps', keyBindings.canDeleteSteps);
-               $(document).bind('keyBindings.canCycleThroughSteps', keyBindings.canCycleThroughSteps);
 
                $('input').focus(function(){
                  $(document).unbind('keyBindings.canDeleteSteps');
