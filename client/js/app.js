@@ -468,16 +468,20 @@ $(function() {
                keyBindings.canCycleThroughSteps = function(e, originalEvent){
                  
                  if(originalEvent.which == 38) { // up
-                   var nextStep = $(originalEvent.originalTarget).closest('.step').parent().prev();
-                   $(document).trigger('step.activate', nextStep);
+                   var prevStep = $(originalEvent.originalTarget).closest('.step').parent().prev();
+                   if(prevStep.length!=0){
+                     $(document).trigger('step.activate', prevStep);
+                   }
                    console.log('up');
                  }
                  if(originalEvent.which == 40) { // down
                    var nextStep = $(originalEvent.originalTarget).closest('.step').parent().next();
-                   $(document).trigger('step.activate', nextStep);
+                   if(nextStep.length!=0){
+                     $(document).trigger('step.activate', nextStep);
+                   }
                    console.log('down');
                  }
-                 
+
                  var nextInput;
                  console.log(nextStep);
                }
