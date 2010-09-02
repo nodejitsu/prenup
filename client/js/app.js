@@ -138,8 +138,8 @@ $(function() {
                 $(document).bind('step.activate', function(e, step){
                   $('.steps li').removeClass('active').removeClass('hover');
                   $(step).addClass('active');
-                  console.log($(step).find('input'));
-                  $(step).find('input').focus();
+                  $('.steps input').removeClass("inlineEditHover");
+                  $(step).find('input').focus().addClass("inlineEditHover");
                   $(document).unbind('keyBindings.canCycleThroughSteps');
                   $(document).bind('keyBindings.canCycleThroughSteps', keyBindings.canCycleThroughSteps);
                 });
