@@ -196,7 +196,7 @@ $(function() {
                       ev.preventDefault();
                       stop = false;
                   });
-                  $(".scenario").accordion( "activate" , $(".scenario h3:first"));
+                  //$(".scenario:last").accordion( "activate" , $(".scenario h3:last"));
                   
                 });
                 
@@ -394,11 +394,10 @@ $(function() {
                 $('.add-scenario').live("click", function(e){
                   // should this stop the accordion from toggling? thats what i want it to do!
                   //e.stopPropagation();
-
+                  
                   var out = NJ.nup.renderScenario(2, NJ.nup.DAL.get.scenariosByFeature(1)[0]);
                   $(this).before($.jup.html(out));
                   
-                  /*
                   $(".scenario").accordion({ 
                     collapsible: true, 
                     autoHeight: false, 
@@ -409,11 +408,8 @@ $(function() {
                       //ev.preventDefault();
                       stop = false;
                   });
-                  $('.steps').sortable();
-                  $(".scenario").accordion( "activate" , $(".scenario h3:first"));
-                  */
-
-                  $(document).trigger('features.applyAccordions');
+                  //$(document).trigger('features.applyAccordions');
+                  //$(".scenario:last").accordion( "activate" , $(".scenario h3:last"));
                   
                 });
                 
