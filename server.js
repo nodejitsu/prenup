@@ -37,8 +37,8 @@ require('http').createServer(function (req, resp) {
           file.serve(req, resp, function (err, res) {
               if (err) { // An error as occured
                   sys.error("> Error serving " + req.url + " - " + err.message);
-                  res.writeHead(err.status, err.headers);
-                  res.end();
+                  resp.writeHead(err.status, err.headers);
+                  resp.end();
               } else { // The file was served successfully
                   sys.puts("> " + req.url + " - " + res.message);
               }
