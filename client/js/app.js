@@ -176,15 +176,15 @@ $(function() {
                 })
 
                 $(document).bind('step.activate', function(e, step){
-                  
+                  console.log('step.activate');
                   $('.steps li').removeClass('active').removeClass('hover');
                   $(step).addClass('active');
                   $('.steps input').removeClass("inlineEditHover");
                   //console.log($(step).find('input'));
-                  //$(step).find('input').focus().addClass("inlineEditHover");
+                  $(step).find('input').focus().addClass("inlineEditHover").caret(0,0 );
                   
-                  $(document).unbind('keyBindings.canCycleThroughSteps');
-                  $(document).bind('keyBindings.canCycleThroughSteps', keyBindings.canCycleThroughSteps);
+                  $(document).unbind('keyBindings.canCycle');
+                  $(document).bind('keyBindings.canCycle', keyBindings.canCycle);
                 });
                 
                 $(document).bind('step.hover', function(e, step){
@@ -209,7 +209,7 @@ $(function() {
                 $(document).bind('scenario.activate', function(e, scenario){
                   $('.scenario').removeClass('active').removeClass('hover');
                   $(scenario).addClass('active');
-                  //$('input:focus').blur();
+                  $(scenario).find('input').focus().addClass("inlineEditHover").caret(0,0 );
                 });
 
                 $(document).bind('scenario.hover', function(e, scenario){
@@ -295,10 +295,7 @@ $(function() {
                     "ok": function() {
                       var self = this;
                       $('span#progressBar').remove();
-                      $(".ui-dialog:visible").fadeOut(function() {
-                        $(self).dialog("close");
-                      });
-                      
+                      $(self).dialog("close");
                     }
                   }
                 });                
@@ -518,6 +515,8 @@ $(function() {
                 });
                 
                function onKeyDown(e){
+                 
+                  console.log(e.which);
                   var events = $(document).data('events');
                   for(var eventName in events){
                     for(var i = 0; i < events[eventName].length; i++){
@@ -541,8 +540,12 @@ $(function() {
                  }
                };
                
-               keyBindings.canCycleThroughSteps = function(e, originalEvent){
-
+               keyBindings.canCycle = function(e, originalEvent){
+                 
+                 
+                 // determine where in the dom the originalEvent emitted from
+                 
+                 console.log('canCycle', originalEvent);
                  if(originalEvent.which == 38) { // up
                    var prevStep = $(originalEvent.originalTarget).closest('.step').parent().prev();
                    if(prevStep.length!=0){
@@ -558,7 +561,24 @@ $(function() {
 
                }
 
+
+
                $(document).bind('keyBindings.canDeleteSteps', keyBindings.canDeleteSteps);
+
+               $('.ui-accordion').bind('accordionchange', function(event, ui) {
+                 
+                 console.log($(ui.newHeader).parent());
+                 
+                 $(document).trigger('scenario.activate', $(ui.newHeader).parent());
+                 
+                 /*
+                 ui.newHeader // jQuery object, activated header
+                 ui.oldHeader // jQuery object, previous header
+                 ui.newContent // jQuery object, activated content
+                 ui.oldContent // jQuery object, previous content
+                 */
+               });
+
                
                $('input').focus(function(){
                  
@@ -569,8 +589,10 @@ $(function() {
                  }
 
                  var step =  $(this).closest('.step').parent();
+                 //console.log($(step));
+                 //console.log($(step).hasClass('active'));
                  if(!$(step).hasClass('active')){
-                   $(document).trigger('step.activate', step);
+                   //$(document).trigger('step.activate', step);
                  }
                  
                  /*
