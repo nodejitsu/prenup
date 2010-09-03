@@ -116,52 +116,47 @@
   </div>
     
     <footer>
-      <table>
-    <tr>
-      <td>
-        When you're ready to create code from this stuff, click here...
         <div id="export" title="create code from this thing">
         </div>
-    <div id="export-data">
-      <h2>this is currently stubbed out, will implement soon</h2>
-<pre>
-<code>
-vows.describe('Addition').addBatch({
-  "Add two numbers": {
-    "GIVEN I have entered 50 into the calculator": {
-          topic: function () {
-            /* Setup your test conditions here */
-          },
-            "AND I have entered 70 into the calculator": {
-              topic: function () {
-                /* Setup your test conditions here */
-              },
-                "WHEN I press add": {
-                  topic: function () {
-                    /* Setup your test conditions here */
-                  },
-                    "THEN the result should be 120 on the screen": function () {
-                      /* Setup your test assertions here */
-                    },
-                }
-            }
-        }
-  }
-}).export(module);      
-</code>
-</pre>      
-    </div>
-      </td>
-    </tr>
-    </table>            
     </footer>
   </div> <!-- end of #container -->
+  
+  <div id="export-data" style="display:none;">
+    <h2>this is currently stubbed out, will implement soon</h2>
+    <pre>
+    <code>
+    vows.describe('Addition').addBatch({
+    "Add two numbers": {
+      "GIVEN I have entered 50 into the calculator": {
+            topic: function () {
+              /* Setup your test conditions here */
+            },
+              "AND I have entered 70 into the calculator": {
+                topic: function () {
+                  /* Setup your test conditions here */
+                },
+                  "WHEN I press add": {
+                    topic: function () {
+                      /* Setup your test conditions here */
+                    },
+                      "THEN the result should be 120 on the screen": function () {
+                        /* Setup your test assertions here */
+                      },
+                  }
+              }
+          }
+    }
+    }).export(module);      
+    </code>
+    </pre>      
+  </div>
 
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
   <script>!window.jQuery && document.write('<script src="js/jquery-1.4.2.min.js"><\/script>')</script>
   <script src="js/jquery-ui-1.8.custom.min.js?v=1"></script>
   <script src="js/jquery.hotKeys.js?v=1"></script>
   <script src="js/underscore.js?v=1"></script>
+  <script src="js/jup.js?v=1"></script>
   <script src="js/hi.js" type="text/javascript" charset="utf-8"></script>
   <script src="js/plugins.js?v=1"></script>
 
