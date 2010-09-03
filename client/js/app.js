@@ -285,7 +285,7 @@ $(function() {
                 });
                 
                 // splash page dialog
-                var splash = $("#splash").dialog({
+                $("#splash").dialog({
                   resizable: false,
                   width: 655,
                   height: 400,
@@ -297,17 +297,10 @@ $(function() {
                       $('.feature:first').find('input:first').focus();
                       $('.feature:first').find('input:first').caret(0,0);
                     });
-                  },             
-                  buttons: {
-                    "ok": function() {
-                      var self = this;
-                      $('span#progressBar').remove();
-                      $(self).dialog("close");
-                    }
-                  }
-                });                
+                  }             
+               });                
                 
-                var exportAction = $("#export-data").dialog({
+               $("#export-data").dialog({
                   resizable: false,
                   autoOpen: false,
                   height: 500,
@@ -325,8 +318,9 @@ $(function() {
                   }
                 });
                 
-                
-                $('.ui-dialog-buttonpane').prepend('<span id="progressBar"/>'); // slight hack to add progressBar to modal
+                $('#okay').button().click(function(){
+                  $('#splash').dialog( "close" );
+                });
                 $('.ui-button').attr('disabled', 'disabled');
                 $('.ui-button').css('opacity', 0.5);
                 $('#progressBar').slider({
