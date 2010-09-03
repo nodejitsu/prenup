@@ -1,4 +1,4 @@
-var sys = require('sys');
+var sys = require('sys'), querystring = require('querystring'), url = require('url');
 var static = require('./vendor/node-static/lib/node-static');
 var kyuri = require('./vendor/kyuri/lib/kyuri');
 
@@ -8,32 +8,45 @@ var kyuri = require('./vendor/kyuri/lib/kyuri');
 //
 var file = new(static.Server)('./client', { cache: 7200, headers: {'X-Hello':'World!'} });
 
-require('http').createServer(function (request, response) {
-    request.addListener('end', function () {
-        //
-        // Serve files!
-        //
-        if(request.url == '/'){
-          request.url = "index.html";
-        }
+require('http').createServer(function (req, resp) {
+    
+    req.body = '';
 
-        if(request.url == '/export'){
-          response.writeHead(200, {'Content-Type':'text/plain'} );
-          response.write('foo');
-          response.end();
+    req.addListener('data',function(chunk){
+      req.body += chunk
+    })
+    
+    req.addListener('end', function () {
+        // Remark: here is an example of a simple router with node-static fallback 
+        if(req.url == '/'){
+          req.url = "index.html";
         }
-
-        file.serve(request, response, function (err, res) {
-            if (err) { // An error as occured
-                sys.error("> Error serving " + request.url + " - " + err.message);
-                response.writeHead(err.status, err.headers);
-                response.end();
-            } else { // The file was served successfully
-                sys.puts("> " + request.url + " - " + res.message);
-            }
-        });
+        if(req.url == '/export'){
+            sys.puts('attempting to export vows stubs');
+              var httpParams = {};
+              req.uri = url.parse(req.url);
+              if(typeof req.uri.query == 'undefined'){req.uri.query = '';}
+              req.uri.params = querystring.parse(req.uri.query);
+              // request.uri.params
+              var jsonAST = JSON.parse(req.body.toString());
+              // request processing logic goes here
+              resp.writeHead(200, {'Content-Type': 'text/plain'});
+              resp.write(JSON.stringify(jsonAST));
+              resp.end();
+        }
+        else{
+          file.serve(req, resp, function (err, res) {
+              if (err) { // An error as occured
+                  sys.error("> Error serving " + req.url + " - " + err.message);
+                  res.writeHead(err.status, err.headers);
+                  res.end();
+              } else { // The file was served successfully
+                  sys.puts("> " + req.url + " - " + res.message);
+              }
+          });
+        }
     });
 }).listen(8080);
 
-sys.puts("> nuptials is listening on http://127.0.0.1:8080");
+sys.puts("> prenup is listening on http://127.0.0.1:8080");
  
