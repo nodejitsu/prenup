@@ -169,7 +169,7 @@ $(function() {
                     type: "POST",
                     data: JSON.stringify(stubAST),
                     success: function(data) {
-                      console.log(data);
+                      //console.log(data);
                       //$('#export-data code').html(data);
                     }
                   });

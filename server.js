@@ -1,12 +1,7 @@
 var sys = require('sys');
-
 var static = require('./vendor/node-static/lib/node-static');
-
 var kyuri = require('./vendor/kyuri/lib/kyuri');
 
-var eyes = require('eyes');
-
-eyes.inspect(kyuri);
 
 //
 // Create a node-static server to serve the current directory
