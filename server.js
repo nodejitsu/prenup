@@ -22,7 +22,6 @@ require('http').createServer(function (req, resp) {
           req.url = "index.html";
         }
         if(req.url == '/export'){
-            sys.puts('attempting to export vows stubs');
               var httpParams = {};
               req.uri = url.parse(req.url);
               if(typeof req.uri.query == 'undefined'){req.uri.query = '';}
@@ -31,7 +30,7 @@ require('http').createServer(function (req, resp) {
               var jsonAST = JSON.parse(req.body.toString());
               // request processing logic goes here
               resp.writeHead(200, {'Content-Type': 'text/plain'});
-              resp.write(JSON.stringify(jsonAST));
+              resp.write(JSON.stringify(kyuri.parseAST(jsonAST)));
               resp.end();
         }
         else{
