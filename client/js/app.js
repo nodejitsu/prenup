@@ -221,7 +221,9 @@ $(function() {
                   var out = NJ.nup.renderFeature(1, feature);
                   $('#featureslist').append($.jup.html(out));
                   // close all other Featuresaccordions
-                  $('#featureslist').accordion( "activate", false);
+                  
+                  // KILLIT
+                    //$('#featureslist').accordion( "activate", false);
                   // rebind accordion
                   $(document).trigger('features.applyAccordions');
 
@@ -232,7 +234,9 @@ $(function() {
                   $(feature).addClass('active');
                   var theInput = $('.feature:first').find('input:first');
                   theInput.addClass('inlineEditHover');
-                  $("#featureslist").accordion( "activate" , 0 );
+                  // KILLIT
+                  
+                  //$("#featureslist").accordion( "activate" , 0 );
                 });
 
 
@@ -241,7 +245,9 @@ $(function() {
                 
                 $(document).bind('features.applyAccordions', function(e){
                   
+                  // KILLIT
                   
+                  /*
                   $("#featureslist").accordion('destroy').accordion({ 
                     collapsible: true, 
                     autoHeight: false, 
@@ -260,13 +266,18 @@ $(function() {
                       //e.stopPropagation();
                       //e.preventDefault();
                   });
+                  */
                   
+                  // KILLIT
+                  
+                  /*
                   $(".scenario").accordion({ 
                     collapsible: true, 
                     autoHeight: false, 
                     active: false
 
                   });
+                  */
                   //$(".scenario:last").accordion( "activate" , $(".scenario h3:last"));
                   
                 });
@@ -463,12 +474,17 @@ $(function() {
                   out = $.jup.html(out)
                   $(this).before(out);
                   
+                  // KILLIT
+                  
+                  /*
                   $(".scenario").accordion({ 
                     collapsible: true, 
                     autoHeight: false, 
                     active: false
 
                   });
+                  */
+                  
                   $(this).prev().find('.sortable-ui').sortable({ 
                     containment: "parent", 
                     axis: "y",
