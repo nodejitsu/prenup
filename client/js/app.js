@@ -601,10 +601,10 @@ $(function() {
             DATA: { // dummy-data, this would be replaced by loaded data.
 
                 language: "en",
-                project: "My Math Research Project",
+                project: "Build a node.js application",
                 milestones: {
-                    "1": "Do Some Math", 
-                    "2": "Create a UI"
+                    "1": "Build an HTTP server", 
+                    "2": "Build a client facing API"
                 },
                 users: {
                     "1": "Joe",
@@ -617,8 +617,8 @@ $(function() {
                         milestone: 1,
                         owner: 1,
                         users: [2, 3],
-                        name: "Addition",
-                        description: "In order to avoid silly mistakes, as a genius, I want to be told the sum of two numbers.",
+                        name: "Respond to incoming requests",
+                        description: "In order to respond to incoming requests, as an http.Server instance, I need to process requests",
                         timeunit: "hour",
                         costPerTimeUnit: 80,
                         scenarios: [
@@ -626,71 +626,12 @@ $(function() {
                                 id: 0,                                
                                 outline: false,                                
                                 time: 20,
-                                name: "Add two numbers",
-                                description: "blah",
+                                name: "Process well formed request",
+                                description: "a regular looking http request",
                                 breakdown: [
-                                    {"1": ["given", "I have entered 50 into the calculator"]},
-                                    {"2": ["and", "I press add button"]},                                    
-                                    {"3": ["and", "I have entered 70 into the calculator"]},
-                                    {"4": ["and", "I press the add button again or the sum button"]},                                    
-                                    {"5": ["then", "the result should be 120 on the screen"]}
-                                ]
-                            },
-                            {
-                                id: 1,                                
-                                outline: false,
-                                time: 20,
-                                name: "Divide By Zero",                                
-                                description: "In mathematics, a division is called a division by zero if the divisor is zero.",
-                                breakdown: [
-                                    {"1": ["given", "indexzero sits at his computer and writes the lexor"]},
-                                    {"2": ["given", "marak eats cheese burgers off of his laptop"]},
-                                    {"3": ["then", "code will be awesome as usual"]}
-                                ]
-                            }
-                        ]
-                    },
-                    "2": {
-                        milestone: 2,
-                        owner: 1,
-                        users: [2, 3],
-                        name: "Singup as  a Subscriber",
-                        description: "In order to use our website\n As an subscriber\n I need to be able to create a subscriber account and pay for a subscription", 
-                        timeunit: "hour",
-                        costPerTimeUnit: 80,
-                        time: 5,
-                        scenarios: [
-                            {
-                                id: 2,                                
-                                outline: true,
-                                examples: {
-                                    "username": ['charlie', 'indexzero', 'shit'],
-                                    "password": ['12345', 'abcde']
-                                },
-                                time: 20,
-                                name: "Successfully Signup as a subscriber",                                
-                                description: "blah",
-                                breakdown: [
-                                    {"1": ["given", "I have no account"]},
-                                    {"2": ["when", "I go to subscriber-signup"]},
-                                    {"3": ["then", "should see 'Create an Account'"]},
-                                    {"4": ["when", "I fill in the form"]},
-                                    {"5": ["and", "I press 'Create Account'"]},
-                                    {"6": ["then", "a user should exist with username: 'fotoverite'"]},
-                                    {"7": ["and",  "I should be on the success page"]}
-                                    
-                                ]
-                            },
-                            {
-                                id: 3,
-                                outline: false,                                
-                                time: 20,
-                                name: "Successfully purchase subscription with a different billing address",                                
-                                description: "blah",
-                                breakdown: [
-                                    {"1": ["background", "sentence1"]},
-                                    {"3": ["where", "sentence2"]},
-                                    {"2": ["and", "sentence3"]}
+                                    {"1": ["given", "the http.Server instances recieves a callback"]},
+                                    {"2": ["and", "it has a recieved a response and an request as the arguments"]},                                    
+                                    {"5": ["then", "the incoming request should be responded to"]}
                                 ]
                             }
                         ]
