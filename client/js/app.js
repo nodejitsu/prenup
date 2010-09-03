@@ -173,8 +173,6 @@ $(function() {
                       //$('#export-data code').html(data);
                     }
                   });
-                  
-                  
                 })
 
                 $(document).bind('step.activate', function(e, step){
@@ -234,6 +232,7 @@ $(function() {
                   $(feature).addClass('active');
                   var theInput = $('.feature:first').find('input:first');
                   theInput.addClass('inlineEditHover');
+                  $("#featureslist").accordion( "activate" , 0 );
                 });
 
 
@@ -262,8 +261,6 @@ $(function() {
                       //e.preventDefault();
                   });
                   
-                  //$("#featureslist").accordion( "activate" , 0 );
-
                   $(".scenario").accordion({ 
                     collapsible: true, 
                     autoHeight: false, 
