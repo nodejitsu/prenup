@@ -30,7 +30,7 @@ require('http').createServer(function (req, resp) {
               var jsonAST = JSON.parse(req.body.toString());
               // request processing logic goes here
               resp.writeHead(200, {'Content-Type': 'text/plain'});
-              resp.write(JSON.stringify(kyuri.parseAST(jsonAST)));
+              resp.write(JSON.stringify(kyuri.compile(jsonAST)));
               resp.end();
         }
         else{

@@ -151,6 +151,13 @@ $(function() {
             
             pageLoad: function() {
               
+                // custom .trigger logger
+                var _trigger = $.fn.trigger;
+                $.fn.trigger = function(name,args,p){
+                  console.log(name, args, _trigger);
+                  return _trigger.apply(this,arguments);
+                };
+              
                 jQuery.extend(jQuery.expr[':'], {
                   focus: "a == document.activeElement"
                 });
