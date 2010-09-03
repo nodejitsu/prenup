@@ -255,6 +255,7 @@ $(function() {
                   buttons: {
                     "ok": function() {
                       var self = this;
+                      $('span#progressBar').remove();
                       $(".ui-dialog:visible").fadeOut(function() {
                         $(self).dialog("close");
                       });
@@ -289,7 +290,7 @@ $(function() {
                 });
                 
                 
-                $('.ui-dialog-buttonpane').prepend('<div id="progressBar"/>'); // slight hack to add progressBar to modal
+                $('.ui-dialog-buttonpane').prepend('<span id="progressBar"/>'); // slight hack to add progressBar to modal
                 $('.ui-button').attr('disabled', 'disabled');
                 $('.ui-button').css('opacity', 0.5);
                 $('#progressBar').slider({
