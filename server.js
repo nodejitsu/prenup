@@ -2,6 +2,12 @@ var sys = require('sys');
 
 var static = require('./vendor/node-static/lib/node-static');
 
+var kyuri = require('./vendor/kyuri/lib/kyuri');
+
+var eyes = require('eyes');
+
+eyes.inspect(kyuri);
+
 //
 // Create a node-static server to serve the current directory
 //
@@ -16,6 +22,12 @@ require('http').createServer(function (request, response) {
           request.url = "index.html";
         }
 
+        if(request.url == '/export'){
+          response.writeHead(200, {'Content-Type':'text/plain'} );
+          response.write('foo');
+          response.end();
+        }
+
         file.serve(request, response, function (err, res) {
             if (err) { // An error as occured
                 sys.error("> Error serving " + request.url + " - " + err.message);
@@ -26,7 +38,7 @@ require('http').createServer(function (request, response) {
             }
         });
     });
-}).listen(80);
+}).listen(8080);
 
 sys.puts("> nuptials is listening on http://127.0.0.1:8080");
  
