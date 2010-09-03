@@ -45,7 +45,7 @@ require('http').createServer(function (req, resp) {
           });
         }
     });
-}).listen(8080);
+}).listen(process.ENV.port || 8080);
 
 sys.puts("> prenup is listening on http://127.0.0.1:8080");
  
