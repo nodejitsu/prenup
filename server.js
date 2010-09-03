@@ -1,6 +1,7 @@
 var sys = require('sys');
-
 var static = require('./vendor/node-static/lib/node-static');
+var kyuri = require('./vendor/kyuri/lib/kyuri');
+
 
 //
 // Create a node-static server to serve the current directory
@@ -14,6 +15,12 @@ require('http').createServer(function (request, response) {
         //
         if(request.url == '/'){
           request.url = "index.html";
+        }
+
+        if(request.url == '/export'){
+          response.writeHead(200, {'Content-Type':'text/plain'} );
+          response.write('foo');
+          response.end();
         }
 
         file.serve(request, response, function (err, res) {

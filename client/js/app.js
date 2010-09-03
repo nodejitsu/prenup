@@ -1,5 +1,31 @@
 /* App Start */
 
+// json-rpc stub, replace this
+var stubAST = {
+  '1': {
+    name: 'Addition',
+    description: "In order to avoid silly mistakes\n As a math idiot\n I want to be told the sum of two numbers",
+    scenarios: [
+      {
+        outline: true,
+        name: 'Add two numbers',
+        breakdown: [
+          { '1': ['Given', 'I have entered 50 into the calculator'] },
+          { '2': ['And',   'I have entered 70 into the calculator'] },
+          { '3': ['When',  'I press add'] },
+          { '4': ['Then',  'the result should be 120 on the screen'] }
+        ],
+        examples: {
+          // Remark: Only valid if outline === true
+          "header0" : ['value1', 'value2', 'value3'],
+          "header1" : ['value1', 'value2', 'value3'],
+          "header2" : ['value1', 'value2', 'value3']
+        }
+      }
+    ]
+  }
+};
+
 // TODO: this shouldn't be in the global namespace
 // TODO: key bindings could done be via event delegation of keypress on the document, possible candidate for refactor 
 var keyBindings = {};
@@ -134,6 +160,22 @@ $(function() {
               
                 // jQuery event pooling can be fun for UI events!!!
                 // http://www.michaelhamrah.com/blog/2008/12/event-pooling-with-jquery-using-bind-and-trigger-managing-complex-javascript/
+
+
+                $(document).bind('ws.submitAST', function(e, data){
+                  
+                  $.ajax({
+                    url: '/export', /* TODO: Need real URL to submit to */
+                    type: "POST",
+                    data: JSON.stringify(stubAST),
+                    success: function(data) {
+                      //console.log(data);
+                      //$('#export-data code').html(data);
+                    }
+                  });
+                  
+                  
+                })
 
                 $(document).bind('step.activate', function(e, step){
                   
@@ -274,15 +316,8 @@ $(function() {
                   buttons: {
                     "ok": function() {
                       
-                      $.ajax({
-                        url: '/whatever/someurl', /* TODO: Need real URL to submit to */
-                        type: "POST",
-                        data: JSON.stringify(NJ.nup.DATA),
-                        success: function(data) {
-                          $('#export-data code').html(data);
-                        }
-                      });
-                      
+                      // put ajax post here
+                      $(document).trigger('ws.submitAST');
                       $(this).dialog("close");
                       
                     }
@@ -440,6 +475,7 @@ $(function() {
 
                   });
                   
+                  $('.sortable-ui').sortable('refresh');
                   /*
                   .find("input, h3").click(function(ev){
                       ev.stopImmediatePropagation();
