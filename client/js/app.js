@@ -68,17 +68,8 @@ $(function() {
             },
             
             renderFeature: function(i, feature){
-              return [
-                  
-                  ["h3", { "class": "feature ms" + feature.milestone },
-                      ["input", { "type": "text", "value": feature.name }],
-                      ["div", { "class": "remove delete-feature ui-state-default ui-corner-all", "title": "Remove feature"  }, 
-                        ["span", "&nbsp"]
-                      ]
-                  ],
-                  
-                  ["div", { "class": "feature ms" + feature.milestone },
-                      (function() {
+              var scenarios = [];
+              
 
               $.each(feature.scenarios, function(key, scenario) {
                   scenarios.push(NJ.nup.renderScenario(key, scenario));
