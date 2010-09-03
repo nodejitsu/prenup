@@ -70,7 +70,6 @@ $(function() {
             renderFeature: function(i, feature){
               var scenarios = [];
               
-
               $.each(feature.scenarios, function(key, scenario) {
                   scenarios.push(NJ.nup.renderScenario(key, scenario));
               });
@@ -85,16 +84,12 @@ $(function() {
             
             renderMilestone: function(key, milestone){
               
-              var html = [];
-
-              html.push($.jup.html(["li",
-                  ["input", { "class": "btn", "id": "ms" + key, "type": "checkbox" }], 
-                  ["label", { "class": "milestone", "for": "ms" + key }, milestone,
-                    ["img", {"src": "img/delete.png", "height": "22", "width": "22" }]   
-                  ]
-              ]));
-              
-              return html;
+               return Mustache.to_html($("#milestone_template").text(), {
+                    key: 'ms' + key,
+                    milestone: milestone,
+                  }
+                );
+                    
             },
             
             pageLoad: function() {

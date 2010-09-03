@@ -46,23 +46,35 @@
         <ul  class='sortable-ui steps'>
           {{{steps}}}
         </ul>
-        <button class="add-step" value="Add Step" />
+        <button class="add-step">"Add Step +"</button>
       </div>
     </div>
    </script>
    
    <script id="feature_template" type="text/html">
-    <h3 class="milestone-member ms{{milestone_id}}">
+    <h3 class="feature ms{{milestone_id}}">
       <input type='text' value="{{name}}" />
       <div class="remove delete-feature ui-state-default ui-corner-all" title="Remove feature">
         <span>&nbsp;</span>
       </div>
     </h3>
-    <div class="milestone-member ms{{milestone_id}}">
+    <div class="feature ms{{milestone_id}}">
       {{{scenarios}}}
+      <button class="add-scenario">"Add Scenario +"</button>
     </div>
    </script>
+   
+   <script id="milestone_template" type="text/html">
+    <li> 
+      <input class="btn" id ="{{key}}" type="checkbox" />
+      <label for="{{key}}" class="milestone">
+        {{milestone}}<img src ="img/delete.png" height="22" width="22" />
+      </label>
+    </li>
+   </script>
+
 </head>
+
 <!--[if lt IE 7 ]> <body class="ie6"> <![endif]-->
 <!--[if IE 7 ]>    <body class="ie7"> <![endif]-->
 <!--[if IE 8 ]>    <body class="ie8"> <![endif]-->
