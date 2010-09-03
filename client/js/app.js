@@ -439,6 +439,7 @@ $(function() {
 
                   });
                   
+                  $('.sortable-ui').sortable('refresh');
                   /*
                   .find("input, h3").click(function(ev){
                       ev.stopImmediatePropagation();
