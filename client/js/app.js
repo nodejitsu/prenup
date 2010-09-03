@@ -183,7 +183,7 @@ $(function() {
                   $(step).addClass('active');
                   $('.steps input').removeClass("inlineEditHover");
                   //console.log($(step).find('input'));
-                  $(step).find('input').focus().addClass("inlineEditHover");
+                  //$(step).find('input').focus().addClass("inlineEditHover");
                   
                   $(document).unbind('keyBindings.canCycleThroughSteps');
                   $(document).bind('keyBindings.canCycleThroughSteps', keyBindings.canCycleThroughSteps);
@@ -229,14 +229,11 @@ $(function() {
 
                 });
 
-                $(document).bind('feature.activate', function(e, scenario){
-                  //$('.scenario').removeClass('hover');
-                  //$(scenario).addClass('hover');
-                });
-
-                $(document).bind('feature.feature', function(e, scenario){
-                  //$('.scenario').removeClass('hover');
-                  //$(scenario).addClass('hover');
+                $(document).bind('feature.activate', function(e, feature){
+                  $('.feature').removeClass('active').removeClass('hover');
+                  $(feature).addClass('active');
+                  var theInput = $('.feature:first').find('input:first');
+                  theInput.addClass('inlineEditHover');
                 });
 
 
@@ -292,7 +289,10 @@ $(function() {
                   speed: 1500,
                   dialogClass: "shadow splash",
                   close: function(event, ui){
-                    $('#container').fadeIn(1500);
+                    $('#container').fadeIn(50, function(e){
+                      $('.feature:first').find('input:first').focus();
+                      $('.feature:first').find('input:first').caret(0,0);
+                    });
                   },             
                   buttons: {
                     "ok": function() {
@@ -562,10 +562,15 @@ $(function() {
                }
 
                $(document).bind('keyBindings.canDeleteSteps', keyBindings.canDeleteSteps);
-
+               
                $('input').focus(function(){
                  
                  // TODO: determine if input is inside of Step, this will check whole document
+                 var feature =  $(this).closest('.feature').parent();
+                 if(!$(feature).hasClass('active')){
+                   $(document).trigger('feature.activate', feature);
+                 }
+
                  var step =  $(this).closest('.step').parent();
                  if(!$(step).hasClass('active')){
                    $(document).trigger('step.activate', step);
@@ -581,6 +586,7 @@ $(function() {
                $('input').bind('blur',function(){
                  $(document).bind('keyBindings.canDeleteSteps', keyBindings.canDeleteSteps);
                });
+                
                 
              if(!(_.isEmpty(DAL.get.milestones()))){
                $("h3.feature, div.feature")["hide"]();
@@ -631,7 +637,7 @@ $(function() {
                                 breakdown: [
                                     {"1": ["given", "the http.Server instances recieves a callback"]},
                                     {"2": ["and", "it has a recieved a response and an request as the arguments"]},                                    
-                                    {"5": ["then", "the incoming request should be responded to"]}
+                                    {"3": ["then", "the incoming request should be responded to"]}
                                 ]
                             }
                         ]
