@@ -466,7 +466,8 @@ $(function() {
                   //e.stopPropagation();
                   
                   var out = NJ.nup.renderScenario(2, NJ.nup.DAL.get.scenariosByFeature(1)[0]);
-                  $(this).before($.jup.html(out));
+                  out = $.jup.html(out)
+                  $(this).before(out);
                   
                   $(".scenario").accordion({ 
                     collapsible: true, 
@@ -474,8 +475,16 @@ $(function() {
                     active: false
 
                   });
-                  
-                  $('.sortable-ui').sortable('refresh');
+                  $(this).prev().find('.sortable-ui').sortable({ 
+                    containment: "parent", 
+                    axis: "y",
+                    stop: function(e){
+                      var step =  $(e.originalTarget).closest('.step').parent();
+                      if(!$(step).hasClass('active')){
+                        $(document).trigger('step.activate', step);
+                      }
+                    }
+                  });
                   /*
                   .find("input, h3").click(function(ev){
                       ev.stopImmediatePropagation();
