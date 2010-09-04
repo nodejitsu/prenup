@@ -127,6 +127,11 @@ input, .inlineEdit {
   top: 10px;
 }
 
+.toggle-view {
+  position: absolute;
+  right: 190px;
+  top: 10px;
+}
 .inlineEditHover {
   background: #fff !important;
   border: 1px solid #aaa !important;
@@ -201,6 +206,10 @@ input, .inlineEdit {
 .grip {float:left; margin:2px 5px;  }
 .sortable-ui li {list-style-type: none; cursor:pointer; padding:5px; margin:5px 0;}
 .ui-accordion-content{overflow:hidden !important;}
+
+.textPad{
+  display:none;
+}
 
 footer {
   background: #555 url('../img/footer.png') repeat-x 0px 0px;

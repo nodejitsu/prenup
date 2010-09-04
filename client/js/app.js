@@ -184,6 +184,10 @@ $(function() {
                     });
                 })
 
+                $(document).bind('textPad.activate', function(e){
+                  $('.textPad').show();
+                });
+
                 $(document).bind('step.activate', function(e, step){
                   //console.log('step.activate');
                   $('.steps li').removeClass('active').removeClass('hover');
@@ -508,6 +512,19 @@ $(function() {
                   $("#toolbar ul").append(html.join("")).disableSelection().sortable();
                   $("#toolbar .btn:last").button();
                   
+                });
+                
+                $('.toggle-view').click(function(e){
+                  if($(this).html() == 'Use Textpad Instead &lt; '){
+                    $('#featureslist').hide();
+                    $('.textPad').show();
+                    $(this).html('Use UI Instead &gt; ');
+                  }
+                  else{
+                    $(this).html('Use Textpad Instead &lt; ');
+                    $('.textPad').hide();
+                    $('#featureslist').show();
+                  }
                 });
 
                 $(".delete-scenario").live("click", function(e){
