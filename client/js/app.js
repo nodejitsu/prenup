@@ -154,7 +154,10 @@ $(function() {
                 // custom .trigger logger
                 var _trigger = $.fn.trigger;
                 $.fn.trigger = function(name,args,p){
-                  console.log(name, args, _trigger);
+                  // perform some logic to determine what to debug
+                  if(typeof name != 'object'){
+                    console.log(name, args, _trigger);
+                  }
                   return _trigger.apply(this,arguments);
                 };
               
@@ -168,18 +171,16 @@ $(function() {
                 // jQuery event pooling can be fun for UI events!!!
                 // http://www.michaelhamrah.com/blog/2008/12/event-pooling-with-jquery-using-bind-and-trigger-managing-complex-javascript/
 
-
-                $(document).bind('ws.submitAST', function(e, data){
-                  
-                  $.ajax({
-                    url: '/export', /* TODO: Need real URL to submit to */
-                    type: "POST",
-                    data: JSON.stringify(stubAST),
-                    success: function(data) {
-                      //console.log(data);
-                      //$('#export-data code').html(data);
-                    }
-                  });
+                $(document).bind('ws.submitAST', function(e, callback){
+                    $.ajax({
+                      url: '/export', /* TODO: Need real URL to submit to */
+                      type: "POST",
+                      dataType: "JSON",
+                      data: JSON.stringify(stubAST),
+                      success: function(data) {
+                        callback(JSON.parse(data));
+                      }
+                    });
                 })
 
                 $(document).bind('step.activate', function(e, step){
@@ -308,12 +309,8 @@ $(function() {
                   modal: true,                  
                   dialogClass: "shadow",                  
                   buttons: {
-                    "ok": function() {
-                      
-                      // put ajax post here
-                      $(document).trigger('ws.submitAST');
+                    "close": function() {
                       $(this).dialog("close");
-                      
                     }
                   }
                 });
@@ -343,7 +340,11 @@ $(function() {
                 setTimeout(progressSlider, 200);
                 
                 $("footer").click(function() {
-                  exportAction.dialog("open");
+                  // put ajax post here
+                  $(document).trigger('ws.submitAST', function(rsp){
+                    $('#export-data').html(rsp.text);
+                    $('#export-data').dialog("open");
+                  });
                 });                
                 
                 // render milestones
