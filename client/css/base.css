@@ -285,10 +285,11 @@ ul {
   float: left;
 }
 
-#export-data {
+#export-stubs {
+  display:none;
 }
 
-#export-data code{
+#export-stubs code{
   width:200px;
 }
 

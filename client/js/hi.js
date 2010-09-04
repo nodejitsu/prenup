@@ -1,4 +1,4 @@
-(function (hijs) {
+var hijs = function (hijs) {
 //
 // hijs - JavaScript Syntax Highlighter
 //
@@ -90,4 +90,4 @@ function decode (str) {
     }
 }
 
-})(window.hijs);
+};

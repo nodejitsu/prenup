@@ -4,7 +4,7 @@
 var stubAST = {
   '1': {
     name: 'Addition',
-    description: "In order to avoid silly mistakes\n As a math idiot\n I want to be told the sum of two numbers",
+    description: "sssIn order to avoid silly mistakes\n As a math idiot\n I want to be told the sum of two numbers",
     scenarios: [
       {
         outline: true,
@@ -156,7 +156,7 @@ $(function() {
                 $.fn.trigger = function(name,args,p){
                   // perform some logic to determine what to debug
                   if(typeof name != 'object'){
-                    console.log(name, args, _trigger);
+                    //console.log(name, args, _trigger);
                   }
                   return _trigger.apply(this,arguments);
                 };
@@ -171,6 +171,7 @@ $(function() {
                 // jQuery event pooling can be fun for UI events!!!
                 // http://www.michaelhamrah.com/blog/2008/12/event-pooling-with-jquery-using-bind-and-trigger-managing-complex-javascript/
 
+
                 $(document).bind('ws.submitAST', function(e, callback){
                     $.ajax({
                       url: '/export', /* TODO: Need real URL to submit to */
@@ -184,7 +185,7 @@ $(function() {
                 })
 
                 $(document).bind('step.activate', function(e, step){
-                  console.log('step.activate');
+                  //console.log('step.activate');
                   $('.steps li').removeClass('active').removeClass('hover');
                   $(step).addClass('active');
                   $('.steps input').removeClass("inlineEditHover");
@@ -301,7 +302,7 @@ $(function() {
                   }             
                });                
                 
-               $("#export-data").dialog({
+               $("#export-stubs").dialog({
                   resizable: false,
                   autoOpen: false,
                   height: 500,
@@ -342,8 +343,11 @@ $(function() {
                 $("footer").click(function() {
                   // put ajax post here
                   $(document).trigger('ws.submitAST', function(rsp){
-                    $('#export-data').html(rsp.text);
-                    $('#export-data').dialog("open");
+                    //console.log(rsp[0].text);
+                    $('#export-stubs code').html(rsp[0].text);
+                    hijs(); 
+                    $('#export-stubs').dialog("open");
+           
                   });
                 });                
                 
@@ -439,7 +443,7 @@ $(function() {
                 
                 
                 $(".delete-feature").live("click", function(e){
-                  console.log('delete feature');
+                  //console.log('delete feature');
                   e.stopPropagation();
                   if($(this).hasClass('ui-state-active')) {
                     $(this).parent().next(".ui-accordion-content").slideUp(300, function() {
@@ -518,7 +522,7 @@ $(function() {
                 
                function onKeyDown(e){
                  
-                  console.log(e.which);
+                  //console.log(e.which);
                   var events = $(document).data('events');
                   for(var eventName in events){
                     for(var i = 0; i < events[eventName].length; i++){
@@ -547,7 +551,7 @@ $(function() {
                  
                  // determine where in the dom the originalEvent emitted from
                  
-                 console.log('canCycle', originalEvent);
+                 //console.log('canCycle', originalEvent);
                  if(originalEvent.which == 38) { // up
                    var prevStep = $(originalEvent.originalTarget).closest('.step').parent().prev();
                    if(prevStep.length!=0){
@@ -569,7 +573,7 @@ $(function() {
 
                $('.ui-accordion').bind('accordionchange', function(event, ui) {
                  
-                 console.log($(ui.newHeader).parent());
+                 //console.log($(ui.newHeader).parent());
                  
                  $(document).trigger('scenario.activate', $(ui.newHeader).parent());
                  
