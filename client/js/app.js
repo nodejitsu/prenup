@@ -4,7 +4,7 @@
 var stubAST = {
   '1': {
     name: 'Addition',
-    description: "sssIn order to avoid silly mistakes\n As a math idiot\n I want to be told the sum of two numbers",
+    description: "In order to avoid silly mistakes\n As a math idiot\n I want to be told the sum of two numbers",
     scenarios: [
       {
         outline: true,
@@ -177,7 +177,7 @@ $(function() {
                       url: '/export', /* TODO: Need real URL to submit to */
                       type: "POST",
                       dataType: "JSON",
-                      data: JSON.stringify(stubAST),
+                      data: JSON.stringify(NJ.nup.DATA.features),
                       success: function(data) {
                         callback(JSON.parse(data));
                       }
