@@ -210,6 +210,10 @@ input, .inlineEdit {
 .textPad{
   display:none;
 }
+.textPad textarea{
+  width:100%;
+  height:1000px;
+}
 
 footer {
   background: #555 url('../img/footer.png') repeat-x 0px 0px;
