@@ -14,7 +14,6 @@ $(function() {
         function uniqueID() {
           return ++counter;
         }
-        
 
         // custom .trigger logger
         var _trigger = $.fn.trigger;
@@ -34,16 +33,17 @@ $(function() {
 
                Main: function() {
 
-                   APP.exec.call(this, {
+                 APP.exec.call(this, {
 
-                       ns: "NJ.nup", /* namespace */
+                   ns: "NJ.nup", /* namespace */
 
-                       plan: [ /* execution plan */
-
-                           "pageLoad"
-                           ,"determineContext"
-                       ]
-                });
+                   plan: [ /* execution plan */
+                    
+                    "splash"
+                    ,"pageLoad"
+                    ,"determineContext"
+                   ]
+              });
             },
             
             keyBindings: {
@@ -189,6 +189,39 @@ $(function() {
               return html;
             },
             
+            splash: function() {
+              
+              $("#splash").dialog({
+                 resizable: false,
+                 width: 655,
+                 height: 400,
+                 modal: true,
+                 speed: 1500,
+                 dialogClass: "shadow splash",
+                 open: function() {
+                   
+                   setTimeout(function progress() {
+                     if($('#progressBar').slider('value') < 100){
+                       $('#progressBar').slider('value', $('#progressBar').slider('value') + 1);
+                       setTimeout(progress, 10);
+                     }
+                     else{
+                       $('#progressBar').unbind("click mousedown");
+                       $('.ui-button').attr('disabled', '');
+                       $('.ui-button').css('opacity', 1);
+                     }
+                   }, 200);
+                 },
+                 close: function(event, ui){
+                   $('#container').fadeIn(50, function(e){
+                     $('.feature:first').find('input:first').focus();
+                     $('.feature:first').find('input:first').caret(0,0);
+                   });
+                 }             
+              });
+              
+            },
+            
             pageLoad: function() {
               
                 // Remark: 
@@ -199,7 +232,7 @@ $(function() {
                 // jQuery event pooling can be fun for UI events!!!
                 // http://www.michaelhamrah.com/blog/2008/12/event-pooling-with-jquery-using-bind-and-trigger-managing-complex-javascript/
 
-                doc.bind('keydown', onKeyDown);
+                doc.bind('keydown', keyBindings.keyDown);
 
                 doc.bind('keyBindings.canDeleteSteps', keyBindings.canDeleteSteps);
 
@@ -325,20 +358,7 @@ $(function() {
                 });
                 
                 // splash page dialog
-                $("#splash").dialog({
-                  resizable: false,
-                  width: 655,
-                  height: 400,
-                  modal: true,
-                  speed: 1500,
-                  dialogClass: "shadow splash",
-                  close: function(event, ui){
-                    $('#container').fadeIn(50, function(e){
-                      $('.feature:first').find('input:first').focus();
-                      $('.feature:first').find('input:first').caret(0,0);
-                    });
-                  }             
-               });                
+                
                 
                $("#export-stubs").dialog({
                   resizable: false,
@@ -363,20 +383,7 @@ $(function() {
                   range: "min"
                 }).show();
                 
-                // Remark: start up the progress bar, perhaps move this code
-                function progressSlider() {
-                  if($('#progressBar').slider('value') < 100){
-                    $('#progressBar').slider('value', $('#progressBar').slider('value') + 1);
-                    setTimeout(progressSlider, 10);
-                  }
-                  else{
-                    $('#progressBar').unbind("click mousedown");
-                    $('.ui-button').attr('disabled', '');
-                    $('.ui-button').css('opacity', 1);
-                  }
-                }
-                
-                setTimeout(progressSlider, 200);
+
                 
                 $("footer").click(function() {
                   // put ajax post here
