@@ -913,6 +913,32 @@ $(function() {
                     },
                     language: function(id) {
                         DATA.language = id;
+                    },
+                    
+                    breakdown: function(config) { // breakdowns contains "Steps"
+                      
+                      // TODO: implement
+                      if(config.id) {
+
+                          if(config.update) {
+                              $.each(DATA.features[config.id].scenarios, function(i, scenario) {
+                                  scenario[config.update.id] = value;
+                              });
+                          }
+                          if(config.create) {
+                              DATA.features[config.id].scenarios.push({
+                                  id: Math.floor(Math.random()*2e9),
+                                  outline: false,
+                                  examples: null,
+                                  time: 20,
+                                  description: "blah",
+                                  breakdown: [
+                                      {1: ["when", "something happens"]}
+                                  ]
+                              });                                
+                          }
+                      }
+                      
                     }
                 }
             }
