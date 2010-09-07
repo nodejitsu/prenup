@@ -184,9 +184,12 @@ $(function() {
                     });
                 })
 
+                /*
                 $(document).bind('textPad.activate', function(e){
+                  $('.textPad textarea').val('asd');
                   $('.textPad').show();
                 });
+                */
 
                 $(document).bind('step.activate', function(e, step){
                   //console.log('step.activate');
@@ -516,6 +519,7 @@ $(function() {
                 
                 $('.toggle-view').click(function(e){
                   if($(this).html() == 'Use Textpad Instead &lt; '){
+                    $('.textPad textarea').val(NJ.nup.featureDistiller());
                     $('#featureslist').hide();
                     $('.textPad').show();
                     $(this).html('Use UI Instead &gt; ');
@@ -645,6 +649,74 @@ $(function() {
                 
                 
             },
+            
+            featureDistiller: function() {
+
+                var s = ""/*hit performance, 1:08am */;
+
+                $.each(DATA.features, function(i, feature) {
+                    s += $.string.subst("Feature: {{name}}\r\n\t{{description}}", feature);
+
+                    $.each(feature.scenarios, function(i, scenario) {
+                     
+                        s += $.string.subst("\r\n\n\tScenario " + (scenario.outline ? "Outline" : "") + ": {{name}}", scenario);
+
+                        $.each(scenario.breakdown, function(key, breakdown) {
+
+                            $.each(breakdown, function(i, motive) {
+                                s += $.string.subst("\r\n\t\t" + motive[0] + " " + motive[1]);
+                            });
+                        });
+                        
+                        if(scenario.outline) {
+                            
+                            s+="\r\n\r\n\t\tExamples:\r\n";
+                            var cols = [], len = 0, arrLen = 0;
+                            
+
+                            // determine max column width for each column
+                            $.each(scenario.examples, function(i, example) {
+                              if(example.length > arrLen){
+                                arrLen = example.length;
+                              }
+                             
+                                $.each(example, function(n) {
+                                    if(typeof cols[n] == 'undefined'){
+                                      cols[n] = 0;
+                                    }
+                                    if(example[n].length > cols[n]){
+                                      cols[n] = example[n].length;
+                                    }    
+                                });
+                            });
+
+                            
+                            $.each(scenario.examples, function(i, example) {
+                                s += "\t\t\t";
+                                s += " | "
+                                s += i;
+                            });
+                            s += "\r\n";
+                            
+                            for(var x = 0; x < arrLen; x++){
+                              $.each(scenario.examples, function(i, example) {
+                                s += "\t\t\t";
+                                s += " | "
+                                s += scenario.examples[i][x] || '';
+                              });
+                              s += "\r\n";  
+                            }
+                        }                        
+                    });
+                    
+                    s += "\r\n\n"
+                });
+
+                return s;
+
+            },
+
+            
             
             DATA: { // dummy-data, this would be replaced by loaded data.
 
