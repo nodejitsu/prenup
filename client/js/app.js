@@ -1,31 +1,5 @@
 /* App Start */
 
-// json-rpc stub, replace this
-var stubAST = {
-  '1': {
-    name: 'Addition',
-    description: "In order to avoid silly mistakes\n As a math idiot\n I want to be told the sum of two numbers",
-    scenarios: [
-      {
-        outline: true,
-        name: 'Add two numbers',
-        breakdown: [
-          { '1': ['Given', 'I have entered 50 into the calculator'] },
-          { '2': ['And',   'I have entered 70 into the calculator'] },
-          { '3': ['When',  'I press add'] },
-          { '4': ['Then',  'the result should be 120 on the screen'] }
-        ],
-        examples: {
-          // Remark: Only valid if outline === true
-          "header0" : ['value1', 'value2', 'value3'],
-          "header1" : ['value1', 'value2', 'value3'],
-          "header2" : ['value1', 'value2', 'value3']
-        }
-      }
-    ]
-  }
-};
-
 // TODO: this shouldn't be in the global namespace
 // TODO: key bindings could done be via event delegation of keypress on the document, possible candidate for refactor 
 
