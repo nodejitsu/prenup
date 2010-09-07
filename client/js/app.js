@@ -221,6 +221,11 @@ $(function() {
                   }
                 });
 
+                doc.bind('step.add', function(e, step){
+                  $(step).siblings('ul').append($.jup.html(NJ.nup.renderStep()));
+                  $('.sortable-ui').sortable('refresh');
+                });
+
                 doc.bind('step.delete', function(e, step){
                   $(step).closest('li').slideUp(300, function(){
                     $(step).remove();
@@ -450,8 +455,7 @@ $(function() {
                                 
                 // for adding additional steps in a scenario
                 $('.add-step').live('click', function(){
-                  $(this).siblings('ul').append($.jup.html(NJ.nup.renderStep()));
-                  $('.sortable-ui').sortable('refresh');
+                  doc.trigger('step.add', this);
                 });
                 
                 // for removing steps in a scenario
