@@ -9,11 +9,6 @@ $(function() {
         var options = $.querystring.toJSON();
         var context, DAL, DATA, keyBindings;
         var doc = $(document);
-        var counter = 0;
-        
-        function uniqueID() {
-          return ++counter;
-        }
 
         // custom .trigger logger
         var _trigger = $.fn.trigger;
@@ -100,7 +95,7 @@ $(function() {
               }
               
               return ["li", { "class": "ui-corner-all ui-state-default" },
-                  ["table", { "class": "step", "id": "element-" + uniqueID() },
+                  ["table", { "class": "step", "id": "element-" + DAL.get.uniqueID() },
                     ["tr", [
                       ["td", { "class": "grip-col" }, ["span", { "class": "ui-icon ui-icon-arrowthick-2-n-s grip" }]],
                       ["td", { "class": "operator-col" }, [NJ.nup.renderWordSelector(DAL.get.operators(), pair[0])]],
@@ -713,6 +708,7 @@ $(function() {
             
             DATA: { // dummy-data, this would be replaced by loaded data. @function() {
 
+                entityPosition: 0,
                 language: "en",
                 project: "Build a node.js application",
                 milestones: {
@@ -755,6 +751,10 @@ $(function() {
             DAL: {
 
                 get: {
+                  
+                    uniqueID: function() {
+                      return ++DATA.entityPosition;
+                    },
 
                     projectTitle: function() {
                         return DATA.project;
