@@ -1,4 +1,3 @@
-/* App Start */
 
 // TODO: this shouldn't be in the global namespace
 // TODO: key bindings could done be via event delegation of keypress on the document, possible candidate for refactor 
@@ -10,6 +9,12 @@ $(function() {
         var options = $.querystring.toJSON();
         var context, DAL, DATA, keyBindings;
         var doc = $(document);
+        var counter = 0;
+        
+        function uniqueID() {
+          return ++counter;
+        }
+        
 
         // custom .trigger logger
         var _trigger = $.fn.trigger;
@@ -72,6 +77,18 @@ $(function() {
                   }
                 }
 
+              },
+              
+              keyDown: function(e) {
+                //console.log(e.which);
+                var events = doc.data('events');
+                for(var eventName in events){
+                  for(var i = 0; i < events[eventName].length; i++){
+                    if(events[eventName][i].type == 'keyBindings'){
+                      doc.trigger(events[eventName][i].type + '.' + events[eventName][i].namespace, e);
+                    }
+                  }
+                }                
               }
 
             },
@@ -83,7 +100,7 @@ $(function() {
               }
               
               return ["li", { "class": "ui-corner-all ui-state-default" },
-                  ["table", { "class": "step" },
+                  ["table", { "class": "step", "id": "element-" + uniqueID() },
                     ["tr", [
                       ["td", { "class": "grip-col" }, ["span", { "class": "ui-icon ui-icon-arrowthick-2-n-s grip" }]],
                       ["td", { "class": "operator-col" }, [NJ.nup.renderWordSelector(DAL.get.operators(), pair[0])]],
@@ -178,10 +195,13 @@ $(function() {
                 DAL = this.DAL;
                 DATA = this.DATA;
                 keyBindings = this.keyBindings;
-              
+
                 // jQuery event pooling can be fun for UI events!!!
                 // http://www.michaelhamrah.com/blog/2008/12/event-pooling-with-jquery-using-bind-and-trigger-managing-complex-javascript/
 
+                doc.bind('keydown', onKeyDown);
+
+                doc.bind('keyBindings.canDeleteSteps', keyBindings.canDeleteSteps);
 
                 doc.bind('ws.submitAST', function(e, callback){
                     $.ajax({
@@ -552,26 +572,7 @@ $(function() {
                   });
                 });
                 
-               function onKeyDown(e){
-                 
-                  //console.log(e.which);
-                  var events = doc.data('events');
-                  for(var eventName in events){
-                    for(var i = 0; i < events[eventName].length; i++){
-                      if(events[eventName][i].type == 'keyBindings'){
-                        doc.trigger(events[eventName][i].type + '.' + events[eventName][i].namespace, e);
-                      }
-                    }
-                  }
-               }
-                
-               doc.bind('keydown', onKeyDown);
-               
 
-
-
-
-               doc.bind('keyBindings.canDeleteSteps', keyBindings.canDeleteSteps);
 
                $('.ui-accordion').bind('accordionchange', function(event, ui) {
                  
@@ -873,13 +874,14 @@ $(function() {
                     scenario: function(config) {
                       if(config.id) {
 
-                      if(config.update) {
-                        $.each(DATA.features[config.id].scenarios, function(i, scenario) {
-                          scenario[config.update.id] = value;
-                        });
-                      }
-                      if(config.create) {
-                        DATA.features[config.id].scenarios.push({
+                        if(config.update) {
+                          $.each(DATA.features[config.id].scenarios, function(i, scenario) {
+                            scenario[config.update.id] = value;
+                          });
+                        }
+                        
+                        if(config.create) {
+                          DATA.features[config.id].scenarios.push({
                             id: Math.floor(Math.random()*2e9),
                             outline: false,
                             examples: null,
@@ -890,6 +892,7 @@ $(function() {
                             ]
                           });                                
                         }
+                        
                       }
                     },
                     language: function(id) {
