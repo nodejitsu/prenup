@@ -388,8 +388,11 @@ $(function() {
 
               // enable toggeling of feature/scenario/step sections
 
-              $(".header").live("click", function() {
+              $(".header").live("click", function(e) {
 
+                if($(e.target).get(0).tagName == 'INPUT'){
+                  return false;
+                }
                 if($(this).siblings("div:visible").length > 0) {
                   $(this).siblings("div").slideUp(200);
                 }
