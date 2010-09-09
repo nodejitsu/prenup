@@ -13,6 +13,7 @@
 	color: #eee;
 	height: 20px;
 	position: relative;
+	cursor:pointer;
 }
 
 .feature-container .header input, .scenario-container .header input {
