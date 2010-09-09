@@ -221,7 +221,7 @@ $(function() {
                 
                 container[$(this).attr("checked") ? "fadeIn" : "fadeOut"]();
                 
-                if(container).find("feature:visible").length > 0) {  
+                if((container).find("feature:visible").length > 0) {
                   container.click();
                   container[$(this).attr("checked") ? "fadeIn" : "fadeOut"]();
                 }
