@@ -23,6 +23,10 @@ $(function() {
         jQuery.extend(jQuery.expr[':'], {
           focus: "a == document.activeElement"
         });
+        
+        function uniqueID() {
+          return Math.floor(Math.random()*2e9);
+        }
 
         return {
 
@@ -36,7 +40,9 @@ $(function() {
                     
                     "splash"
                     ,"pageLoad"
-                    ,"determineContext"
+                    ,"setupMilestones"
+                    ,"codeview"
+                    ,"features"
                    ]
               });
             },
@@ -89,26 +95,33 @@ $(function() {
             },
             
             renderStep: function(pair){
-              
+
+              console.log("renderStep")
+
               if(typeof pair == 'undefined'){
                 var pair = ["foo"];
               }
-              
-              return ["li", { "class": "ui-corner-all ui-state-default" },
-                  ["table", { "class": "step", "id": "element-" + DAL.get.uniqueID() },
+
+              var html = $($.jup.html(["li", { "class": "step-container round margin-small" },
+                  ["table", { "class": "step" },
                     ["tr", [
                       ["td", { "class": "grip-col" }, ["span", { "class": "ui-icon ui-icon-arrowthick-2-n-s grip" }]],
                       ["td", { "class": "operator-col" }, [NJ.nup.renderWordSelector(DAL.get.operators(), pair[0])]],
                       ["td", { "class": "content-col" }, ["input", { "type": "text", "value": pair[1] }]],
-                      ["td", { "class": "delete-col" }, ["div", { "class": "remove delete-step ui-state-default ui-corner-all", "title": "Remove scenario" }, 
+                      ["td", { "class": "delete-col" }, ["div", { "class": "delete", "title": "Remove scenario" }, 
                         ["span", "&nbsp"]
                       ]]
                     ]]
                   ]
-              ];
+              ]));
+
+              html.data({ "id": uniqueID(), "type": "step" });
+
+              return html;
             },
 
-            renderWordSelector: function(data, value){
+            renderWordSelector: function(data, value) {
+
               return ["select", [
                   (function() {
                       var options = [];
@@ -120,68 +133,121 @@ $(function() {
               ]];
             },
             
-            renderScenario: function(key, scenario){
-              return ["div", { "class": "scenario" },
-                  ["h3", { "class": "breakdown" },
-                      ["input", { "type": "text", "value": scenario.name }],
-                      ["div", { "class": "remove delete-scenario ui-state-default ui-corner-all", "title": "Remove scenario" }, 
-                        ["span", "&nbsp"]
-                      ]
-                  ],
-                  ["div",
-                      (function() {
-                          var breakdown = ["<ul class='sortable-ui steps'>"];
-                          $.each(scenario.breakdown, function(key, step) {
-                              $.each(step, function(key, pair) {
-                                  breakdown.push($.jup.html(NJ.nup.renderStep(pair)));
-                              });
-                          });
-                          breakdown.push("</ul>");
-                          return breakdown.join("") + $.jup.html(['button',{ "class": "add-step" }, 'Add Step +']) ;
-                      })()
-                  ]
-              ];
-            },
-            
-            renderFeature: function(i, feature){
-              return [
-                  
-                  ["h3", { "class": "feature ms" + feature.milestone },
-                      ["input", { "type": "text", "value": feature.name }],
-                      ["div", { "class": "remove delete-feature ui-state-default ui-corner-all", "title": "Remove feature"  }, 
-                        ["span", "&nbsp"]
-                      ]
-                  ],
-                  
-                  ["div", { "class": "feature ms" + feature.milestone },
-                      (function() {
-
-                          var scenarios = [];
-
-                          $.each(feature.scenarios, function(key, scenario) {
-                              scenarios.push($.jup.html(NJ.nup.renderScenario(key, scenario)));
-                          });
-                          scenarios.push($.jup.html(['button',{ "class": "add-scenario" }, 'Add Scenario +']));
-                          return scenarios.join("");
-
-                      })()
-                  ],
-                  
-              ];
-            },
-            
-            renderMilestone: function(key, milestone){
+            renderScenario: function(key, scenario) {
               
-              var html = [];
-
-              html.push($.jup.html(["li",
-                  ["input", { "class": "btn", "id": "ms" + key, "type": "checkbox" }], 
-                  ["label", { "class": "milestone", "for": "ms" + key }, milestone,
-                    ["img", {"src": "img/delete.png", "height": "22", "width": "22" }]   
+              var html = $($.jup.html(["div", { "class": "round scenario-container" },
+                  ["div", { "class": "header" },
+                      ["input", { "type": "text", "value": scenario.name }],
+                      ["div", { "class": "delete", "title": "Remove scenario" }, 
+                        ["span", "&nbsp"]
+                      ]
+                  ],
+                  ["div", { "class": "scenario" },
+                    ["ul", { "class": "sortable-ui steps" }]
                   ]
               ]));
               
+              html.append($.jup.html(['button',{ "class": "add-step" }, 'Add Step +']));
+              
+              var container = $(".scenario", html);
+
+              $.each(scenario.breakdown, function(key, step) {
+                $.each(step, function(key, pair) {
+                  container.append(NJ.nup.renderStep(pair));
+                });
+              });
+
+              html.data({ "id": uniqueID(), "type": "scenario" });
+              
               return html;
+
+            },
+
+            renderFeature: function(i, feature) {
+
+              var html = $($.jup.html(["div", { "class": "round feature-container" },
+                  
+                  ["div", { "class": "header" },
+                      ["input", { "type": "text", "value": feature.name }],
+                      ["div", { "class": "delete", "title": "Remove feature" },
+                        ["span", "&nbsp"]
+                      ]
+                  ],
+
+                  ["div", { "class": "feature" }]
+              ]));
+
+              html.append($.jup.html(['button', { "class": "add-scenario" }, 'Add Scenario +']));
+
+              html.data({ "milestone": feature.milestone, "type": "milestone" });
+
+              var container = $(".feature", html);
+
+              $.each(feature.scenarios, function(key, scenario) {
+                container.append(NJ.nup.renderScenario(key, scenario));
+              });
+
+              return html;
+
+            },
+
+            renderMilestone: function(key, milestone) {
+
+              var html = [];
+
+              html.push($.jup.html(["li",
+                  ["input", { "class": "btn", "id": "ms" + key, "type": "checkbox" }],
+                  ["label", { "class": "milestone", "for": "ms" + key }, milestone,
+                    ["img", {"src": "img/delete.png", "height": "22", "width": "22" }]
+                  ]
+              ]));
+
+              return html;
+            },
+
+            setupMilestones: function() {
+              
+              var html = [];
+              
+              $.each(DAL.get.milestones(), function(key, milestone) {
+                html.push(NJ.nup.renderMilestone(key, milestone));
+              });
+
+              $("#toolbar ul").html(html.join("")).disableSelection().sortable();
+              
+              $("#toolbar .btn").button().live('click', function() {
+                
+                var container = $(".feature-container." + $(this).attr("id"));
+                
+                container[$(this).attr("checked") ? "fadeIn" : "fadeOut"]();
+                
+                if(container).find("feature:visible").length > 0) {  
+                  container.click();
+                  container[$(this).attr("checked") ? "fadeIn" : "fadeOut"]();
+                }
+
+              });
+              
+              $('#toolbar label img').live('click', function() {
+                $(this).parent().parent().remove();
+                return false;
+              });
+              
+              $('.add-milestone').click(function(e){
+                
+                var html = [];
+                html.push(NJ.nup.renderMilestone($("#toolbar .btn").length + 1, 'milestone x'));
+                $("#toolbar ul").append(html.join("")).disableSelection().sortable();
+                $("#toolbar .btn:last").button();
+                
+              });
+              
+              if(!(_.isEmpty(DAL.get.milestones()))){
+                $("label[for='ms1']").click();
+                $("#ms1").attr("checked", true);
+                $("h3.feature.ms1")["fadeIn"]();
+              }                                
+              
             },
             
             splash: function() {
@@ -207,7 +273,7 @@ $(function() {
                      }
                    }, 200);
                  },
-                 close: function(event, ui){
+                 close: function(event, ui) {
                    $('#container').fadeIn(50, function(e){
                      $('.feature:first').find('input:first').focus();
                      $('.feature:first').find('input:first').caret(0,0);
@@ -215,229 +281,203 @@ $(function() {
                  }             
               });
               
+              $('#okay').button().click(function(){
+                $('#splash').dialog( "close" );
+              });
+
+              $('.ui-button').attr('disabled', 'disabled');
+              $('.ui-button').css('opacity', 0.5);
+              $('#progressBar').slider({
+                range: "min"
+              }).show();              
+              
+            },
+            
+            export: function() {
+
+              $("#export-stubs").dialog({
+                resizable: false,
+                autoOpen: false,
+                height: 500,
+                width: 900,
+                modal: true,                  
+                dialogClass: "shadow",                  
+                buttons: {
+                  "close": function() {
+                    $(this).dialog("close");
+                  }
+                }
+              });
+
+              doc.bind('ws.submitAST', function(e, callback){
+                  $.ajax({
+                    url: '/export', /* TODO: Need real URL to submit to */
+                    type: "POST",
+                    dataType: "JSON",
+                    data: JSON.stringify(NJ.nup.DATA.features),
+                    success: function(data) {
+                      callback(JSON.parse(data));
+                    }
+                  });
+              });
+              
+              $("footer").click(function() {
+                // put ajax post here
+                doc.trigger('ws.submitAST', function(rsp){
+                  //console.log(rsp[0].text);
+                  $('#export-stubs code').html(rsp[0].text);
+                  hijs(); 
+                  $('#export-stubs').dialog("open");
+         
+                });
+              });                      
+              
+            },
+            
+            codeview: function() {
+              
+              $('.toggle-view').click(function(e){
+                if($(this).html() == 'Use Textpad Instead &lt; '){
+                  $('.textPad textarea').val(NJ.nup.featureDistiller());
+                  $('#featureslist').hide();
+                  $('.textPad').show();
+                  $(this).html('Use UI Instead &gt; ');
+                }
+                else{
+                  $(this).html('Use Textpad Instead &lt; ');
+                  $('.textPad').hide();
+                  $('#featureslist').show();
+                }
+              });              
+              
             },
             
             pageLoad: function() {
+
+              // Remark: 
+              DAL = this.DAL;
+              DATA = this.DATA;
+              keyBindings = this.keyBindings;
               
-                // Remark: 
-                DAL = this.DAL;
-                DATA = this.DATA;
-                keyBindings = this.keyBindings;
+              // render in the features/scenarios/steps
+              
+              $.each(DAL.get.features(), function(i, feature) {
+                $("#features-container").append(NJ.nup.renderFeature(i, feature));
+              });
 
-                // jQuery event pooling can be fun for UI events!!!
-                // http://www.michaelhamrah.com/blog/2008/12/event-pooling-with-jquery-using-bind-and-trigger-managing-complex-javascript/
+              // enable toggeling of feature/scenario/step sections
 
-                doc.bind('keydown', keyBindings.keyDown);
+              $(".header").toggle(function() {
+                $(this).siblings("div").slideUp(200);
+              },function() {
+                $(this).siblings("div").slideDown(200);                  
+              });
+              
+              $("#projectTitle").text(DAL.get.projectTitle());
+              
+              // textpad feature, toggle between UI and Raw view.
+              
+              doc.bind('textPad.activate', function(e){
+                $('.textPad textarea').val('asd');
+                $('.textPad').show();
+              });
+              
+              // set up events for inputs
+              
+              $("input").focus(function(){
+               
+                // TODO: determine if input is inside of Step, this will check whole document
+                var feature =  $(this).closest('.feature').parent();
+                if(!$(feature).hasClass('active')){
+                 doc.trigger('feature.activate', feature);
+                }
 
-                doc.bind('keyBindings.canDeleteSteps', keyBindings.canDeleteSteps);
-
-                doc.bind('ws.submitAST', function(e, callback){
-                    $.ajax({
-                      url: '/export', /* TODO: Need real URL to submit to */
-                      type: "POST",
-                      dataType: "JSON",
-                      data: JSON.stringify(NJ.nup.DATA.features),
-                      success: function(data) {
-                        callback(JSON.parse(data));
-                      }
-                    });
-                })
+                var step =  $(this).closest('.step').parent();
+                if(!$(step).hasClass('active')){
+                 //doc.trigger('step.activate', step);
+                }
 
                 /*
-                doc.bind('textPad.activate', function(e){
-                  $('.textPad textarea').val('asd');
-                  $('.textPad').show();
-                });
+                $('input').removeClass('inlineEditHover');
+                $(this).addClass('inlineEditHover');
+                doc.unbind('keyBindings.canDeleteSteps');
                 */
-
-                doc.bind('step.activate', function(e, step){
-                  //console.log('step.activate');
-                  $('.steps li').removeClass('active').removeClass('hover');
-                  $(step).addClass('active');
-                  $('.steps input').removeClass("inlineEditHover");
-                  //console.log($(step).find('input'));
-                  $(step).find('input').focus().addClass("inlineEditHover").caret(0,0 );
-                  
-                  doc.unbind('keyBindings.canCycle');
-                  doc.bind('keyBindings.canCycle', keyBindings.canCycle);
-                });
-                
-                doc.bind('step.hover', function(e, step){
-                  $('.steps li').removeClass('hover');
-                  if(!$(step).hasClass('active')){
-                    $(step).addClass('hover');
-                  }
-                });
-
-                doc.bind('step.add', function(e, step){
-                  $(step).siblings('ul').append($.jup.html(NJ.nup.renderStep()));
-                  $('.sortable-ui').sortable('refresh');
-                });
-
-                doc.bind('step.delete', function(e, step){
-                  $(step).closest('li').slideUp(300, function(){
-                    $(step).remove();
-                  });
-                });
-                
-                doc.bind('scenario.delete', function(e, scenario){
-                  $(scenario).slideUp(300, function(){
-                    $(this).remove();
-                  });
-                });
-
-                doc.bind('scenario.activate', function(e, scenario){
-                  $('.scenario').removeClass('active').removeClass('hover');
-                  $(scenario).addClass('active');
-                  $(scenario).find('input').focus().addClass("inlineEditHover").caret(0,0 );
-                });
-
-                doc.bind('scenario.hover', function(e, scenario){
-                  $('.scenario').removeClass('hover');
-                  $(scenario).addClass('hover');
-                });
-
-                doc.bind('feature.add', function(e, feature){
-                  var out = NJ.nup.renderFeature(1, feature);
-                  $('#featureslist').append($.jup.html(out));
-                  // close all other Featuresaccordions
-                  $('#featureslist').accordion( "activate", false);
-                  // rebind accordion
-                  doc.trigger('features.applyAccordions');
-
-                });
-
-                doc.bind('feature.activate', function(e, feature){
-                  $('.feature').removeClass('active').removeClass('hover');
-                  $(feature).addClass('active');
-                  var theInput = $('.feature:first').find('input:first');
-                  theInput.addClass('inlineEditHover');
-                  $("#featureslist").accordion( "activate" , 0 );
-                });
-
-
-                // Remark: this is a basic fix to apply all .accordion() events across the entire page
-                //         this event is a good candidate for refactoring
-                
-                doc.bind('features.applyAccordions', function(e){
-                  
-                  
-                  $("#featureslist").accordion('destroy').accordion({ 
-                    collapsible: true, 
-                    autoHeight: false, 
-                    active: false
-                  }).find("input, h3").click(function(e){
-                      
-                      
-                      if($(e.originalTarget).parent().hasClass('delete-scenario')){
-                        //e.stopPropagation();
-                        //e.preventDefault();
-                        
-                        doc.trigger('scenario.delete', $(e.originalTarget).closest('.scenario'));
-                        return false;
-                      }
-
-                      //e.stopPropagation();
-                      //e.preventDefault();
-                  });
-                  
-                  $(".scenario").accordion({ 
-                    collapsible: true, 
-                    autoHeight: false, 
-                    active: false
-
-                  });
-                  //$(".scenario:last").accordion( "activate" , $(".scenario h3:last"));
-                  
-                });
-                
-                $("#projectTitle").text(DAL.get.projectTitle());
+               
+              }).blur(function(){
+                doc.bind('keyBindings.canDeleteSteps', keyBindings.canDeleteSteps);
+              });
               
-                $("#instructions .remove").click(function() {
-                  $(this).parent().fadeOut();
-                });
-                
-                // splash page dialog
-                
-                
-               $("#export-stubs").dialog({
-                  resizable: false,
-                  autoOpen: false,
-                  height: 500,
-                  width: 900,
-                  modal: true,                  
-                  dialogClass: "shadow",                  
-                  buttons: {
-                    "close": function() {
-                      $(this).dialog("close");
-                    }
-                  }
-                });
-                
-                $('#okay').button().click(function(){
-                  $('#splash').dialog( "close" );
-                });
-                $('.ui-button').attr('disabled', 'disabled');
-                $('.ui-button').css('opacity', 0.5);
-                $('#progressBar').slider({
-                  range: "min"
-                }).show();
-                
+              // jQuery event pooling can be fun for UI events!!!
+              // http://www.michaelhamrah.com/blog/2008/12/event-pooling-with-jquery-using-bind-and-trigger-managing-complex-javascript/              
+              
+              // key binding...
+              
+              this.bindKeys();
+              
+              // click binding...
+              
+              this.bindFeatures();
+              this.bindScenarios();
+              this.bindSteps();
+              
+              // TO-DO: touch binding...
 
-                
-                $("footer").click(function() {
-                  // put ajax post here
-                  doc.trigger('ws.submitAST', function(rsp){
-                    //console.log(rsp[0].text);
-                    $('#export-stubs code').html(rsp[0].text);
-                    hijs(); 
-                    $('#export-stubs').dialog("open");
-           
-                  });
+            },
+            
+            bindKeys: function() {
+
+              doc.bind('keydown', keyBindings.keyDown);
+              
+            },
+            
+            bindFeatures: function() {
+              
+              $(".feature-container .add").live("click", function() {
+                doc.trigger('feature.add', $(this).closest(".features-container"));
+              });              
+              
+              $(".feature-container .delete").live("click", function() {
+                doc.trigger('feature.delete', $(this).closest(".feature-container"));
+              });
+              
+              doc.bind("feature.add", function(e, el){
+                $("#features-container").append(NJ.nup.renderFeature(1, el));
+              });
+              
+              doc.bind("feature.delete", function(e, el){
+                el.slideUp(200, function(){
+                  el.remove();
                 });                
-                
-                // render milestones
-                var html = [];
-                
-                $.each(DAL.get.milestones(), function(key, milestone) {
-                  html.push(NJ.nup.renderMilestone(key, milestone));
-                });
+              });
 
-                $("#toolbar ul").html(html.join("")).disableSelection().sortable();
-                $("#toolbar .btn").button().live('click', function() {
-                  $("h3.feature." + $(this).attr("id"))[$(this).attr("checked") ? "fadeIn" : "fadeOut"]();
-                  if($("h3.feature." + $(this).attr("id")).hasClass('ui-state-active')){  
-                    $("h3.feature." + $(this).attr("id")).click();
-                    $("div.feature." + $(this).attr("id"))[$(this).attr("checked") ? "fadeIn" : "fadeOut"]();
-                  }                 
-                });
+              doc.bind("feature.activate", function(e, feature){
+                $(".feature").removeClass("active").removeClass("hover");
+                $(feature).addClass("active");
+                var theInput = $(".feature:first").find("input:first");
+                theInput.addClass("inlineEditHover");
+              });
+
+            },
+            
+            bindScenarios: function() {
+              
+              $(".scenario-container .add").live("click", function(e) {
+                doc.trigger("scenario.add", $(this).closest(".feature-container"));
+              });              
+              
+              $(".scenario-container .delete").live("click", function(e) {
+                doc.trigger("scenario.delete", $(this).closest(".scenario-container"));
+              });
+              
+              doc.bind("scenario.add", function(e, el) {
                 
-                $('#toolbar label img').live('click', function() {
-                  $(this).parent().parent().remove();
-                  return false;
-                })
-
-                // load up the features/scenarios/breakdowns/steps/operators etc.
-
-                html = [];
-
-                $.each(DAL.get.features(), function(i, feature) {
-                    html.push($.jup.html(NJ.nup.renderFeature(i, feature)));                    
-                });
-
-                $("#featureslist").html(html.join(""));
-
-                // once the UI has rendered, we need to apply UI events to elements
+                /* 
                 
-                doc.trigger('features.applyAccordions');
-                
-                $("#featureslist input, #projectTitle").live("mouseover", function() {
-                  $(this).addClass("inlineEditHover");
-                }).live("mouseout", function() {
-                  $(this).removeClass("inlineEditHover");
-                })
-                
-                $('.sortable-ui').sortable({ 
+                var out = NJ.nup.renderScenario(2, NJ.nup.DAL.get.scenariosByFeature(1)[0]);
+                out = $.jup.html(out)
+                $(this).before(out);
+
+                $(this).prev().find('.sortable-ui').sortable({ 
                   containment: "parent", 
                   axis: "y",
                   stop: function(e){
@@ -448,193 +488,147 @@ $(function() {
                   }
                 });
                 
-                $('.steps li').live('mousedown', function(e){
-                  doc.trigger('step.activate', this);
+                */                
+                
+              });
+              
+              doc.bind("scenario.delete", function(e, el) {
+                el.slideUp(200, function(){
+                  el.remove();
                 });
+              });
+              
+              doc.bind("scenario.activate", function(e, scenario){
+                $(".scenario").removeClass("active").removeClass("hover");
+                $(scenario).addClass("active");
+                $(scenario).find("input").focus().addClass("inlineEditHover").caret(0,0 );
+              });
 
-                $('.scenario').live('mousedown', function(e){
-                  doc.trigger('scenario.activate', this);
+              doc.bind("scenario.hover", function(e, scenario) {
+                $(".scenario").removeClass("hover");
+                $(scenario).addClass('hover');
+              });
+              
+            },
+            
+            bindSteps: function() {
+              
+              $(".step-container .add").live("click", function() {
+                doc.trigger("step.add", $(this).closest(".scenario-container"));
+              });
+              
+              $(".step-container .delete").live("click", function() {
+                doc.trigger("step.delete", $(this).closest(".step-container"));
+              });              
+              
+              doc.bind('step.activate', function(e, step){
+                //console.log('step.activate');
+                $('.steps li').removeClass('active').removeClass('hover');
+                $(step).addClass('active');
+                $('.steps input').removeClass("inlineEditHover");
+                //console.log($(step).find('input'));
+                $(step).find('input').focus().addClass("inlineEditHover").caret(0,0 );
+                
+                doc.unbind('keyBindings.canCycle');
+                doc.bind('keyBindings.canCycle', keyBindings.canCycle);
+              });
+              
+              doc.bind('step.hover', function(e, step){
+                $('.steps li').removeClass('hover');
+                if(!$(step).hasClass('active')){
+                  $(step).addClass('hover');
+                }
+              });
+
+              doc.bind('step.add', function(e, step){
+                $(step).siblings('ul').append(NJ.nup.renderStep());
+                $('.sortable-ui').sortable('refresh');
+              });
+
+              doc.bind('step.delete', function(e, step){
+                $(step).closest('li').slideUp(300, function(){
+                  $(step).remove();
                 });
+              });              
+              
+              doc.bind('keyBindings.canDeleteSteps', keyBindings.canDeleteSteps);              
 
-                // Remark: step.hover should take in two callbacks as arguments
-                $('.steps li').live('hover', 
-                  function(e){
-                    doc.trigger('step.hover', this)
-                  },
-                  function(e){
-                    $(this).removeClass('hover');
-                  }
-                );
-
-                $('.scenario').live('hover', 
-                  function(e){
-                    doc.trigger('scenario.hover', this);
-                  },
-                  function(e){
-                    $(this).removeClass('hover');                    
-                  }
-                );
-                                
-                // for adding additional steps in a scenario
-                $('.add-step').live('click', function(){
-                  doc.trigger('step.add', this);
-                });
-                
-                // for removing steps in a scenario
-                $(".delete-step").live("click", function(){
-                  doc.trigger('step.delete', this);
-                });
-                
-                
-                $(".delete-feature").live("click", function(e){
-                  //console.log('delete feature');
-                  e.stopPropagation();
-                  if($(this).hasClass('ui-state-active')) {
-                    $(this).parent().next(".ui-accordion-content").slideUp(300, function() {
-                      $(this).remove();
-                    });
-                  }
-                  else{
-                    $(this).parent().next(".ui-accordion-content").remove();
-                  }
-                  
-                  $(this).parent().slideUp(300, function(){
-                    $(this).remove()
-                  });
-                  
-                });
-
-                // for adding additional Scenarios in a Feature
-                $('.add-scenario').live("click", function(e){
-                  // should this stop the accordion from toggling? thats what i want it to do!
-                  //e.stopPropagation();
-                  
-                  var out = NJ.nup.renderScenario(2, NJ.nup.DAL.get.scenariosByFeature(1)[0]);
-                  out = $.jup.html(out)
-                  $(this).before(out);
-                  
-                  $(".scenario").accordion({ 
-                    collapsible: true, 
-                    autoHeight: false, 
-                    active: false
-
-                  });
-                  $(this).prev().find('.sortable-ui').sortable({ 
-                    containment: "parent", 
-                    axis: "y",
-                    stop: function(e){
-                      var step =  $(e.originalTarget).closest('.step').parent();
-                      if(!$(step).hasClass('active')){
-                        doc.trigger('step.activate', step);
-                      }
-                    }
-                  });
-                  /*
-                  .find("input, h3").click(function(ev){
-                      ev.stopImmediatePropagation();
-                      ev.preventDefault();
-                      stop = false;
-                  });
-                  */
-                  //doc.trigger('features.applyAccordions');
-                  //$(".scenario:last").accordion( "activate" , $(".scenario h3:last"));
-                  
-                });
-                
-                $('.add-feature').click(function(e){
-                  doc.trigger('feature.add', NJ.nup.DAL.get.features()[1]);
-                });
-
-                $('.add-milestone').live('click', function(e){
-                  
-                  var html = [];
-                  html.push(NJ.nup.renderMilestone($("#toolbar .btn").length + 1, 'milestone x'));
-                  $("#toolbar ul").append(html.join("")).disableSelection().sortable();
-                  $("#toolbar .btn:last").button();
-                  
-                });
-                
-                $('.toggle-view').click(function(e){
-                  if($(this).html() == 'Use Textpad Instead &lt; '){
-                    $('.textPad textarea').val(NJ.nup.featureDistiller());
-                    $('#featureslist').hide();
-                    $('.textPad').show();
-                    $(this).html('Use UI Instead &gt; ');
-                  }
-                  else{
-                    $(this).html('Use Textpad Instead &lt; ');
-                    $('.textPad').hide();
-                    $('#featureslist').show();
-                  }
-                });
-
-                $(".delete-scenario").live("click", function(e){
-                  e.stopPropagation();
-                  $(this).parent().next(".ui-accordion-content").slideUp(300, function() {
-                    $(this).remove();
-                  });                  
-                  $(this).parent().slideUp(300, function(){
-                    $(this).remove();
-                  });
-                });
-                
-
-
-               $('.ui-accordion').bind('accordionchange', function(event, ui) {
-                 
-                 //console.log($(ui.newHeader).parent());
-                 
-                 doc.trigger('scenario.activate', $(ui.newHeader).parent());
-                 
-                 /*
-                 ui.newHeader // jQuery object, activated header
-                 ui.oldHeader // jQuery object, previous header
-                 ui.newContent // jQuery object, activated content
-                 ui.oldContent // jQuery object, previous content
-                 */
-               });
-
-               
-               $('input').focus(function(){
-                 
-                 // TODO: determine if input is inside of Step, this will check whole document
-                 var feature =  $(this).closest('.feature').parent();
-                 if(!$(feature).hasClass('active')){
-                   doc.trigger('feature.activate', feature);
-                 }
-
-                 var step =  $(this).closest('.step').parent();
-                 //console.log($(step));
-                 //console.log($(step).hasClass('active'));
-                 if(!$(step).hasClass('active')){
-                   //doc.trigger('step.activate', step);
-                 }
-                 
-                 /*
-                 $('input').removeClass('inlineEditHover');
-                 $(this).addClass('inlineEditHover');
-                 doc.unbind('keyBindings.canDeleteSteps');
-                 */
-               });
-                
-               $('input').bind('blur',function(){
-                 doc.bind('keyBindings.canDeleteSteps', keyBindings.canDeleteSteps);
-               });
-                
-                
-             if(!(_.isEmpty(DAL.get.milestones()))){
-               $("h3.feature, div.feature")["hide"]();
-               $("label[for='ms1']").click();
-               $("#ms1").attr("checked", true);
-               $("h3.feature.ms1")["fadeIn"]();
-              }
-                
-                
             },
 
-            determineContext: function() {
+            features: function() {
 
+              $("#featureslist input, #projectTitle").live("mouseover", function() {
+                $(this).addClass("inlineEditHover");
+              }).live("mouseout", function() {
+                $(this).removeClass("inlineEditHover");
+              })
+              
+              $('.sortable-ui').sortable({ 
+                containment: "parent", 
+                axis: "y",
+                stop: function(e){
+                  var step =  $(e.originalTarget).closest('.step').parent();
+                  if(!$(step).hasClass('active')){
+                    doc.trigger('step.activate', step);
+                  }
+                }
+              });
+              
+              $('.steps li').live('mousedown', function(e){
+                doc.trigger('step.activate', this);
+              });
+
+              $('.scenario').live('mousedown', function(e){
+                doc.trigger('scenario.activate', this);
+              });
+
+              // Remark: step.hover should take in two callbacks as arguments
+              $('.steps li').live('hover', 
+                function(e){
+                  doc.trigger('step.hover', this)
+                },
+                function(e){
+                  $(this).removeClass('hover');
+                }
+              );
+
+              $('.scenario').live('hover', 
+                function(e){
+                  doc.trigger('scenario.hover', this);
+                },
+                function(e){
+                  $(this).removeClass('hover');                    
+                }
+              );
+                              
+              // for adding additional steps in a scenario
+              $('.add-step').live('click', function(){
+                doc.trigger('step.add', this);
+              });
+              
+              // for removing steps in a scenario
+              $(".delete-step").live("click", function(){
+                doc.trigger('step.delete', this);
+              });
+              
+              
+              $(".delete-feature").live("click", function(e){
+                //console.log('delete feature');
+                e.stopPropagation();
+                if($(this).hasClass('ui-state-active')) {
+                  $(this).parent().next(".ui-accordion-content").slideUp(300, function() {
+                    $(this).remove();
+                  });
+                }
+                else{
+                  $(this).parent().next(".ui-accordion-content").remove();
+                }
                 
+                $(this).parent().slideUp(300, function(){
+                  $(this).remove()
+                });
+                
+              });
                 
             },
             
@@ -703,12 +697,9 @@ $(function() {
                 return s;
 
             },
-
-            
             
             DATA: { // dummy-data, this would be replaced by loaded data. @function() {
 
-                entityPosition: 0,
                 language: "en",
                 project: "Build a node.js application",
                 milestones: {
@@ -751,10 +742,6 @@ $(function() {
             DAL: {
 
                 get: {
-                  
-                    uniqueID: function() {
-                      return ++DATA.entityPosition;
-                    },
 
                     projectTitle: function() {
                         return DATA.project;
@@ -873,7 +860,7 @@ $(function() {
                             }
                         }
                         else {
-                            DATA.users[Math.floor(Math.random()*2e9)] = config.name;
+                            DATA.users[uniqueID()] = config.name;
                         }                        
                     },
                     project: function(name) {
@@ -893,7 +880,7 @@ $(function() {
                         
                         if(config.create) {
                           DATA.features[config.id].scenarios.push({
-                            id: Math.floor(Math.random()*2e9),
+                            id: uniqueID(),
                             outline: false,
                             examples: null,
                             time: 20,
@@ -915,13 +902,13 @@ $(function() {
                       if(config.id) {
 
                           if(config.update) {
-                              $.each(DATA.features[config.id].scenarios, function(i, scenario) {
-                                  scenario[config.update.id] = value;
-                              });
+                            $.each(DATA.features[config.id].scenarios, function(i, scenario) {
+                              scenario[config.id] = config.value;
+                            });
                           }
                           if(config.create) {
                               DATA.features[config.id].scenarios.push({
-                                  id: Math.floor(Math.random()*2e9),
+                                  id: uniqueID(),
                                   outline: false,
                                   examples: null,
                                   time: 20,
@@ -933,6 +920,31 @@ $(function() {
                           }
                       }
                       
+                    },
+                    step: function(config) { // breakdowns contains "Steps"
+
+                      // TODO: implement
+                      if(config.id) {
+
+                          if(config.update) {
+                            $.each(DATA.features[config.id].scenarios, function(i, scenario) {
+                              scenario[config.id] = config.value;
+                            });
+                          }
+                          if(config.create) {
+                              DATA.features[config.id].scenarios.push({
+                                  id: uniqueID(),
+                                  outline: false,
+                                  examples: null,
+                                  time: 20,
+                                  description: "blah",
+                                  breakdown: [
+                                      {1: ["when", "something happens"]}
+                                  ]
+                              });                                
+                          }
+                      }
+
                     }
                 }
             }
