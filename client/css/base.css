@@ -452,6 +452,13 @@ input, .inlineEdit {
   top: 10px;
 }
 
+.learn-shortcuts {
+  position: absolute;
+  right: 380px;
+  top: 10px;
+  
+}
+
 .scenario {overflow:hidden;}
 
 .scenario .step input[type="text"] {
