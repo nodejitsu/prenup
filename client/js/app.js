@@ -15,7 +15,7 @@ $(function() {
         $.fn.trigger = function(name,args,p){
           // perform some logic to determine what to debug
           if(typeof name != 'object'){
-            console.log(name, args, _trigger);
+            //console.log(name, args, _trigger);
           }
           return _trigger.apply(this,arguments);
         };
@@ -147,12 +147,11 @@ $(function() {
               
               html.append($.jup.html(
                 ["div", { "class": "controls" },
-                  ['button', { "class": "add-scenario" }, 'Add Scenario +'],
                   ['button',{ "class": "add-step" }, 'Add Step +']
                 ]
               ));
 
-              var container = $(".scenario", html);
+              var container = $(".steps", html);
 
               if(scenario.breakdown) {
                 $.each(scenario.breakdown, function(key, step) {
@@ -361,14 +360,14 @@ $(function() {
               $('.toggle-view').click(function(e){
                 if($(this).html() == 'Use Textpad Instead &lt; '){
                   $('.textPad textarea').val(NJ.nup.featureDistiller());
-                  $('#featureslist').hide();
+                  $('#features-container').hide();
                   $('.textPad').show();
                   $(this).html('Use UI Instead &gt; ');
                 }
                 else{
                   $(this).html('Use Textpad Instead &lt; ');
                   $('.textPad').hide();
-                  $('#featureslist').show();
+                  $('#features-container').show();
                 }
               });              
               
@@ -544,8 +543,10 @@ $(function() {
             
             bindSteps: function() {
               
-              $(".step-container .add-step").live("click", function() {
-                doc.trigger("step.add", $(this).closest(".scenario-container"));
+              $(".add-step").live("click", function() {
+                var el = $(this).closest(".scenario-container").find('.steps');
+                console.log(el);
+                doc.trigger("step.add", el);
               });
               
               $(".step-container .delete-step").live("click", function() {
@@ -571,9 +572,10 @@ $(function() {
                 }
               });
 
-              doc.bind('step.add', function(e, step){
-                $(step).siblings('ul').append(NJ.nup.renderStep());
-                $('.sortable-ui').sortable('refresh');
+              doc.bind('step.add', function(e, scenario){
+                console.log('step.add', scenario);
+                $(scenario).append(NJ.nup.renderStep());
+                //$('.sortable-ui').sortable('refresh');
               });
 
               doc.bind('step.delete', function(e, step){
@@ -632,13 +634,9 @@ $(function() {
                 }
               );
                               
-              // for adding additional steps in a scenario
-              $('.add-step').live('click', function(){
-                doc.trigger('step.add', this);
-              });
               
               // for removing steps in a scenario
-              $(".delete-step").live("click", function(){
+              $(".delete-step").live("click", function() {
                 doc.trigger('step.delete', this);
               });
                 
