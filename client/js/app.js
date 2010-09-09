@@ -77,6 +77,14 @@ $(function() {
                     doc.trigger('step.activate', nextStep);
                   }
                 }
+                if(originalEvent.which == 13) { // enter / return
+                  /*var nextStep = $(originalEvent.originalTarget).closest('.step').parent().next();
+                  if(nextStep.length!=0){
+                    doc.trigger('step.activate', nextStep);
+                  }
+                  */
+                  doc.trigger('step.add', $(originalEvent.originalTarget).closest('.scenario'));
+                }
 
               },
               
