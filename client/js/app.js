@@ -15,7 +15,7 @@ $(function() {
         $.fn.trigger = function(name,args,p){
           // perform some logic to determine what to debug
           if(typeof name != 'object'){
-            //console.log(name, args, _trigger);
+            console.log(name, args, _trigger);
           }
           return _trigger.apply(this,arguments);
         };
@@ -94,13 +94,9 @@ $(function() {
 
             },
             
-            renderStep: function(pair){
+            renderStep: function(pair) {
 
-              console.log("renderStep")
-
-              if(typeof pair == 'undefined'){
-                var pair = ["foo"];
-              }
+              pair = pair || ["And", "New Step"];
 
               var html = $($.jup.html(["li", { "class": "step-container round margin-small" },
                   ["table", { "class": "step" },
@@ -108,7 +104,7 @@ $(function() {
                       ["td", { "class": "grip-col" }, ["span", { "class": "ui-icon ui-icon-arrowthick-2-n-s grip" }]],
                       ["td", { "class": "operator-col" }, [NJ.nup.renderWordSelector(DAL.get.operators(), pair[0])]],
                       ["td", { "class": "content-col" }, ["input", { "type": "text", "value": pair[1] }]],
-                      ["td", { "class": "delete-col" }, ["div", { "class": "delete", "title": "Remove scenario" }, 
+                      ["td", { "class": "delete-col" }, ["div", { "class": "delete delete-step round", "title": "Remove scenario" }, 
                         ["span", "&nbsp"]
                       ]]
                     ]]
@@ -135,10 +131,12 @@ $(function() {
             
             renderScenario: function(key, scenario) {
               
+              scenario = scenario || { name: "New Scenario" };
+              
               var html = $($.jup.html(["div", { "class": "round scenario-container" },
                   ["div", { "class": "header" },
                       ["input", { "type": "text", "value": scenario.name }],
-                      ["div", { "class": "delete", "title": "Remove scenario" }, 
+                      ["div", { "class": "delete delete-scenario round", "title": "Remove scenario" }, 
                         ["span", "&nbsp"]
                       ]
                   ],
@@ -147,15 +145,25 @@ $(function() {
                   ]
               ]));
               
-              html.append($.jup.html(['button',{ "class": "add-step" }, 'Add Step +']));
-              
+              html.append($.jup.html(
+                ["div", { "class": "controls" },
+                  ['button', { "class": "add-scenario" }, 'Add Scenario +'],
+                  ['button',{ "class": "add-step" }, 'Add Step +']
+                ]
+              ));
+
               var container = $(".scenario", html);
 
-              $.each(scenario.breakdown, function(key, step) {
-                $.each(step, function(key, pair) {
-                  container.append(NJ.nup.renderStep(pair));
+              if(scenario.breakdown) {
+                $.each(scenario.breakdown, function(key, step) {
+                  $.each(step, function(key, pair) {
+                    container.append(NJ.nup.renderStep(pair));
+                  });
                 });
-              });
+              }
+              else {
+                container.append(NJ.nup.renderStep());
+              }
 
               html.data({ "id": uniqueID(), "type": "scenario" });
               
@@ -163,13 +171,17 @@ $(function() {
 
             },
 
-            renderFeature: function(i, feature) {
+            renderFeature: function(key, feature) {
 
-              var html = $($.jup.html(["div", { "class": "round feature-container" },
-                  
+              feature = feature || { name: "New Feature" };
+
+              var html, container;
+
+              html = $($.jup.html(["div", { "class": "round feature-container" },
+
                   ["div", { "class": "header" },
                       ["input", { "type": "text", "value": feature.name }],
-                      ["div", { "class": "delete", "title": "Remove feature" },
+                      ["div", { "class": "delete delete-feature round", "title": "Remove feature" },
                         ["span", "&nbsp"]
                       ]
                   ],
@@ -177,15 +189,25 @@ $(function() {
                   ["div", { "class": "feature" }]
               ]));
 
-              html.append($.jup.html(['button', { "class": "add-scenario" }, 'Add Scenario +']));
+              html.append($.jup.html(
+                ["div", { "class": "controls" },
+                  ['button', { "class": "add-scenario" }, 'Add Scenario +'],
+                  ['button', { "class": "add-feature" }, 'Add Feature +']
+                ]
+              ));
 
               html.data({ "milestone": feature.milestone, "type": "milestone" });
 
-              var container = $(".feature", html);
+              container = $(".feature", html);
 
-              $.each(feature.scenarios, function(key, scenario) {
-                container.append(NJ.nup.renderScenario(key, scenario));
-              });
+              if(feature.scenarios) {
+                $.each(feature.scenarios, function(key, scenario) {
+                  container.append(NJ.nup.renderScenario(key, scenario));
+                });                
+              }
+              else {
+                container.append(NJ.nup.renderScenario(0));
+              }
 
               return html;
 
@@ -367,10 +389,15 @@ $(function() {
 
               // enable toggeling of feature/scenario/step sections
 
-              $(".header").toggle(function() {
-                $(this).siblings("div").slideUp(200);
-              },function() {
-                $(this).siblings("div").slideDown(200);                  
+              $(".header").live("click", function() {
+
+                if($(this).siblings("div:visible").length > 0) {
+                  $(this).siblings("div").slideUp(200);
+                }
+                else {
+                  $(this).siblings("div").slideDown(200);                  
+                }
+
               });
               
               $("#projectTitle").text(DAL.get.projectTitle());
@@ -389,7 +416,7 @@ $(function() {
                 // TODO: determine if input is inside of Step, this will check whole document
                 var feature =  $(this).closest('.feature').parent();
                 if(!$(feature).hasClass('active')){
-                 doc.trigger('feature.activate', feature);
+                 //doc.trigger('feature.activate', feature);
                 }
 
                 var step =  $(this).closest('.step').parent();
@@ -432,40 +459,43 @@ $(function() {
             
             bindFeatures: function() {
               
-              $(".feature-container .add").live("click", function() {
+              $(".feature-container .add-feature").live("click", function() {
                 doc.trigger('feature.add', $(this).closest(".features-container"));
               });              
               
-              $(".feature-container .delete").live("click", function() {
-                doc.trigger('feature.delete', $(this).closest(".feature-container"));
+              $(".feature-container .delete-feature").live("click", function() {
+                doc.trigger("feature.delete", $(this).closest(".feature-container"));
               });
               
-              doc.bind("feature.add", function(e, el){
-                $("#features-container").append(NJ.nup.renderFeature(1, el));
+              $(".feature-container").live("click", function() {
+                doc.trigger("feature.activate", $(this));
               });
               
-              doc.bind("feature.delete", function(e, el){
-                el.slideUp(200, function(){
-                  el.remove();
-                });                
+              doc.bind("feature.add", function(e) {
+                $("#features-container").append(NJ.nup.renderFeature(0));
+              });
+              
+              doc.bind("feature.delete", function(e, el) {
+                
+                $(el).slideUp(200, function() {
+                  $(el).remove();
+                });
               });
 
-              doc.bind("feature.activate", function(e, feature){
-                $(".feature").removeClass("active").removeClass("hover");
-                $(feature).addClass("active");
-                var theInput = $(".feature:first").find("input:first");
-                theInput.addClass("inlineEditHover");
+              doc.bind("feature.activate", function(e, el){
+                $(".feature-container").removeClass("active").removeClass("hover");
+                $(el).addClass("active");
               });
 
             },
             
             bindScenarios: function() {
               
-              $(".scenario-container .add").live("click", function(e) {
+              $(".scenario-container .add-scenario").live("click", function(e) {
                 doc.trigger("scenario.add", $(this).closest(".feature-container"));
               });              
               
-              $(".scenario-container .delete").live("click", function(e) {
+              $(".scenario-container .delete-scenario").live("click", function(e) {
                 doc.trigger("scenario.delete", $(this).closest(".scenario-container"));
               });
               
@@ -493,8 +523,9 @@ $(function() {
               });
               
               doc.bind("scenario.delete", function(e, el) {
-                el.slideUp(200, function(){
-                  el.remove();
+                e.preventDefault();
+                $(el).slideUp(200, function(){
+                  $(el).remove();
                 });
               });
               
@@ -513,11 +544,11 @@ $(function() {
             
             bindSteps: function() {
               
-              $(".step-container .add").live("click", function() {
+              $(".step-container .add-step").live("click", function() {
                 doc.trigger("step.add", $(this).closest(".scenario-container"));
               });
               
-              $(".step-container .delete").live("click", function() {
+              $(".step-container .delete-step").live("click", function() {
                 doc.trigger("step.delete", $(this).closest(".step-container"));
               });              
               
@@ -609,25 +640,6 @@ $(function() {
               // for removing steps in a scenario
               $(".delete-step").live("click", function(){
                 doc.trigger('step.delete', this);
-              });
-              
-              
-              $(".delete-feature").live("click", function(e){
-                //console.log('delete feature');
-                e.stopPropagation();
-                if($(this).hasClass('ui-state-active')) {
-                  $(this).parent().next(".ui-accordion-content").slideUp(300, function() {
-                    $(this).remove();
-                  });
-                }
-                else{
-                  $(this).parent().next(".ui-accordion-content").remove();
-                }
-                
-                $(this).parent().slideUp(300, function(){
-                  $(this).remove()
-                });
-                
               });
                 
             },
