@@ -4,6 +4,7 @@
 	border: 1px solid #515151;
 	margin-top: 8px;
 	margin-top: 8px;
+	position: relative;
 }
 
 .feature-container .header, .scenario-container .header {
@@ -24,21 +25,72 @@
 
 .header .delete {
 	position: absolute;
+	cursor: pointer;
+	padding: 3px;
 	right: 3px;
 	top: 3px;
-	border: 1px solid #eee;
-	height: 19px;
-	width: 19px;	
+	height: 14px;
+	width: 14px;	
 }
 
 .scenario-container {
-	margin: 8px 35px 8px 8px;
+	margin: 8px 40px 8px 8px;
 }
 
 .step-container {
 	border: 1px solid #ccc;	
-	margin: 4px 35px 4px 8px;
-  background:url("../img/ui-bg_highlight-soft_75_e6e6e6_1x100.png") repeat-x scroll 50% 50% #E6E6E6;
+	margin: 8px 35px 8px 8px;
+  padding: 5px;
+	height: 25px;
+	
+  list-style-type: none;
+ 	cursor: move; 
+}
+
+.step-container.active {
+	background:url("../img/ui-bg_highlight-soft_75_e6e6e6_1x100.png") repeat-x scroll 50% 50% #E6E6E6;
+	
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;	
+}
+
+.step-container .delete {
+	margin: 3px;
+	cursor: pointer;
+	display: none;
+}
+
+.step-container.active .delete {
+	display: block;
+}
+
+.step-container.active input {
+	border: 1px solid #aaa;
+	-moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;
+}
+
+.step select {
+	height: 26px;
+	padding-top: 4px;
+}
+
+.add-step, .add-scenario, .add-feature {
+	position: absolute;
+	right: 0px;
+	top: 40px;
+	background: url('../img/add.png') no-repeat scroll top left;
+	width: 37px;
+	height: 40px;
+}
+
+
+
+.step input {
+	border: none;
+	height: 20px;
+	padding-left: 4px;
+	border: 1px solid #fff;	
 }
 
 .active {
@@ -398,10 +450,6 @@ input, .inlineEdit {
   right: 190px;
   top: 10px;
 }
-.inlineEditHover {
-  background: #fff !important;
-  border: 1px solid #aaa !important;
-}
 
 .scenario {overflow:hidden;}
 
@@ -409,8 +457,6 @@ input, .inlineEdit {
   margin-left:0px;
   width:96%;
 }
-
-.scenario select {float:left; margin-right:10px;}
 
 
 .add-step, .add-scenario, .add-feature {
@@ -434,11 +480,11 @@ input, .inlineEdit {
 }
 
 .step .operator-col {
-  width: 80px;
+	padding-right:10px;
 }
 
 .step .content-col {
-  width: 80%;
+  width: 100%;
 }
 
 .step .delete-col {
@@ -456,7 +502,7 @@ input, .inlineEdit {
 .grip {float:left; margin:2px 5px;  }
 .step-close {float:left; margin-left:10px; margin-top:5px;}
 .grip {float:left; margin:2px 5px;  }
-.sortable-ui li {list-style-type: none; cursor:pointer; padding:5px; margin:5px 0;}
+
 .ui-accordion-content{
   overflow:hidden !important;}
 
@@ -560,23 +606,8 @@ ul {
 }
 
 button {
-  cursor:pointer;
-  display:inline-block;
-  margin-right:0.1em;
-  overflow:visible;
-  padding:0;
-  position:relative;
-  text-align:center;
-  text-decoration:none !important;
-  -moz-border-radius:4px 4px 4px 4px;
-  background:url("../img/ui-bg_highlight-soft_75_e6e6e6_1x100.png") repeat-x scroll 50% 50% #E6E6E6;
-  border:1px solid #D3D3D3;
-  color:#555555;
-  font-weight:normal;
-  font-family:Verdana,Arial,sans-serif;
-  font-size:1.1em;
-  padding: 6px;
-  margin: 2px;
+  cursor: pointer;
+	border: 0;
 }
 
 #container{ display:none; }

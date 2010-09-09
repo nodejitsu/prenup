@@ -104,9 +104,7 @@ $(function() {
                       ["td", { "class": "grip-col" }, ["span", { "class": "ui-icon ui-icon-arrowthick-2-n-s grip" }]],
                       ["td", { "class": "operator-col" }, [NJ.nup.renderWordSelector(DAL.get.operators(), pair[0])]],
                       ["td", { "class": "content-col" }, ["input", { "type": "text", "value": pair[1] }]],
-                      ["td", { "class": "delete-col" }, ["div", { "class": "delete delete-step round", "title": "Remove scenario" }, 
-                        ["span", "&nbsp"]
-                      ]]
+                      ["td", { "class": "delete-col" }, ["div", { "class": "delete delete-step round", "title": "Remove scenario" }, "X"]]
                     ]]
                   ]
               ]));
@@ -136,9 +134,7 @@ $(function() {
               var html = $($.jup.html(["div", { "class": "round scenario-container" },
                   ["div", { "class": "header" },
                       ["input", { "type": "text", "value": scenario.name }],
-                      ["div", { "class": "delete delete-scenario round", "title": "Remove scenario" }, 
-                        ["span", "&nbsp"]
-                      ]
+                      ["div", { "class": "delete delete-scenario round", "title": "Remove scenario" }, "X"]
                   ],
                   ["div", { "class": "scenario" },
                     ["ul", { "class": "sortable-ui steps" }]
@@ -147,7 +143,7 @@ $(function() {
               
               html.append($.jup.html(
                 ["div", { "class": "controls" },
-                  ['button',{ "class": "add-step" }, 'Add Step +']
+                  ['button',{ "class": "add-step", "title": "Add Step" }]
                 ]
               ));
 
@@ -180,9 +176,7 @@ $(function() {
 
                   ["div", { "class": "header" },
                       ["input", { "type": "text", "value": feature.name }],
-                      ["div", { "class": "delete delete-feature round", "title": "Remove feature" },
-                        ["span", "&nbsp"]
-                      ]
+                      ["div", { "class": "delete delete-feature round", "title": "Remove feature" }, "X"]
                   ],
 
                   ["div", { "class": "feature" }]
@@ -190,8 +184,8 @@ $(function() {
 
               html.append($.jup.html(
                 ["div", { "class": "controls" },
-                  ['button', { "class": "add-scenario" }, 'Add Scenario +'],
-                  ['button', { "class": "add-feature" }, 'Add Feature +']
+                  ['button', { "class": "add-scenario", "title": "Add Scenario" }],
+                  ['button', { "class": "add-feature", "title": "Add Feature" }]
                 ]
               ));
 
