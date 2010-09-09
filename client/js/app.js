@@ -550,7 +550,7 @@ $(function() {
               
               $(".add-step").live("click", function() {
                 var el = $(this).closest(".scenario-container").find('.steps');
-                console.log(el);
+                //console.log(el);
                 doc.trigger("step.add", el);
               });
               
@@ -559,8 +559,9 @@ $(function() {
               });              
               
               doc.bind('step.activate', function(e, step){
-                //console.log('step.activate');
-                $('.steps li').removeClass('active').removeClass('hover');
+                //console.log('step.activate', step);
+                
+                $('.scenario li').removeClass('active').removeClass('hover');
                 $(step).addClass('active');
                 $('.steps input').removeClass("inlineEditHover");
                 //console.log($(step).find('input'));
@@ -578,8 +579,8 @@ $(function() {
               });
 
               doc.bind('step.add', function(e, scenario){
-                console.log('step.add', scenario);
                 $(scenario).append(NJ.nup.renderStep());
+                doc.trigger('step.activate', $(scenario).find('.step-container:last'));
                 //$('.sortable-ui').sortable('refresh');
               });
 
