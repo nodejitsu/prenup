@@ -83,7 +83,7 @@ $(function() {
                     doc.trigger('step.activate', nextStep);
                   }
                   */
-                  doc.trigger('step.add', $(originalEvent.originalTarget).closest('.scenario'));
+                  doc.trigger('step.add', $(originalEvent.originalTarget).closest('.scenario').find('ul'));
                 }
 
               },
