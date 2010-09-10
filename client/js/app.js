@@ -437,7 +437,7 @@ $(function() {
                 // put ajax post here
                 doc.trigger('ws.submitAST', function(rsp){
                   //console.log(rsp[0].text);
-                  $('#export-stubs code').html(rsp[0].text);
+                  $('#export-stubs code').html(rsp.steps[0].text);
                   hijs(); 
                   $('#export-stubs').dialog("open");
          
