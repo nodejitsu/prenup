@@ -39,6 +39,7 @@ $(function() {
                    plan: [ /* execution plan */
                     
                     "splash"
+                    ,"export"
                     ,"pageLoad"
                     ,"setupMilestones"
                     ,"codeview"
@@ -89,7 +90,6 @@ $(function() {
               },
               
               keyDown: function(e) {
-                //console.log(e.which);
                 var events = doc.data('events');
                 for(var eventName in events){
                   for(var i = 0; i < events[eventName].length; i++){
@@ -331,29 +331,6 @@ $(function() {
                   }
                 }
               });
-
-              doc.bind('ws.submitAST', function(e, callback){
-                  $.ajax({
-                    url: '/export', /* TODO: Need real URL to submit to */
-                    type: "POST",
-                    dataType: "JSON",
-                    data: JSON.stringify(NJ.nup.DATA.features),
-                    success: function(data) {
-                      callback(JSON.parse(data));
-                    }
-                  });
-              });
-              
-              $("footer").click(function() {
-                // put ajax post here
-                doc.trigger('ws.submitAST', function(rsp){
-                  //console.log(rsp[0].text);
-                  $('#export-stubs code').html(rsp[0].text);
-                  hijs(); 
-                  $('#export-stubs').dialog("open");
-         
-                });
-              });                      
               
             },
             
@@ -450,6 +427,23 @@ $(function() {
               this.bindFeatures();
               this.bindScenarios();
               this.bindSteps();
+              
+              
+              // webservice bindings
+              this.bindWS();
+              
+              
+              $("footer").click(function() {
+                // put ajax post here
+                doc.trigger('ws.submitAST', function(rsp){
+                  //console.log(rsp[0].text);
+                  $('#export-stubs code').html(rsp[0].text);
+                  hijs(); 
+                  $('#export-stubs').dialog("open");
+         
+                });
+              });                      
+              
               
               // TO-DO: touch binding...
 
@@ -594,6 +588,20 @@ $(function() {
 
             },
 
+            bindWS: function() {
+              doc.bind('ws.submitAST', function(e, callback){
+                  $.ajax({
+                    url: '/export', /* TODO: Need real URL to submit to */
+                    type: "POST",
+                    dataType: "JSON",
+                    data: JSON.stringify(NJ.nup.DATA.features),
+                    success: function(data) {
+                      callback(JSON.parse(data));
+                    }
+                  });
+              });
+            },
+            
             features: function() {
 
               $("#featureslist input, #projectTitle").live("mouseover", function() {
