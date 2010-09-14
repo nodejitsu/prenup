@@ -16,6 +16,7 @@
 	color: #eee;
 	height: 20px;
 	position: relative;
+	cursor:pointer;
 }
 
 .feature-container .header input, .scenario-container .header input {
@@ -24,6 +25,7 @@
 	background-color: transparent;
 	color: #eee;
 	margin-left: 30px;
+	width: 500px;
 }
 
 .header .delete {
@@ -454,6 +456,13 @@ input, .inlineEdit {
   position: absolute;
   right: 190px;
   top: 10px;
+}
+
+.learn-shortcuts {
+  position: absolute;
+  right: 380px;
+  top: 10px;
+  
 }
 
 .scenario {overflow:hidden;}

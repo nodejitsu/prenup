@@ -39,6 +39,7 @@ $(function() {
                    plan: [ /* execution plan */
                     
                     "splash"
+                    ,"export"
                     ,"pageLoad"
                     ,"setupMilestones"
                     ,"codeview"
@@ -77,11 +78,18 @@ $(function() {
                     doc.trigger('step.activate', nextStep);
                   }
                 }
+                if(originalEvent.which == 13) { // enter / return
+                  /*var nextStep = $(originalEvent.originalTarget).closest('.step').parent().next();
+                  if(nextStep.length!=0){
+                    doc.trigger('step.activate', nextStep);
+                  }
+                  */
+                  doc.trigger('step.add', $(originalEvent.originalTarget).closest('.scenario').find('ul'));
+                }
 
               },
               
               keyDown: function(e) {
-                //console.log(e.which);
                 var events = doc.data('events');
                 for(var eventName in events){
                   for(var i = 0; i < events[eventName].length; i++){
@@ -323,29 +331,6 @@ $(function() {
                   }
                 }
               });
-
-              doc.bind('ws.submitAST', function(e, callback){
-                  $.ajax({
-                    url: '/export', /* TODO: Need real URL to submit to */
-                    type: "POST",
-                    dataType: "JSON",
-                    data: JSON.stringify(NJ.nup.DATA.features),
-                    success: function(data) {
-                      callback(JSON.parse(data));
-                    }
-                  });
-              });
-              
-              $("footer").click(function() {
-                // put ajax post here
-                doc.trigger('ws.submitAST', function(rsp){
-                  //console.log(rsp[0].text);
-                  $('#export-stubs code').html(rsp[0].text);
-                  hijs(); 
-                  $('#export-stubs').dialog("open");
-         
-                });
-              });                      
               
             },
             
@@ -442,6 +427,23 @@ $(function() {
               this.bindFeatures();
               this.bindScenarios();
               this.bindSteps();
+              
+              
+              // webservice bindings
+              this.bindWS();
+              
+              
+              $("footer").click(function() {
+                // put ajax post here
+                doc.trigger('ws.submitAST', function(rsp){
+                  //console.log(rsp[0].text);
+                  $('#export-stubs code').html(rsp.steps[0].text);
+                  hijs(); 
+                  $('#export-stubs').dialog("open");
+         
+                });
+              });                      
+              
               
               // TO-DO: touch binding...
 
@@ -544,7 +546,7 @@ $(function() {
               
               $(".add-step").live("click", function() {
                 var el = $(this).closest(".scenario-container").find('.steps');
-                console.log(el);
+                //console.log(el);
                 doc.trigger("step.add", el);
               });
               
@@ -553,8 +555,9 @@ $(function() {
               });              
               
               doc.bind('step.activate', function(e, step){
-                //console.log('step.activate');
-                $('.steps li').removeClass('active').removeClass('hover');
+                //console.log('step.activate', step);
+                
+                $('.scenario li').removeClass('active').removeClass('hover');
                 $(step).addClass('active');
                 $('.steps input').removeClass("inlineEditHover");
                 //console.log($(step).find('input'));
@@ -572,8 +575,8 @@ $(function() {
               });
 
               doc.bind('step.add', function(e, scenario){
-                console.log('step.add', scenario);
                 $(scenario).append(NJ.nup.renderStep());
+                doc.trigger('step.activate', $(scenario).find('.step-container:last'));
                 //$('.sortable-ui').sortable('refresh');
               });
 
@@ -587,6 +590,20 @@ $(function() {
 
             },
 
+            bindWS: function() {
+              doc.bind('ws.submitAST', function(e, callback){
+                  $.ajax({
+                    url: '/export', /* TODO: Need real URL to submit to */
+                    type: "POST",
+                    dataType: "JSON",
+                    data: JSON.stringify(NJ.nup.DATA.features),
+                    success: function(data) {
+                      callback(JSON.parse(data));
+                    }
+                  });
+              });
+            },
+            
             features: function() {
 
               $("#featureslist input, #projectTitle").live("mouseover", function() {
