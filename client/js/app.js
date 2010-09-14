@@ -478,9 +478,11 @@ $(function() {
                 });
               });
 
-              doc.bind("feature.activate", function(e, el){
-                $(".feature-container").removeClass("active").removeClass("hover");
+              doc.bind("feature.activate", function(e, el) {
                 $(el).addClass("active");
+                $(".feature-container").animate({"opacity": "0.5"}, 200).removeClass("active").removeClass("hover");                
+                $(el).animate({"opacity": "1"}, 200);
+                
               });
 
             },
