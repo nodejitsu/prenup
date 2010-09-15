@@ -504,8 +504,6 @@ $(function() {
               
               doc.bind("scenario.add", function(e, el) {
                 
-                
-                
                 var out = NJ.nup.renderScenario(2, NJ.nup.DAL.get.scenariosByFeature(1)[0]);
                 out = $.jup.html(out)
                 $(this).before(out);
@@ -601,10 +599,12 @@ $(function() {
                 
                 if($(step).closest(".scenario").find(".step").length > 1) {
                   $(step).closest('li').slideUp(100, function() {
-                    $(step).remove();                  
-                  });                  
+                    $(step).remove();
+                    setTimeout(function() { // TO-DO: Why does this cause an error without a timeout??
+                      doc.trigger('step.activate', $('.step-container:last'));
+                    }, 100)
+                  });
                 }
-                
               });              
               
               doc.bind('keyBindings.canDeleteSteps', keyBindings.canDeleteSteps);              
