@@ -505,8 +505,7 @@ $(function() {
               doc.bind("scenario.add", function(e, el) {
                 
                 var out = NJ.nup.renderScenario(2, NJ.nup.DAL.get.scenariosByFeature(1)[0]);
-                out = $.jup.html(out)
-                $(this).before(out);
+                $(el).append(out);
                 
                 /* 
                 $(this).prev().find('.sortable-ui').sortable({ 
@@ -519,7 +518,6 @@ $(function() {
                     }
                   }
                 });
-                
                 */                
                 
               });
