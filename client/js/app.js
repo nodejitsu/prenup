@@ -114,7 +114,8 @@ $(function() {
                       ["td", { "class": "content-col" }, ["input", { "type": "text", "value": pair[1] }]],
                       ["td", { "class": "delete-col" }, ["div", { "class": "delete delete-step round", "title": "Remove scenario" }, "X"]]
                     ]]
-                  ]
+                  ],
+                  ['button',{ "class": "add-step", "title": "Add Step" }]
               ]));
 
               html.data({ "id": uniqueID(), "type": "step" });
@@ -141,19 +142,14 @@ $(function() {
               
               var html = $($.jup.html(["div", { "class": "round scenario-container" },
                   ["div", { "class": "header" },
-                      ["input", { "type": "text", "value": scenario.name }],
+                      ["input", { "type": "text", "value": scenario.name, "class": "round-small" }],
                       ["div", { "class": "delete delete-scenario round", "title": "Remove scenario" }, "X"]
                   ],
                   ["div", { "class": "scenario" },
                     ["ul", { "class": "sortable-ui steps" }]
-                  ]
+                  ],
+                  ['button',{ "class": "add-scenario", "title": "Add Scenario" }]
               ]));
-              
-              html.append($.jup.html(
-                ["div", { "class": "controls" },
-                  ['button',{ "class": "add-step", "title": "Add Step" }]
-                ]
-              ));
 
               var container = $(".steps", html);
 
@@ -183,7 +179,7 @@ $(function() {
               html = $($.jup.html(["div", { "class": "round feature-container" },
 
                   ["div", { "class": "header" },
-                      ["input", { "type": "text", "value": feature.name }],
+                      ["input", { "type": "text", "value": feature.name, "class": "round-small" }],
                       ["div", { "class": "delete delete-feature round", "title": "Remove feature" }, "X"]
                   ],
 
@@ -481,11 +477,18 @@ $(function() {
               });
 
               doc.bind("feature.activate", function(e, el) {
+
+                if($(el).hasClass("active")) {
+                  return false;
+                }
+
+                $(".feature-container").animate({"opacity": "0.5"}, 200).removeClass("active").removeClass("hover");
                 $(el).addClass("active");
-                $(".feature-container").animate({"opacity": "0.5"}, 200).removeClass("active").removeClass("hover");                
                 $(el).animate({"opacity": "1"}, 200);
-                
+
               });
+              
+              doc.trigger("feature.activate", $(".feature-container:first"));
 
             },
             
@@ -501,12 +504,13 @@ $(function() {
               
               doc.bind("scenario.add", function(e, el) {
                 
-                /* 
+                
                 
                 var out = NJ.nup.renderScenario(2, NJ.nup.DAL.get.scenariosByFeature(1)[0]);
                 out = $.jup.html(out)
                 $(this).before(out);
-
+                
+                /* 
                 $(this).prev().find('.sortable-ui').sortable({ 
                   containment: "parent", 
                   axis: "y",
@@ -536,6 +540,10 @@ $(function() {
               });
 
               doc.bind("scenario.hover", function(e, scenario) {
+                
+                $(".add-scenario").hide();
+                $(scenario).closest(".scenario-container").find(".add-scenario").show();
+                                
                 $(".scenario").removeClass("hover");
                 $(scenario).addClass('hover');
               });
@@ -545,9 +553,7 @@ $(function() {
             bindSteps: function() {
               
               $(".add-step").live("click", function() {
-                var el = $(this).closest(".scenario-container").find('.steps');
-                //console.log(el);
-                doc.trigger("step.add", el);
+                doc.trigger("step.add", $(this));
               });
               
               $(".step-container .delete-step").live("click", function() {
@@ -556,34 +562,49 @@ $(function() {
               
               doc.bind('step.activate', function(e, step){
                 //console.log('step.activate', step);
-                
-                $('.scenario li').removeClass('active').removeClass('hover');
+
+                $('.feature li').removeClass('active').removeClass('hover');
                 $(step).addClass('active');
-                $('.steps input').removeClass("inlineEditHover");
+                $('.step input').removeClass("inlineEditHover");
                 //console.log($(step).find('input'));
-                $(step).find('input').focus().addClass("inlineEditHover").caret(0,0 );
-                
+                $(step).find('input').focus().addClass("inlineEditHover").caret(0,0);
+
                 doc.unbind('keyBindings.canCycle');
                 doc.bind('keyBindings.canCycle', keyBindings.canCycle);
               });
-              
-              doc.bind('step.hover', function(e, step){
-                $('.steps li').removeClass('hover');
+
+              doc.bind("step.hover", function(e, step){
+
+                $(".step").removeClass("hover");
+                $(".add-step").hide();
+                $(step).closest(".step-container").find(".add-step").show();
+
                 if(!$(step).hasClass('active')){
                   $(step).addClass('hover');
                 }
               });
 
               doc.bind('step.add', function(e, scenario){
-                $(scenario).append(NJ.nup.renderStep());
-                doc.trigger('step.activate', $(scenario).find('.step-container:last'));
-                //$('.sortable-ui').sortable('refresh');
+                if($(scenario).hasClass("scenario")) {
+                  $(scenario).append(NJ.nup.renderStep());
+                  doc.trigger('step.activate', $(scenario).find('.step-container:last'));
+                }
+                else {
+                  var step = $(scenario).closest(".step-container").after(NJ.nup.renderStep());
+                  doc.trigger('step.activate', step.next());
+                }
+
+                
               });
 
               doc.bind('step.delete', function(e, step){
-                $(step).closest('li').slideUp(300, function(){
-                  $(step).remove();
-                });
+                
+                if($(step).closest(".scenario").find(".step").length > 1) {
+                  $(step).closest('li').slideUp(100, function() {
+                    $(step).remove();                  
+                  });                  
+                }
+                
               });              
               
               doc.bind('keyBindings.canDeleteSteps', keyBindings.canDeleteSteps);              
@@ -605,12 +626,6 @@ $(function() {
             },
             
             features: function() {
-
-              $("#featureslist input, #projectTitle").live("mouseover", function() {
-                $(this).addClass("inlineEditHover");
-              }).live("mouseout", function() {
-                $(this).removeClass("inlineEditHover");
-              })
               
               $('.sortable-ui').sortable({ 
                 containment: "parent", 
@@ -632,12 +647,9 @@ $(function() {
               });
 
               // Remark: step.hover should take in two callbacks as arguments
-              $('.steps li').live('hover', 
+              $('.step').live("hover",
                 function(e){
-                  doc.trigger('step.hover', this)
-                },
-                function(e){
-                  $(this).removeClass('hover');
+                  doc.trigger("step.hover", this);
                 }
               );
 
@@ -765,7 +777,7 @@ $(function() {
                 }
             },
 
-            DAL: {
+            DAL: { // @function() {
 
                 get: {
 

@@ -24,9 +24,19 @@
 	border: none;
 	background-color: transparent;
 	color: #eee;
-	margin-left: 30px;
+	margin: 1px;
+	margin-left: 31px;
 	width: 500px;
 }
+
+.feature-container .header input:hover, .scenario-container .header input:hover {
+	border: 1px solid #aaa;
+	margin: 0px;
+	margin-left: 30px;
+	background-color: #fff;
+	color: #515151;
+}
+
 
 .header .delete {
 	position: absolute;
@@ -42,7 +52,12 @@
 	margin: 8px 40px 8px 8px;
 }
 
+.scenario ul {
+	padding-bottom: 20px;
+}
+
 .step-container {
+	position: relative;
 	border: 1px solid #ccc;	
 	margin: 8px 35px 8px 8px;
   padding: 5px;
@@ -73,7 +88,9 @@
 
 .step-container.active input {
 	border: 1px solid #aaa;
-	-moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;
+	background-color: #fff;
+	
+	-moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px;
 }
 
 .step select {
@@ -82,16 +99,19 @@
 }
 
 .add-step, .add-scenario, .add-feature {
+	display: none;
 	position: absolute;
-	right: 0px;
-	top: 40px;
+	right: -40px;
+	bottom: -22px;
 	background: url('../img/add.png') no-repeat scroll top left;
 	width: 37px;
 	height: 40px;
 	outline: none;
 }
 
-
+.add-scenario {
+	right: -42px;
+}
 
 .step input {
 	border: none;
@@ -120,6 +140,11 @@
 .round {
 	-moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;
 }
+
+.round-small {
+	-moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px;
+}
+
 
 code .keyword              { font-weight: bold }
 code .string, code .regexp { color: green }
@@ -465,16 +490,18 @@ input, .inlineEdit {
   
 }
 
-.scenario {overflow:hidden;}
 
 .scenario .step input[type="text"] {
   margin-left:0px;
   width:96%;
 }
 
+.scenario, .feature {
+	overflow: hidden;
+}
 
-.add-step, .add-scenario, .add-feature {
-  float: right;
+.feature {
+	padding-bottom: 20px;
 }
 
 .add-scenario, .add-feature {
