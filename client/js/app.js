@@ -15,7 +15,7 @@ $(function() {
         $.fn.trigger = function(name,args,p){
           // perform some logic to determine what to debug
           if(typeof name != 'object'){
-            //console.log(name, args, _trigger);
+            console.log(name, args, _trigger);
           }
           return _trigger.apply(this,arguments);
         };
@@ -530,6 +530,11 @@ $(function() {
               });
               
               doc.bind("scenario.activate", function(e, scenario){
+                
+                if($(scenario).hasClass('active')){
+                  return 'already active';
+                }
+                
                 $(".scenario").removeClass("active").removeClass("hover");
                 $(scenario).addClass("active");
                 $(scenario).find("input").focus().addClass("inlineEditHover").caret(0,0 );
@@ -558,7 +563,11 @@ $(function() {
               
               doc.bind('step.activate', function(e, step){
                 //console.log('step.activate', step);
-
+                
+                if($(step).hasClass('active')){
+                  return 'already active';
+                }
+                
                 $('.feature li').removeClass('active').removeClass('hover');
                 $(step).addClass('active');
                 $('.step input').removeClass("inlineEditHover");
