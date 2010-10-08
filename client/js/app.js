@@ -15,7 +15,7 @@ $(function() {
         $.fn.trigger = function(name,args,p){
           // perform some logic to determine what to debug
           if(typeof name != 'object'){
-            console.log(name, args, _trigger);
+            //console.log(name, args, _trigger);
           }
           return _trigger.apply(this,arguments);
         };

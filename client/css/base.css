@@ -653,13 +653,11 @@ button {
 
 #container{ display:none; }
 #progressBar{ 
+  border:1px solid #D3D3D3;
   float:left;
-  margin-left:15px;
-  margin-top:7px;
+  height:29px;
   position:relative;
-  width:550px;
-	border:1px solid #D3D3D3;
-	height: 29px;
+  width:555px;
 }
 
 #progressBar .ui-slider-handle {
@@ -672,4 +670,9 @@ button {
 
 #progressBar .ui-slider-range-min {
 	background: url("../img/ui-bg_highlight-soft_75_e6e6e6_1x100.png") repeat-x scroll 50% 50% #E6E6E6;
+}
+
+#okay {
+  bottom:2px;
+  left:15px;
 }
