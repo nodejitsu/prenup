@@ -1,3 +1,0 @@
-[submodule "vendor/kyuri"]
-	path = vendor/kyuri
-	url = http://github.com/nodejitsu/kyuri.git
